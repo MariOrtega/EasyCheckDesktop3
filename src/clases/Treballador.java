@@ -175,7 +175,21 @@ public class Treballador implements Serializable{
         Treballador.treballadors.add(treballador);
     }
     public String toString() {
-        return "Treballador: " + nom + "  " + cognom1 + "  " + cognom2;
+        //return "Treballador: " + nom + "  " + cognom1 + "  " + cognom2;
+        
+              return  "<html><br><table width=\"350\" cellspacing=\"1\""
+                      + " cellpadding=\"3\" border=\"0\" align=\"center\" bgcolor=\"#FF0033\"> \n" +
+"<tr> \n" +
+"   <td><font color=\"#FFFFFF\" face=\"arial, verdana, helvetica\" size=6> \n" +
+"<b>"+getNom()+"  " +getCognom1()+"  "+getCognom2()+"</b> \n" +
+"   </font></td> </tr> \n" + 
+"<tr>   <td bgcolor=\"#ffffcc\"> \n" +
+"   <font face=\"arial, verdana, helvetica \"size=4>  DNI: "+getDni()+
+              "<BR>Login: "+getLogin()
+              + " </font> \n" +
+"   </td>" +
+"</tr>" +
+"</table></html>";
     }
      public static int getSize() {
         return treballadors.size();
