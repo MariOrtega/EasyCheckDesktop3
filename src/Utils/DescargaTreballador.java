@@ -44,7 +44,7 @@ public class DescargaTreballador {
         treballadors = (ArrayList<Treballador>) obtenirTreballadorsDelServer();
     }
     
-    
+    ////////////////
     public String doGetRequest(URL url) {
         String responseBody = "";
         try {
