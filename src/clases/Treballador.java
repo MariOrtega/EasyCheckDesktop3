@@ -27,7 +27,7 @@ public class Treballador implements Serializable{
     private List<Servei> llistaServeis = new ArrayList();
     
     public Treballador(){
-      // Por finnnnn!!!
+      // Rama borrada
     }
 
     public Treballador(int _id, String nom, String cognom1, String cognom2, String dni,String login, String password, int esAdmin, List<Servei> llista) {
