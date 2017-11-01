@@ -23,11 +23,13 @@ import java.util.ArrayList;
  * @author Maria
  */
 public class ModificarUsuari extends javax.swing.JFrame {
- DefaultListModel model;
- GestioUsuaris gestio;
- List <Treballador>treballadors;
- Treballador tr;
- Integer id_treballador;
+
+    DefaultListModel model;
+    GestioUsuaris gestio;
+    List<Treballador> treballadors;
+    Treballador tr;
+    Integer id_treballador;
+
     /**
      * Creates new form ModificarUsuari
      */
@@ -36,41 +38,47 @@ public class ModificarUsuari extends javax.swing.JFrame {
         this.setVisible(true);
         this.setLocationRelativeTo(null);
         this.setAlwaysOnTop(true);
-        
-         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-         this.getContentPane().setBackground(Color.ORANGE);
-        treballadors= Treballador.getTreballadors();
-       this.jList1.setCellRenderer(new RenderTreballador());
-        model = new DefaultListModel(); 
-           Llista_Treballadors();
-        } 
-   
-         public void Llista_Treballadors() {
-        
-       Iterator it= treballadors.iterator();
-         jList1.setModel(model);
-         while(it.hasNext()){
-         Treballador tr = (Treballador) it.next();
-                model.addElement(tr);  
-       
+
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.getContentPane().setBackground(Color.ORANGE);
+        treballadors = Treballador.getTreballadors();
+        this.jList1.setCellRenderer(new RenderTreballador());
+        model = new DefaultListModel();
+        Llista_Treballadors();
     }
-         jList1.addListSelectionListener(new ListSelectionListener(){
-           @Override
-           public void valueChanged(ListSelectionEvent e) {
-             int selection=jList1.getSelectedIndex();
-             Treballador t= new Treballador();
-             t= (Treballador) model.getElementAt(selection);
-               System.out.println(t.getId());
-             id_treballador = t.getId();
-              nom.setText(t.getNom());
-        cognom1.setText(t.getCognom1());
-        cognom2.setText(t.getCognom2());
-        dni.setText(t.getDni());
-        login.setText(t.getLogin());
-        password.setText(t.getPassword());
-           }
-         });
-         }
+
+    public void Llista_Treballadors() {
+
+        Iterator it = treballadors.iterator();
+        jList1.setModel(model);
+        while (it.hasNext()) {
+            Treballador tr = (Treballador) it.next();
+            model.addElement(tr);
+
+        }
+        jList1.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                int selection = jList1.getSelectedIndex();
+                Treballador t = new Treballador();
+                t = (Treballador) model.getElementAt(selection);
+                System.out.println(t.getId());
+                id_treballador = t.getId();
+                nom.setText(t.getNom());
+                cognom1.setText(t.getCognom1());
+                cognom2.setText(t.getCognom2());
+                dni.setText(t.getDni());
+                login.setText(t.getLogin());
+                password.setText(t.getPassword());
+                int j=t.getEsAdmin();
+                if (j==1)
+                    esAdmin.setState(true);
+                else
+                    esAdmin.setState(false);
+            }
+        });
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -93,7 +101,6 @@ public class ModificarUsuari extends javax.swing.JFrame {
         password = new javax.swing.JTextPane();
         jScrollPane6 = new javax.swing.JScrollPane();
         dni = new javax.swing.JTextPane();
-        EsAdmin = new javax.swing.JCheckBox();
         btnModifica = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -101,6 +108,7 @@ public class ModificarUsuari extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        esAdmin = new java.awt.Checkbox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 204, 51));
@@ -118,8 +126,6 @@ public class ModificarUsuari extends javax.swing.JFrame {
         jScrollPane5.setViewportView(password);
 
         jScrollPane6.setViewportView(dni);
-
-        EsAdmin.setText("Admin");
 
         btnModifica.setText("Modificar");
         btnModifica.addActionListener(new java.awt.event.ActionListener() {
@@ -139,6 +145,8 @@ public class ModificarUsuari extends javax.swing.JFrame {
         jLabel5.setText("Password");
 
         jLabel6.setText("DNI");
+
+        esAdmin.setLabel("Administrador");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -163,8 +171,8 @@ public class ModificarUsuari extends javax.swing.JFrame {
                                 .addGap(28, 28, 28)
                                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(EsAdmin)
-                                .addGap(62, 62, 62)
+                                .addComponent(esAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(33, 33, 33)
                                 .addComponent(btnModifica)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
@@ -205,11 +213,6 @@ public class ModificarUsuari extends javax.swing.JFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(13, 13, 13)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(11, 11, 11)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
@@ -217,13 +220,18 @@ public class ModificarUsuari extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnModifica)
-                            .addComponent(EsAdmin))))
+                            .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(13, 13, 13)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(esAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnModifica))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
                 .addGap(35, 35, 35))
         );
 
@@ -231,22 +239,23 @@ public class ModificarUsuari extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnModificaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificaActionPerformed
-      
+
         String sNom = nom.getText();
         String sCognom = cognom1.getText();
         String sCognom2 = cognom2.getText();
         String sLogin = login.getText();
         String sPassword = password.getText();
         String sDni = dni.getText();
-        
-        ArrayList <Treballador> treb = Treballador.getTreballadors();
-        Iterator it= treb.iterator();
+        boolean x=esAdmin.getState();
+
+        ArrayList<Treballador> treb = Treballador.getTreballadors();
+        Iterator it = treb.iterator();
         int contador = 1;
         System.out.println(id_treballador);
-        while(it.hasNext()){
-            Treballador t =(Treballador) it.next();
+        while (it.hasNext()) {
+            Treballador t = (Treballador) it.next();
             System.out.println(t.getId());
-            if (t.getId()==id_treballador){
+            if (t.getId() == id_treballador) {
                 t.setId(id_treballador);
                 t.setNom(sNom);
                 t.setCognom1(sCognom);
@@ -254,20 +263,25 @@ public class ModificarUsuari extends javax.swing.JFrame {
                 t.setLogin(sLogin);
                 t.setPassword(sPassword);
                 t.setDni(sDni);
+                if (x)
+                    t.setEsAdmin(1);
+                else
+                    t.setEsAdmin(0);
+                
                 Treballador.getTreballadors().remove(t);
                 Treballador.setTreballadors(t);
-               
+
                 GestioUsuaris.actualitzaLlista();
                 //tr=new Treballador(sNom,sCognom,sCognom2,sLogin,sPassword,"1",sDni);
                 //Treballador.getTreballadors().add(tr);
                 break;
             }
             contador++;
-        } 
-         model.addElement(tr);
+        }
+        model.addElement(tr);
         //tr=new Treballador(sNom,sCognom,sCognom2,sLogin,sPassword,"1",sDni);
-       // model.addElement(tr);
-       // treballadors.add(tr);
+        // model.addElement(tr);
+        // treballadors.add(tr);
         //Treballador.setTreballadors(tr);
         dispose();
     }//GEN-LAST:event_btnModificaActionPerformed
@@ -308,11 +322,11 @@ public class ModificarUsuari extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox EsAdmin;
     private javax.swing.JButton btnModifica;
     private javax.swing.JTextPane cognom1;
     private javax.swing.JTextPane cognom2;
     private javax.swing.JTextPane dni;
+    private java.awt.Checkbox esAdmin;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -331,9 +345,4 @@ public class ModificarUsuari extends javax.swing.JFrame {
     private javax.swing.JTextPane password;
     // End of variables declaration//GEN-END:variables
 
-
-
-
 }
-
-
