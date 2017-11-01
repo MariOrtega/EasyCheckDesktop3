@@ -29,7 +29,7 @@ public class Treballador implements Serializable{
     public Treballador(){
        
     }
-
+// hasta los webssss
     public Treballador(int _id, String nom, String cognom1, String cognom2, String dni,String login, String password, int esAdmin, List<Servei> llista) {
         this._id = _id;
         this.nom = nom;
