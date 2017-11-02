@@ -154,9 +154,21 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel6MouseClicked
 
     private void gestorUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gestorUsuariosMouseClicked
-                GestioUsuaris gestio=new GestioUsuaris();
-                gestio.setVisible(true);
-                this.setLocationRelativeTo(null);
+        ArrayList<Treballador> treballadors = Treballador.getTreballadors();
+        Iterator it = treballadors.iterator();
+        while (it.hasNext()){
+            Treballador t = (Treballador) it.next();
+            if (t.getId()==userID){
+                if (t.getEsAdmin()==1){
+                    GestioUsuaris gestio=new GestioUsuaris();
+                    gestio.setVisible(true);
+                    this.setLocationRelativeTo(null);
+                } else {
+                    JOptionPane.showMessageDialog(null,"Acces denegat per a treballadors!");
+                }
+            }
+        }        
+        
 
        
     }//GEN-LAST:event_gestorUsuariosMouseClicked
