@@ -9,41 +9,37 @@ import java.awt.event.ItemEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.ArrayList;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.ListSelectionModel;
 import clases.Treballador;
 import clases.Reserva;
 import clases.Servei;
 import java.awt.Color;
 import java.util.List;
-import javax.swing.ListModel;
 import Utils.DescargaTreballador;
-import Utils.DescargaServei;
-import Utils.DescargaReserva;
 
 
 /**
  *
  * @author Carlos
  */
-public class llistaServeis extends javax.swing.JFrame {
+public class llistaServeisAdmin extends javax.swing.JFrame {
     HashMap<String, String> serviciosMap = new HashMap<String, String>();
     ArrayList <String> serviciosList = new ArrayList();
     DefaultListModel modeloLista;
     Integer[] idServei = new Integer [1000];
     Integer treballadors = 0;
+    
     /**
      * Creates new form NewJFrame
      */
-    public llistaServeis() {
+    public llistaServeisAdmin() {
         
         initComponents();
-        añadirObjetosAClases();
+        emplenarChoice();
         modeloLista = new DefaultListModel();
         jlista.setModel(modeloLista);
         jlista.setCellRenderer(new RenderServicios());
@@ -152,36 +148,13 @@ public class llistaServeis extends javax.swing.JFrame {
             contador++;
         } 
     }
-    public void añadirObjetosAClases(){
-        Treballador.getTreballadors().clear();
-        Servei.getLlistaServeis().clear();
-        Reserva.getReservas().clear();
-        DescargaReserva totsReserves = new DescargaReserva();
-        ArrayList<Reserva> reserves = (ArrayList<Reserva>) totsReserves.obtenirReservesDelServer();
-        Iterator itR = reserves.iterator();
-        while (itR.hasNext()){
-            Reserva r = (Reserva) itR.next();
-            Reserva.setReservas(r);
-        } 
-        
-        DescargaServei totsServeis= new DescargaServei();
+    public void emplenarChoice (){
         DescargaTreballador todo = new DescargaTreballador();
-        ArrayList<Treballador> treballadors = (ArrayList<Treballador>) todo.obtenirTreballadorsDelServer();
-        
+        ArrayList<Treballador> treballadors = (ArrayList<Treballador>) todo.obtenirTreballadorsDelServer(); 
         choiceTrabajador.add("Tots");
         Iterator it = treballadors.iterator();
         while(it.hasNext()){
             Treballador t = (Treballador) it.next();
-            Treballador.setTreballadors(t);
-            
-            ArrayList<Servei> serveis = (ArrayList<Servei>) totsServeis.obtenirServeisDelServer();
-            Iterator itS = serveis.iterator();
-            while (itS.hasNext()){
-                Servei s = (Servei) itS.next();
-                if (t.getId()==s.getId_treballador()){
-                    Servei.setLlistaServeis(s);
-                }
-            }
             choiceTrabajador.add(t.getNom()+" "+t.getCognom1()+" "+t.getCognom2());
         }
     }
@@ -277,21 +250,23 @@ public class llistaServeis extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(llistaServeis.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(llistaServeisAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(llistaServeis.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(llistaServeisAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(llistaServeis.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(llistaServeisAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(llistaServeis.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(llistaServeisAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new llistaServeis().setVisible(true);
+                new llistaServeisAdmin().setVisible(true);
             }
         });
     }

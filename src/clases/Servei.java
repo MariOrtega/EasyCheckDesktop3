@@ -173,7 +173,7 @@ public class Servei implements Serializable{
         while(it.hasNext()){
             Treballador t = it.next();
             if (t.getId()==treballador && t.getEsAdmin()==1){
-                return "<b>Administrador:</b> "+t.getNom()+" "+t.getCognom2()+" "+t.getCognom2();
+                return "<b>Administrador:</b> "+t.getNom()+" "+t.getCognom1()+" "+t.getCognom2();
             } else if(t.getId()==treballador && t.getEsAdmin()==0){
                 return "<b>Treballador:</b> "+t.getNom()+" "+t.getCognom1()+" "+t.getCognom2();
             }

@@ -14,11 +14,12 @@ import javax.swing.JOptionPane;
  * @author Maria
  */
 public class MenuPrincipal extends javax.swing.JFrame {
-
+    static boolean admin;
     /**
      * Creates new form Ventana2
      */
-    public MenuPrincipal() {
+    public MenuPrincipal(Boolean admin) {
+        this.admin = admin;
         initComponents();
         this.setLocationRelativeTo(null);
        
@@ -158,9 +159,16 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_gestorUsuariosMouseClicked
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-       llistaServeis serveis=new llistaServeis();
-       serveis.setVisible(true);
-       serveis.setLocationRelativeTo(null);
+        if (admin){
+            llistaServeisAdmin serveis=new llistaServeisAdmin();
+            serveis.setVisible(true);
+            serveis.setLocationRelativeTo(null); 
+        } else {
+            llistaServeisTreballador serveisT = new llistaServeisTreballador();
+            serveisT.setVisible(true);
+            serveisT.setLocationRelativeTo(null);
+        }
+        
                
     }//GEN-LAST:event_jLabel2MouseClicked
 
@@ -209,7 +217,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MenuPrincipal().setVisible(true);
+                new MenuPrincipal(admin).setVisible(true);
                
             }
         });

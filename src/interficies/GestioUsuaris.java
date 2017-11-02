@@ -6,6 +6,7 @@
 package interficies;
 import Renders.RenderTreballador;
 import Utils.DescargaTreballador;
+import Utils.IntroduccioObjectes;
 
 import clases.Treballador;
 import clases.Servei;
@@ -28,7 +29,7 @@ import javax.swing.event.ListSelectionListener;
  * 
  */
 public class GestioUsuaris extends javax.swing.JFrame {
-
+    
     public static DefaultListModel model;
     Treballador t1;
     private Treballador t3;
@@ -48,9 +49,9 @@ public class GestioUsuaris extends javax.swing.JFrame {
         model = new DefaultListModel();
          _id.setVisible(false);
         jListTreballadors.setModel(model);
-
-        InsereixTreballador();
-
+ // MARI LO HE CAMBIADO TODO A UTILS.INTRODUCCIO OBJECTES, para meter ya consultas, reservas y trabajadores al inicio.
+ // Sino luego tengo que volver a introducir los trabajadores, porque cuando meto trabajadores les adjunto la reserva.
+      //  InsereixTreballador(); 
     }
 
     /**
@@ -135,6 +136,12 @@ public class GestioUsuaris extends javax.swing.JFrame {
         label1.setText("Administrador");
 
         jLabel8.setText("DNI");
+
+        dni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dniActionPerformed(evt);
+            }
+        });
 
         jScrollPane1.setViewportView(jListTreballadors);
 
@@ -296,6 +303,10 @@ public class GestioUsuaris extends javax.swing.JFrame {
     
     }//GEN-LAST:event_btnModificarActionPerformed
 
+    private void dniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dniActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dniActionPerformed
+
     public void inserirList() {
 
         Treballador tr1 = new Treballador();
@@ -381,7 +392,7 @@ public class GestioUsuaris extends javax.swing.JFrame {
         esAdmin.setState(false);
         // _id.setText("");
     }
-
+/*
     public void InsereixTreballador() {
         
         Treballador.getTreballadors().clear();
@@ -389,7 +400,7 @@ public class GestioUsuaris extends javax.swing.JFrame {
         for (int i = 0; i < Treballador.getSize(); i++) {
             Treballador t = Treballador.getTreballadors().get(i);
             model.addElement(t);
-        }*/
+        }*/ /*
         DescargaTreballador todo = new DescargaTreballador();
         ArrayList<Treballador> treballadors = (ArrayList<Treballador>) todo.obtenirTreballadorsDelServer();
         Iterator it = treballadors.iterator();
@@ -398,7 +409,7 @@ public class GestioUsuaris extends javax.swing.JFrame {
             Treballador.setTreballadors(t);
             model.addElement(t);
         }
-    }
+    } */
 
     /**
      * @param args the command line arguments
