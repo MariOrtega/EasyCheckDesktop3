@@ -17,6 +17,10 @@ import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 import Utils.IntroduccioObjectes;
+import clases.Treballador;
+import java.util.ArrayList;
+import java.util.Iterator;
+
 
 /**
  *
@@ -54,8 +58,6 @@ public class VentanaLogin extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        esAdmin = new javax.swing.JCheckBox();
-        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(102, 255, 255));
@@ -88,33 +90,19 @@ public class VentanaLogin extends javax.swing.JFrame {
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Clave.png"))); // NOI18N
 
-        esAdmin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                esAdminActionPerformed(evt);
-            }
-        });
-
-        jLabel4.setText("Admin:");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(66, 66, 66)
-                        .addComponent(jLabel4)))
+                .addGap(33, 33, 33)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(textUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textPass, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(esAdmin))
+                    .addComponent(textPass, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 173, Short.MAX_VALUE)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(48, 48, 48))
@@ -138,11 +126,7 @@ public class VentanaLogin extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel2)
                             .addComponent(textPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(26, 26, 26)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(esAdmin)
-                            .addComponent(jLabel4))
-                        .addGap(12, 12, 12))
+                        .addGap(63, 63, 63))
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -162,7 +146,7 @@ public void imprimir(String g){
 }
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         try {
-            accederAdministrador();
+            accesPrograma();
         } catch (SQLException ex) {
             Logger.getLogger(VentanaLogin.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -175,10 +159,6 @@ public void imprimir(String g){
     private void textUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textUsuarioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_textUsuarioActionPerformed
-
-    private void esAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_esAdminActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_esAdminActionPerformed
 
     /**
      * @param args the command line arguments
@@ -225,26 +205,44 @@ public void imprimir(String g){
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancel;
-    private javax.swing.JCheckBox esAdmin;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private java.awt.TextField textPass;
     private java.awt.TextField textUsuario;
     // End of variables declaration//GEN-END:variables
   
-   
-public void accederAdministrador() throws SQLException, ClassNotFoundException{
+/**
+ * @author Carlos Alberto Castro Cañabate
+ */   
+public void accesPrograma() throws SQLException, ClassNotFoundException{
     
     NOM=this.textUsuario.getText();
-    boolean admin = false;
-    if (esAdmin.isSelected()){
-        admin = true;
+    Integer userID=null;
+    ArrayList<Treballador> treballadors = Treballador.getTreballadors();
+    Iterator it = treballadors.iterator();
+    boolean usuariCorrecte = false;
+    boolean contraseñaCorrecte = false;
+    while (it.hasNext()){
+        Treballador t= (Treballador) it.next();
+        if (t.getLogin().equals(textUsuario.getText())  ){
+            usuariCorrecte = true;
+            if (t.getPassword().equals(textPass.getText())){
+                userID = t.getId();
+                contraseñaCorrecte = true;
+                break;
+            } 
+        } 
     }
-    MenuPrincipal ventana= new MenuPrincipal(admin);
-    ventana.setVisible(true);
-    this.setVisible(false);   
+    if (usuariCorrecte){
+        if (contraseñaCorrecte){
+            MenuPrincipal ventana= new MenuPrincipal(userID);
+            ventana.setVisible(true);
+            this.setVisible(false);   
+        } else  JOptionPane.showMessageDialog(null,"Contraseña incorrecta!");
+    } else JOptionPane.showMessageDialog(null,"Usuari incorrecte!");
+    
+    
         
         
 }

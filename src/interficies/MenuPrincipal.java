@@ -6,7 +6,10 @@
 package interficies;
 
 
+import clases.Treballador;
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Iterator;
 import javax.swing.JOptionPane;
 
 /**
@@ -14,12 +17,12 @@ import javax.swing.JOptionPane;
  * @author Maria
  */
 public class MenuPrincipal extends javax.swing.JFrame {
-    static boolean admin;
+    static Integer userID;
     /**
      * Creates new form Ventana2
      */
-    public MenuPrincipal(Boolean admin) {
-        this.admin = admin;
+    public MenuPrincipal(Integer userID) {
+        this.userID = userID;
         initComponents();
         this.setLocationRelativeTo(null);
        
@@ -157,17 +160,28 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
        
     }//GEN-LAST:event_gestorUsuariosMouseClicked
-
+    
+    /**
+    * @author Carlos Alberto Castro Cañabate
+    */  
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-        if (admin){
-            llistaServeisAdmin serveis=new llistaServeisAdmin();
-            serveis.setVisible(true);
-            serveis.setLocationRelativeTo(null); 
-        } else {
-            llistaServeisTreballador serveisT = new llistaServeisTreballador();
-            serveisT.setVisible(true);
-            serveisT.setLocationRelativeTo(null);
+        ArrayList<Treballador> treballadors = Treballador.getTreballadors();
+        Iterator it = treballadors.iterator();
+        while (it.hasNext()){
+            Treballador t = (Treballador) it.next();
+            if (t.getId()==userID){
+                if (t.getEsAdmin()==1){
+                    llistaServeisAdmin serveis=new llistaServeisAdmin();
+                    serveis.setVisible(true);
+                    serveis.setLocationRelativeTo(null); 
+                } else {
+                    llistaServeisTreballador serveisT = new llistaServeisTreballador();
+                    serveisT.setVisible(true);
+                    serveisT.setLocationRelativeTo(null);
+                }
+            }
         }
+        
         
                
     }//GEN-LAST:event_jLabel2MouseClicked
@@ -217,7 +231,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MenuPrincipal(admin).setVisible(true);
+                new MenuPrincipal(userID).setVisible(true);
                
             }
         });
