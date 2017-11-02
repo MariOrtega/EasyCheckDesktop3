@@ -27,7 +27,7 @@ import javax.swing.event.ListSelectionListener;
 /**
  *
  * @author Maria
- *  HOLA
+ * 
  */
 public class GestioUsuaris extends javax.swing.JFrame {
     
@@ -399,12 +399,15 @@ public class GestioUsuaris extends javax.swing.JFrame {
     public void InsereixTreballador() {
         
         Treballador.getTreballadors().clear();
-        //Treballador.exemples();
-        for (int i = 0; i < Treballador.getSize(); i++) {
-            Treballador t = Treballador.getTreballadors().get(i);
+       
+        DescargaTreballador todo = new DescargaTreballador();
+        ArrayList<Treballador> treballadors = (ArrayList<Treballador>) todo.obtenirTreballadorsDelServer();
+        Iterator it = treballadors.iterator();
+        while(it.hasNext()){
+            Treballador t = (Treballador) it.next();
+            Treballador.setTreballadors(t);
             model.addElement(t);
         }
-        
     } 
 
     /**
