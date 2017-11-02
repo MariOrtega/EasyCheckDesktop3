@@ -27,7 +27,7 @@ import javax.swing.event.ListSelectionListener;
 /**
  *
  * @author Maria
- * 
+ *  HOLA
  */
 public class GestioUsuaris extends javax.swing.JFrame {
     
