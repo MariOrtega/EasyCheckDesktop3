@@ -33,10 +33,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         jLabel1.setText("Usuari conectat: " + VentanaLogin.NOM);
         this.getContentPane().setBackground(Color.ORANGE);
-        
-        
+
         //Assignació d'icons de connexió
-       
         Iterator it = treballadors.iterator();
         while (it.hasNext()) {
             Treballador t = (Treballador) it.next();
@@ -53,7 +51,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
             }
         }
 
-        
     }
 
     /**
@@ -173,20 +170,25 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void gestorUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gestorUsuariosMouseClicked
 
-        Iterator it = treballadors.iterator();
-        while (it.hasNext()) {
-            Treballador t = (Treballador) it.next();
-            if (t.getId() == userID) {
-                if (t.getEsAdmin() == 1) {
-                    GestioUsuaris gestio = new GestioUsuaris();
-                    gestio.setVisible(true);
-                    this.setLocationRelativeTo(null);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Acces denegat per a treballadors!");
-                }
-            }
+//        Iterator it = treballadors.iterator();
+//        while (it.hasNext()) {
+//            Treballador t = (Treballador) it.next();
+//            if (t.getId() == userID) {
+//                if (t.getEsAdmin() == 1) {
+        if (VentanaLogin.TIPUS_USUARI == 1) {
+            GestioUsuaris gestio = new GestioUsuaris();
+            gestio.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Acces denegat per a treballadors!");
+
         }
 
+//                    this.setLocationRelativeTo(null);
+//                } else {
+//                    JOptionPane.showMessageDialog(null, "Acces denegat per a treballadors!");
+//                }
+//            }
+//        }
 
     }//GEN-LAST:event_gestorUsuariosMouseClicked
 

@@ -28,7 +28,7 @@ import java.util.Iterator;
  */
 public class VentanaLogin extends javax.swing.JFrame {
   public static String NOM="";
-  public static String TIPUS_USUARI="";
+  public static int TIPUS_USUARI;
    
     /**
      * Creates new form Ventana1
@@ -229,6 +229,7 @@ public void imprimir(String g){
                 usuariCorrecte = true;
                 if (t.getPassword().equals(textPass.getText())){
                     userID = t.getId();
+                   TIPUS_USUARI=t.getEsAdmin();
                     contraseñaCorrecte = true;
                     break;
                 } 
