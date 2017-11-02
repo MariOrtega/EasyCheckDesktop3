@@ -404,14 +404,7 @@ public class GestioUsuaris extends javax.swing.JFrame {
             Treballador t = Treballador.getTreballadors().get(i);
             model.addElement(t);
         }
-        DescargaTreballador todo = new DescargaTreballador();
-        ArrayList<Treballador> treballadors = (ArrayList<Treballador>) todo.obtenirTreballadorsDelServer();
-        Iterator it = treballadors.iterator();
-        while(it.hasNext()){
-            Treballador t = (Treballador) it.next();
-            Treballador.setTreballadors(t);
-            model.addElement(t);
-        }
+        
     } 
 
     /**
