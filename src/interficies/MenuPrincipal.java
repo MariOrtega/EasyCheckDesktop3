@@ -5,11 +5,13 @@
  */
 package interficies;
 
-
 import clases.Treballador;
 import java.awt.Color;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,7 +19,11 @@ import javax.swing.JOptionPane;
  * @author Maria
  */
 public class MenuPrincipal extends javax.swing.JFrame {
+
     static Integer userID;
+    ArrayList<Treballador> treballadors = Treballador.getTreballadors();
+    ImageIcon icono;
+
     /**
      * Creates new form Ventana2
      */
@@ -25,17 +31,29 @@ public class MenuPrincipal extends javax.swing.JFrame {
         this.userID = userID;
         initComponents();
         this.setLocationRelativeTo(null);
-       
-       jLabel1.setText("Usuari conectat: "+VentanaLogin.NOM);
+        jLabel1.setText("Usuari conectat: " + VentanaLogin.NOM);
         this.getContentPane().setBackground(Color.ORANGE);
-         
-      /*   if(VentanaLogin.TIPUS_USUARI.equals("1")){  
-            this.jLabel2.setText("Administrador");
+        
+        
+        //Assignació d'icons de connexió
        
-           
-        }z
-        else{this.jLabel2.setText("Treballador");}*/
-      
+        Iterator it = treballadors.iterator();
+        while (it.hasNext()) {
+            Treballador t = (Treballador) it.next();
+            if (t.getId() == userID) {
+                if (t.getEsAdmin() == 1) {
+                    icono = new ImageIcon(getClass().getResource("/Images/admin.png"));
+                    nom.setIcon(icono);
+
+                } else {
+                    icono = new ImageIcon(getClass().getResource("/Images/treb.png"));
+
+                    nom.setIcon(icono);
+                }
+            }
+        }
+
+        
     }
 
     /**
@@ -150,42 +168,41 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
 
-                    System.exit(0);        
+        System.exit(0);
     }//GEN-LAST:event_jLabel6MouseClicked
 
     private void gestorUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gestorUsuariosMouseClicked
-        ArrayList<Treballador> treballadors = Treballador.getTreballadors();
+
         Iterator it = treballadors.iterator();
-        while (it.hasNext()){
+        while (it.hasNext()) {
             Treballador t = (Treballador) it.next();
-            if (t.getId()==userID){
-                if (t.getEsAdmin()==1){
-                    GestioUsuaris gestio=new GestioUsuaris();
+            if (t.getId() == userID) {
+                if (t.getEsAdmin() == 1) {
+                    GestioUsuaris gestio = new GestioUsuaris();
                     gestio.setVisible(true);
                     this.setLocationRelativeTo(null);
                 } else {
-                    JOptionPane.showMessageDialog(null,"Acces denegat per a treballadors!");
+                    JOptionPane.showMessageDialog(null, "Acces denegat per a treballadors!");
                 }
             }
-        }        
-        
+        }
 
-       
+
     }//GEN-LAST:event_gestorUsuariosMouseClicked
-    
+
     /**
-    * @author Carlos Alberto Castro Cañabate
-    */  
+     * @author Carlos Alberto Castro Cañabate
+     */
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         ArrayList<Treballador> treballadors = Treballador.getTreballadors();
         Iterator it = treballadors.iterator();
-        while (it.hasNext()){
+        while (it.hasNext()) {
             Treballador t = (Treballador) it.next();
-            if (t.getId()==userID){
-                if (t.getEsAdmin()==1){
-                    llistaServeisAdmin serveis=new llistaServeisAdmin();
+            if (t.getId() == userID) {
+                if (t.getEsAdmin() == 1) {
+                    llistaServeisAdmin serveis = new llistaServeisAdmin();
                     serveis.setVisible(true);
-                    serveis.setLocationRelativeTo(null); 
+                    serveis.setLocationRelativeTo(null);
                 } else {
                     llistaServeisTreballador serveisT = new llistaServeisTreballador();
                     serveisT.setVisible(true);
@@ -193,9 +210,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 }
             }
         }
-        
-        
-               
+
+
     }//GEN-LAST:event_jLabel2MouseClicked
 
     /**
@@ -244,7 +260,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MenuPrincipal(userID).setVisible(true);
-               
+
             }
         });
     }
@@ -259,7 +275,5 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel nom;
     // End of variables declaration//GEN-END:variables
-
-
 
 }

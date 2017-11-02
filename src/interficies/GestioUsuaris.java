@@ -264,7 +264,7 @@ public class GestioUsuaris extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-       System.exit(0);
+       dispose();
      
     }//GEN-LAST:event_jLabel1MouseClicked
 
