@@ -42,6 +42,7 @@ public class ModificarUsuari extends javax.swing.JFrame {
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.getContentPane().setBackground(Color.ORANGE);
         treballadors = Treballador.getTreballadors();
+        
         this.jList1.setCellRenderer(new RenderTreballador());
         model = new DefaultListModel();
         Llista_Treballadors();

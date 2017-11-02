@@ -6,6 +6,7 @@
 package interficies;
 import Renders.RenderTreballador;
 import Utils.DescargaTreballador;
+import Utils.InserirUsuariBd;
 import Utils.IntroduccioObjectes;
 
 import clases.Treballador;
@@ -36,7 +37,7 @@ public class GestioUsuaris extends javax.swing.JFrame {
     private Treballador t4;
     Treballador t2;
     private int selection;
-
+ InserirUsuariBd usuari_bd ;
     /**
      * Creates new form GestioUsuaris
      */
@@ -51,7 +52,7 @@ public class GestioUsuaris extends javax.swing.JFrame {
         jListTreballadors.setModel(model);
  // MARI LO HE CAMBIADO TODO A UTILS.INTRODUCCIO OBJECTES, para meter ya consultas, reservas y trabajadores al inicio.
  // Sino luego tengo que volver a introducir los trabajadores, porque cuando meto trabajadores les adjunto la reserva.
-      //  InsereixTreballador(); 
+       InsereixTreballador(); 
     }
 
     /**
@@ -315,6 +316,8 @@ public class GestioUsuaris extends javax.swing.JFrame {
         if (!compara(tr1_dni, Treballador.getTreballadors())) {
             JOptionPane.showMessageDialog(null, "Treballador actualment en Actiu");
         } else {
+            usuari_bd = new InserirUsuariBd();
+            usuari_bd.inserirTreballador(tr1.getNom(),tr1.getCognom1(), tr1.getCognom2(), tr1.getDni(), tr1.getLogin(), tr1.getPassword(),tr1.getEsAdmin());
             model.addElement(tr1);
             Treballador.setTreballadors(tr1);
         }
@@ -392,15 +395,15 @@ public class GestioUsuaris extends javax.swing.JFrame {
         esAdmin.setState(false);
         // _id.setText("");
     }
-/*
+
     public void InsereixTreballador() {
         
         Treballador.getTreballadors().clear();
-        /*Treballador.exemples();
+        //Treballador.exemples();
         for (int i = 0; i < Treballador.getSize(); i++) {
             Treballador t = Treballador.getTreballadors().get(i);
             model.addElement(t);
-        }*/ /*
+        }
         DescargaTreballador todo = new DescargaTreballador();
         ArrayList<Treballador> treballadors = (ArrayList<Treballador>) todo.obtenirTreballadorsDelServer();
         Iterator it = treballadors.iterator();
@@ -409,7 +412,7 @@ public class GestioUsuaris extends javax.swing.JFrame {
             Treballador.setTreballadors(t);
             model.addElement(t);
         }
-    } */
+    } 
 
     /**
      * @param args the command line arguments
