@@ -6,6 +6,7 @@
 package interficies;
 
 import Renders.RenderTreballador;
+import Utils.InserirUsuariBd;
 import clases.Reserva;
 import clases.Treballador;
 import static interficies.GestioUsuaris.model;
@@ -29,6 +30,7 @@ public class ModificarUsuari extends javax.swing.JFrame {
     List<Treballador> treballadors;
     Treballador tr;
     Integer id_treballador;
+    InserirUsuariBd inserir;
 
     /**
      * Creates new form ModificarUsuari
@@ -113,8 +115,6 @@ public class ModificarUsuari extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 204, 51));
-
-        nom.setText("jTextField1");
 
         jScrollPane1.setViewportView(jList1);
 
@@ -240,7 +240,7 @@ public class ModificarUsuari extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnModificaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificaActionPerformed
-
+inserir= new InserirUsuariBd();
         String sNom = nom.getText();
         String sCognom = cognom1.getText();
         String sCognom2 = cognom2.getText();
@@ -271,7 +271,7 @@ public class ModificarUsuari extends javax.swing.JFrame {
                 
                 Treballador.getTreballadors().remove(t);
                 Treballador.setTreballadors(t);
-
+                inserir.actualitzarTreballador(t.getId(), sNom, sCognom, sCognom2, sDni, sLogin, sPassword, 0);
                 GestioUsuaris.actualitzaLlista();
                 //tr=new Treballador(sNom,sCognom,sCognom2,sLogin,sPassword,"1",sDni);
                 //Treballador.getTreballadors().add(tr);
