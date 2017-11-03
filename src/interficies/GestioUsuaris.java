@@ -427,6 +427,33 @@ public class GestioUsuaris extends javax.swing.JFrame {
             Treballador.setTreballadors(t);
             model.addElement(t);
         }
+         jListTreballadors.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                int selection = jListTreballadors.getSelectedIndex();
+
+                if (jListTreballadors.getModel().getSize() != 0) {
+                    Treballador t = new Treballador();
+                    t = (Treballador) model.getElementAt(selection);
+                    if (jListTreballadors.getSelectedValue() != null) {
+                        int id_treballador = t.getId();
+                        
+                        nom.setText(t.getNom());
+                        cognom1.setText(t.getCognom1());
+                        cognom2.setText(t.getCognom2());
+                        dni.setText(t.getDni());
+                        login.setText(t.getLogin());
+                        password.setText(t.getPassword());
+                        int j = t.getEsAdmin();
+                        if (j == 1) {
+                            esAdmin.setState(true);
+                        } else {
+                            esAdmin.setState(false);
+                        }
+                    }
+                }
+            }
+        });
     } 
 
     /**
