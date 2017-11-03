@@ -271,7 +271,7 @@ inserir= new GestionarUsuariBd();
                 
                 Treballador.getTreballadors().remove(t);
                 Treballador.setTreballadors(t);
-                inserir.actualitzarTreballador(t.getId(), sNom, sCognom, sCognom2, sDni, sLogin, sPassword, 0);
+                inserir.actualitzarTreballador(t.getId(), sNom, sCognom, sCognom2, sDni, sLogin, sPassword, t.getEsAdmin());
                 GestioUsuaris.actualitzaLlista();
                 //tr=new Treballador(sNom,sCognom,sCognom2,sLogin,sPassword,"1",sDni);
                 //Treballador.getTreballadors().add(tr);
