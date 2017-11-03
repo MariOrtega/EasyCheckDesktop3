@@ -6,7 +6,7 @@
 package interficies;
 import Renders.RenderTreballador;
 import Utils.DescargaTreballador;
-import Utils.InserirUsuariBd;
+import Utils.GestionarUsuariBd;
 import Utils.IntroduccioObjectes;
 
 import clases.Treballador;
@@ -37,7 +37,7 @@ public class GestioUsuaris extends javax.swing.JFrame {
     private Treballador t4;
     Treballador t2;
     private int selection;
- InserirUsuariBd usuari_bd ;
+    GestionarUsuariBd usuari_bd ;
     /**
      * Creates new form GestioUsuaris
      */
@@ -288,13 +288,22 @@ public class GestioUsuaris extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAfegirActionPerformed
 
     private void btnEsborraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEsborraActionPerformed
-
-        selection = jListTreballadors.getSelectedIndex();
-        Treballador t = (Treballador) model.getElementAt(selection);
+            usuari_bd=new GestionarUsuariBd();
+      selection = jListTreballadors.getSelectedIndex();
+     Treballador t = (Treballador) model.getElementAt(selection);
         String dni = t.getDni();
         int index = cercaTreballadorPerDNI(t, Treballador.getTreballadors());
-
-        if (JOptionPane.showConfirmDialog(null, "Esta a punt d'esborrar aquesta entrada?") == 0) {
+   
+        
+         
+       
+   
+   
+   if (JOptionPane.showConfirmDialog(null, "Esta a punt d'esborrar aquesta entrada?") == 0) {
+          
+         
+         System.out.println(String.valueOf(t.getId())); 
+          usuari_bd.borrarTreballador(String.valueOf(t.getId())); 
             Treballador.getTreballadors().remove(index);
             model.removeAllElements();
             actualitzaLlista();
@@ -326,7 +335,7 @@ public class GestioUsuaris extends javax.swing.JFrame {
         if (!compara(tr1_dni, Treballador.getTreballadors())) {
             JOptionPane.showMessageDialog(null, "Treballador actualment en Actiu");
         } else {
-            usuari_bd = new InserirUsuariBd();
+            usuari_bd = new GestionarUsuariBd();
             usuari_bd.inserirTreballador(tr1.getNom(),tr1.getCognom1(), tr1.getCognom2(), tr1.getDni(), tr1.getLogin(), tr1.getPassword(),tr1.getEsAdmin());
             model.addElement(tr1);
             Treballador.setTreballadors(tr1);

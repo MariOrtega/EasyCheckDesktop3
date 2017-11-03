@@ -26,7 +26,7 @@ import java.util.logging.Logger;
  *
  * @author Maria
  */
-public class InserirUsuariBd {
+public class GestionarUsuariBd {
       private static final String BASE_URL = "localhost";
          private static final int PORT = 8080;
     
@@ -54,7 +54,17 @@ public class InserirUsuariBd {
         }
         return response;
     }
-
+ public String borrarTreballador(String idTreballador) {
+        String response = "";
+        String query = buildQueryBorrarTreballador(idTreballador);
+        URL url = buildUrl(BASE_URL, PORT, "/easycheckapi/treballador", null);
+        response = doPostRequest(url, query);
+        if (!response.equals("0")) {
+            System.out.println("Borrat treballador " + idTreballador);
+        }
+        return response;
+    }
+ 
     public static String doPostRequest(URL url, String parameters) {
         byte[] postData = parameters.getBytes(StandardCharsets.UTF_8);
         HttpURLConnection connection = null;
@@ -116,5 +126,8 @@ public class InserirUsuariBd {
 
     public String buildQueryActualitzarTreballador(int id, String nom, String cognom1, String cognom2, String dni, String login, String password, int esadmin) {
         return "id=" + id + "&nom=" + nom + "&cognom1=" + cognom1 + "&cognom2=" + cognom2 + "&dni=" + dni + "&esadmin=" + esadmin + "&login=" + login + "&password=" + password;
+    }
+    private String buildQueryBorrarTreballador(String idTreballador) {
+        return "borrarid=" + idTreballador;
     }
 }

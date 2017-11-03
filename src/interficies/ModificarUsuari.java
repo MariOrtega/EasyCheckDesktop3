@@ -6,7 +6,7 @@
 package interficies;
 
 import Renders.RenderTreballador;
-import Utils.InserirUsuariBd;
+import Utils.GestionarUsuariBd;
 import clases.Reserva;
 import clases.Treballador;
 import static interficies.GestioUsuaris.model;
@@ -30,7 +30,7 @@ public class ModificarUsuari extends javax.swing.JFrame {
     List<Treballador> treballadors;
     Treballador tr;
     Integer id_treballador;
-    InserirUsuariBd inserir;
+    GestionarUsuariBd inserir;
 
     /**
      * Creates new form ModificarUsuari
@@ -240,7 +240,7 @@ public class ModificarUsuari extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnModificaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificaActionPerformed
-inserir= new InserirUsuariBd();
+inserir= new GestionarUsuariBd();
         String sNom = nom.getText();
         String sCognom = cognom1.getText();
         String sCognom2 = cognom2.getText();
