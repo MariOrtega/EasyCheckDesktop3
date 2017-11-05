@@ -26,19 +26,20 @@ import Utils.DescargaTreballador;
  *
  * @author Carlos
  */
-public class llistaServeisAdmin extends javax.swing.JFrame {
-    HashMap<String, String> serviciosMap = new HashMap<String, String>();
-    ArrayList <String> serviciosList = new ArrayList();
+public class llistaServeis extends javax.swing.JFrame {
     DefaultListModel modeloLista;
     Integer[] idServei = new Integer [1000];
-    Integer treballadors = 0;
+    Integer treballador = 0;
     static Integer userID;
+    ArrayList<Treballador> treballadors = null;
     
     /**
      * Creates new form NewJFrame
      */
-    public llistaServeisAdmin(Integer userID) {
+    public llistaServeis(Integer userID) {
         this.userID = userID;
+        DescargaTreballador todo = new DescargaTreballador();
+        treballadors = (ArrayList<Treballador>) todo.obtenirTreballadorsDelServer(); 
         initComponents();
         
         modeloLista = new DefaultListModel();
@@ -76,19 +77,29 @@ public class llistaServeisAdmin extends javax.swing.JFrame {
                 }
             }
         });
+        String nomTreballador = nomTreballador();
         if (esADmin()){
             emplenarChoice();
             llistaTots();
-            labelPrincipal.setText("Consulta serveis usuari administrador:");
+            labelPrincipal.setText("Consulta serveis per a Administradors: ");
         }
         else {
             choiceTrabajador.setVisible(false);
             labelChoice.setVisible(false);
           //  labelChoice.setText("");
             llistaTreballador(userID);
-            labelPrincipal.setText("Consulta serveis usuari treballador:");
+            labelPrincipal.setText("Consulta serveis usuari: "+nomTreballador);
         }
-        
+    }
+    public String nomTreballador (){
+        Iterator<Treballador> it = treballadors.iterator();
+        while (it.hasNext()) {
+            Treballador t = it.next();
+            if (t.getId()==userID) {
+                return t.getNom()+" "+t.getCognom1()+" "+t.getCognom2();
+            } 
+        }
+        return null;
     }
     public boolean esADmin(){
         // SI el treballador es admin
@@ -97,7 +108,7 @@ public class llistaServeisAdmin extends javax.swing.JFrame {
         } else return false;
     }
     public  Integer obtenirTreballador(String nom) {
-        ArrayList<Treballador> treballadors = Treballador.getTreballadors();
+       // ArrayList<Treballador> treballadors = Treballador.getTreballadors();
         Integer idTreballador = 0;
         Iterator<Treballador> it = treballadors.iterator();
         while (it.hasNext()) {
@@ -161,14 +172,14 @@ public class llistaServeisAdmin extends javax.swing.JFrame {
                 idServei[contador] = servei.getId();
                 modeloLista.addElement(servei.getLabel());
                 jlista.ensureIndexIsVisible(modeloLista.getSize());
-                treballadors = servei.getId_treballador();
+                treballador = servei.getId_treballador();
             } 
             contador++;
         } 
     }
     public void emplenarChoice (){
-        DescargaTreballador todo = new DescargaTreballador();
-        ArrayList<Treballador> treballadors = (ArrayList<Treballador>) todo.obtenirTreballadorsDelServer(); 
+       // DescargaTreballador todo = new DescargaTreballador();
+      //  ArrayList<Treballador> treballadors = (ArrayList<Treballador>) todo.obtenirTreballadorsDelServer(); 
         choiceTrabajador.add("Tots");
         Iterator it = treballadors.iterator();
         while(it.hasNext()){
@@ -268,14 +279,18 @@ public class llistaServeisAdmin extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(llistaServeisAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(llistaServeis.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(llistaServeisAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(llistaServeis.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(llistaServeisAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(llistaServeis.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(llistaServeisAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(llistaServeis.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -284,7 +299,7 @@ public class llistaServeisAdmin extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new llistaServeisAdmin(userID).setVisible(true);
+                new llistaServeis(userID).setVisible(true);
             }
         });
     }
