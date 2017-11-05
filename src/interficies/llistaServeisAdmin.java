@@ -32,14 +32,15 @@ public class llistaServeisAdmin extends javax.swing.JFrame {
     DefaultListModel modeloLista;
     Integer[] idServei = new Integer [1000];
     Integer treballadors = 0;
+    static Integer userID;
     
     /**
      * Creates new form NewJFrame
      */
-    public llistaServeisAdmin() {
-        
+    public llistaServeisAdmin(Integer userID) {
+        this.userID = userID;
         initComponents();
-        emplenarChoice();
+        
         modeloLista = new DefaultListModel();
         jlista.setModel(modeloLista);
         jlista.setCellRenderer(new RenderServicios());
@@ -60,8 +61,6 @@ public class llistaServeisAdmin extends javax.swing.JFrame {
                     } else JOptionPane.showMessageDialog(null,"El servei seleccionat no te reserves!");
 		}	
 	});
-        llistaTots();
-
         choiceTrabajador.addItemListener(new java.awt.event.ItemListener(){
             @Override
             public void itemStateChanged(ItemEvent ie) {     
@@ -77,6 +76,25 @@ public class llistaServeisAdmin extends javax.swing.JFrame {
                 }
             }
         });
+        if (esADmin()){
+            emplenarChoice();
+            llistaTots();
+            labelPrincipal.setText("Consulta serveis usuari administrador:");
+        }
+        else {
+            choiceTrabajador.setVisible(false);
+            labelChoice.setVisible(false);
+          //  labelChoice.setText("");
+            llistaTreballador(userID);
+            labelPrincipal.setText("Consulta serveis usuari treballador:");
+        }
+        
+    }
+    public boolean esADmin(){
+        // SI el treballador es admin
+        if (userID==-1){
+            return true;
+        } else return false;
     }
     public  Integer obtenirTreballador(String nom) {
         ArrayList<Treballador> treballadors = Treballador.getTreballadors();
@@ -170,19 +188,18 @@ public class llistaServeisAdmin extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jlista = new javax.swing.JList<>();
-        jLabel2 = new javax.swing.JLabel();
+        labelChoice = new javax.swing.JLabel();
         choiceTrabajador = new java.awt.Choice();
-        jLabel3 = new javax.swing.JLabel();
+        labelPrincipal = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jScrollPane1.setViewportView(jlista);
 
-        jLabel2.setText("Treballador");
+        labelChoice.setText("Treballador");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        jLabel3.setText("Consulta serveis usuari administrador:");
+        labelPrincipal.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
 
         jButton1.setText("Tancar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -197,30 +214,31 @@ public class llistaServeisAdmin extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jButton1)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(20, 20, 20)
-                                .addComponent(choiceTrabajador, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 434, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(labelChoice, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(69, 69, 69)
+                        .addComponent(choiceTrabajador, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(43, 43, 43))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addComponent(jLabel3)
+                .addComponent(labelPrincipal)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
+                    .addComponent(labelChoice)
                     .addComponent(choiceTrabajador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addContainerGap())
         );
@@ -266,7 +284,7 @@ public class llistaServeisAdmin extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new llistaServeisAdmin().setVisible(true);
+                new llistaServeisAdmin(userID).setVisible(true);
             }
         });
     }
@@ -274,9 +292,9 @@ public class llistaServeisAdmin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Choice choiceTrabajador;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList<String> jlista;
+    private javax.swing.JLabel labelChoice;
+    private javax.swing.JLabel labelPrincipal;
     // End of variables declaration//GEN-END:variables
 }

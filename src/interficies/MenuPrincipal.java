@@ -198,22 +198,22 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         ArrayList<Treballador> treballadors = Treballador.getTreballadors();
         Iterator it = treballadors.iterator();
+        llistaServeisAdmin serveis = null;
         while (it.hasNext()) {
             Treballador t = (Treballador) it.next();
             if (t.getId() == userID) {
                 if (t.getEsAdmin() == 1) {
-                    llistaServeisAdmin serveis = new llistaServeisAdmin();
-                    serveis.setVisible(true);
-                    serveis.setLocationRelativeTo(null);
+                    // Si l'usuari logejat es admin enviem per parametre -1 per poder identificar-ho després i mostrar l'UI per admins.
+                    serveis = new llistaServeisAdmin(-1);
+                   
                 } else {
-                    llistaServeisTreballador serveisT = new llistaServeisTreballador();
-                    serveisT.setVisible(true);
-                    serveisT.setLocationRelativeTo(null);
+                    serveis = new llistaServeisAdmin(userID);
                 }
+                break;
             }
         }
-
-
+        serveis.setVisible(true);
+        serveis.setLocationRelativeTo(null);
     }//GEN-LAST:event_jLabel2MouseClicked
 
     /**
