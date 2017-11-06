@@ -22,16 +22,15 @@ import javax.swing.JList;
 /**
  *
  * @author Maria
- * 
- * 
+ *
+ *
  */
 public class GestioServeis extends javax.swing.JFrame {
 
     public static DefaultListModel model;
     List<Servei> serveis = new ArrayList();
-GestioServeisBD gestio= new GestioServeisBD();
+    GestioServeisBD gestio = new GestioServeisBD();
     List<Treballador> treballadors = new ArrayList();
-  
 
     /**
      * Creates new form GestioServeis
@@ -44,7 +43,6 @@ GestioServeisBD gestio= new GestioServeisBD();
         serveis = Servei.getLlistaServeis();
         treballadors = Treballador.getTreballadors();
         carregaElements();
-        
 
         this.setLocationRelativeTo(null);
         for (int i = 0; i < Servei.getLlistaServeis().size(); i++) {
@@ -80,8 +78,8 @@ GestioServeisBD gestio= new GestioServeisBD();
     public void carregaTreballador(Choice choice) {
         for (int i = 0; i < Treballador.getTreballadors().size(); i++) {
             Treballador t = Treballador.getTreballadors().get(i);
-            
-            this.treballador.add(t.getNom()+" "+t.getCognom1()+" "+t.getCognom2());
+
+            this.treballador.add(t.getNom() + " " + t.getCognom1() + " " + t.getCognom2());
         }
     }
 
@@ -125,6 +123,7 @@ GestioServeisBD gestio= new GestioServeisBD();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -184,6 +183,9 @@ GestioServeisBD gestio= new GestioServeisBD();
         jLabel9.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel9.setText("Hora final");
 
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jButton1.setText("Modificar");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -204,10 +206,11 @@ GestioServeisBD gestio= new GestioServeisBD();
             .addGroup(layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_Inserir)
-                    .addComponent(btn_cancela))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_Inserir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_cancela, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(201, 201, 201))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -281,15 +284,15 @@ GestioServeisBD gestio= new GestioServeisBD();
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(hora_inicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(hora_final, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(44, 44, 44)
                         .addComponent(btn_Inserir)
-                        .addGap(47, 47, 47)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addGap(30, 30, 30)
                         .addComponent(btn_cancela))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(19, 19, 19))
         );
 
@@ -297,32 +300,32 @@ GestioServeisBD gestio= new GestioServeisBD();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_InserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_InserirActionPerformed
-        String treballador, descripcio, data, h_inici, h_final, any,mes;
+        String treballador, descripcio, data, h_inici, h_final, any, mes;
 
         treballador = this.treballador.getSelectedItem().toString();
-        int id_treb= obtenirTreballador(treballador);
-        
+        int id_treb = obtenirTreballador(treballador);
+
         descripcio = this.origen.getText() + " - " + this.destino.getText();
         data = this.dia.getSelectedItem().toString();
-        mes=this.mes.getSelectedItem().toString();
+        mes = this.mes.getSelectedItem().toString();
         h_inici = this.hora_inicio.getSelectedItem().toString();
         h_final = this.hora_final.getSelectedItem().toString();
         any = this.año.getSelectedItem().toString();
-       
-        String data_servei=data+"/"+mes+"/"+any;
-       
-         Servei s= new Servei(0,descripcio,id_treb,data_servei,h_inici,h_final,null); 
-         gestio.inserirServei(descripcio, data_servei, h_inici, h_final, id_treb);
-       serveis.add(s);
-       model.addElement(s);
+
+        String data_servei = data + "/" + mes + "/" + any;
+
+        Servei s = new Servei(0, descripcio, id_treb, data_servei, h_inici, h_final, null);
+        gestio.inserirServei(descripcio, data_servei, h_inici, h_final, id_treb);
+        serveis.add(s);
+        model.addElement(s);
     }//GEN-LAST:event_btn_InserirActionPerformed
-public  Integer obtenirTreballador(String nom) {
-       // ArrayList<Treballador> treballadors = Treballador.getTreballadors();
+    public Integer obtenirTreballador(String nom) {
+        // ArrayList<Treballador> treballadors = Treballador.getTreballadors();
         Integer idTreballador = 0;
         Iterator<Treballador> it = treballadors.iterator();
         while (it.hasNext()) {
             Treballador t = it.next();
-            String nomTreballador = t.getNom()+" "+t.getCognom1()+" "+t.getCognom2();
+            String nomTreballador = t.getNom() + " " + t.getCognom1() + " " + t.getCognom2();
             if (nomTreballador.equalsIgnoreCase(nom)) {
                 idTreballador = t.getId();
             }
@@ -330,7 +333,7 @@ public  Integer obtenirTreballador(String nom) {
         return idTreballador;
     }
     private void sortidaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sortidaMouseClicked
-dispose();        // TODO add your handling code here:
+        dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_sortidaMouseClicked
     public void print(String x) {
         System.out.print(x + " ");
@@ -381,6 +384,7 @@ dispose();        // TODO add your handling code here:
     private java.awt.Choice dia;
     private java.awt.Choice hora_final;
     private java.awt.Choice hora_inicio;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
