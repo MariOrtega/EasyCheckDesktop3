@@ -5,6 +5,7 @@
  */
 package interficies;
 
+import Utils.GestioServeisBD;
 import clases.Servei;
 import clases.Treballador;
 import static interficies.GestioUsuaris.model;
@@ -28,9 +29,9 @@ public class GestioServeis extends javax.swing.JFrame {
 
     public static DefaultListModel model;
     List<Servei> serveis = new ArrayList();
-
+GestioServeisBD gestio= new GestioServeisBD();
     List<Treballador> treballadors = new ArrayList();
-    private int id_treb;
+  
 
     /**
      * Creates new form GestioServeis
@@ -79,8 +80,8 @@ public class GestioServeis extends javax.swing.JFrame {
     public void carregaTreballador(Choice choice) {
         for (int i = 0; i < Treballador.getTreballadors().size(); i++) {
             Treballador t = Treballador.getTreballadors().get(i);
-             id_treb = t.getId();
-            this.treballador.add(t.getNom());
+            
+            this.treballador.add(t.getNom()+" "+t.getCognom1()+" "+t.getCognom2());
         }
     }
 
@@ -299,20 +300,35 @@ public class GestioServeis extends javax.swing.JFrame {
         String treballador, descripcio, data, h_inici, h_final, any,mes;
 
         treballador = this.treballador.getSelectedItem().toString();
+        int id_treb= obtenirTreballador(treballador);
+        
         descripcio = this.origen.getText() + " - " + this.destino.getText();
         data = this.dia.getSelectedItem().toString();
         mes=this.mes.getSelectedItem().toString();
         h_inici = this.hora_inicio.getSelectedItem().toString();
-        h_final = this.hora_inicio.getSelectedItem().toString();
+        h_final = this.hora_final.getSelectedItem().toString();
         any = this.año.getSelectedItem().toString();
        
         String data_servei=data+"/"+mes+"/"+any;
        
-         Servei s= new Servei(0,descripcio,this.id_treb,data_servei,h_inici,h_final,null); 
+         Servei s= new Servei(0,descripcio,id_treb,data_servei,h_inici,h_final,null); 
+         gestio.inserirServei(descripcio, data_servei, h_inici, h_final, id_treb);
        serveis.add(s);
        model.addElement(s);
     }//GEN-LAST:event_btn_InserirActionPerformed
-
+public  Integer obtenirTreballador(String nom) {
+       // ArrayList<Treballador> treballadors = Treballador.getTreballadors();
+        Integer idTreballador = 0;
+        Iterator<Treballador> it = treballadors.iterator();
+        while (it.hasNext()) {
+            Treballador t = it.next();
+            String nomTreballador = t.getNom()+" "+t.getCognom1()+" "+t.getCognom2();
+            if (nomTreballador.equalsIgnoreCase(nom)) {
+                idTreballador = t.getId();
+            }
+        }
+        return idTreballador;
+    }
     private void sortidaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sortidaMouseClicked
 dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_sortidaMouseClicked

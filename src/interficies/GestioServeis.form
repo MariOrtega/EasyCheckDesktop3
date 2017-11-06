@@ -217,6 +217,9 @@
       </Properties>
     </Component>
     <Component class="java.awt.Choice" name="treballador">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value=""/>
+      </AuxValues>
     </Component>
     <Component class="java.awt.Choice" name="dia">
     </Component>
