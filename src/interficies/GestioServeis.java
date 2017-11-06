@@ -20,6 +20,8 @@ import javax.swing.JList;
 /**
  *
  * @author Maria
+ * 
+ * 
  */
 public class GestioServeis extends javax.swing.JFrame {
 
