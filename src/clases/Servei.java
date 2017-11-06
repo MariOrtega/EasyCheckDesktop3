@@ -181,7 +181,9 @@ public class Servei implements Serializable{
         return null;
     }
     public String toString(){
-        return descripcio + llistaReserves;
+        return descripcio ;
+//                + 
+//                llistaReserves;
     }
 }
 /*
