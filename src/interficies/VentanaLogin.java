@@ -5,6 +5,7 @@
  */
 package interficies;
 
+import Utils.GestionarUsuariBd;
 import java.awt.Color;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -29,16 +30,23 @@ import java.util.Iterator;
 public class VentanaLogin extends javax.swing.JFrame {
   public static String NOM="";
   public static int TIPUS_USUARI;
+   GestionarUsuariBd gestio;
    
     /**
      * Creates new form Ventana1
      */
     public VentanaLogin() {
         initComponents();
+        
+        //Creació del superadmin/////////////////////////////////////////////
+        gestio=new GestionarUsuariBd();
+        gestio.inserirTreballador(NOM, NOM, NOM, NOM, "admin", "admin", 1);
+        
         NOM=this.textUsuario.getText();
         this.setLocationRelativeTo(null);
         this.getContentPane().setBackground(Color.ORANGE);
         IntroduccioObjectes carregaDades = new IntroduccioObjectes();
+        
 
     }
 

@@ -499,8 +499,11 @@ public class GestioUsuaris extends javax.swing.JFrame {
         Iterator it = treballadors.iterator();
         while (it.hasNext()) {
             Treballador t = (Treballador) it.next();
+            if(!(t.getNom().equals("")&&t.getCognom1().equals("")&&t.getCognom2().equals("")
+                &&t.getDni().equals("")&&t.getLogin().equals("admin")
+                    &&t.getPassword().equals("admin")&&t.getEsAdmin()==1)){
             Treballador.setTreballadors(t);
-            model.addElement(t);
+            model.addElement(t);}
         }
         jListTreballadors.addListSelectionListener(new ListSelectionListener() {
             @Override
