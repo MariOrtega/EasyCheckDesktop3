@@ -234,7 +234,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 if (t.getEsAdmin() == 1) {
                     // Si l'usuari logejat es admin enviem per parametre -1 per poder identificar-ho després i mostrar l'UI per admins.
                     serveis = new llistaServeis(-1);
-                   
+
                 } else {
                     serveis = new llistaServeis(userID);
                 }
@@ -246,9 +246,16 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
-        GestioServeis serveis= new GestioServeis();
-        serveis.setVisible(true);
-        
+
+        if (VentanaLogin.TIPUS_USUARI == 1) {
+            GestioServeis serveis = new GestioServeis();
+            serveis.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Acces denegat per a treballadors!");
+
+        }
+
+
     }//GEN-LAST:event_jLabel4MouseClicked
 
     /**

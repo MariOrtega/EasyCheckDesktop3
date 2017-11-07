@@ -38,7 +38,7 @@ public class GestioServeis extends javax.swing.JFrame {
     GestioServeisBD gestio = new GestioServeisBD();
     DescargaTreballador des_treb = new DescargaTreballador();
     List<Treballador> treballadors = new ArrayList();
-
+    
     /**
      * Creates new form GestioServeis
      */
@@ -50,6 +50,7 @@ public class GestioServeis extends javax.swing.JFrame {
         Jservicios.setCellRenderer(new RenderServicios());
         serveis = Servei.getLlistaServeis();
         treballadors = des_treb.obtenirTreballadorsDelServer();
+      
 
         carregaElements();
 
