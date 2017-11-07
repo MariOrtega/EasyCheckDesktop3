@@ -319,15 +319,15 @@ public class GestioUsuaris extends javax.swing.JFrame {
         boolean login_pass = login.getText().equals("") && password.getText().equals("");
         boolean _dni = dni.getText().equals("");
         boolean _nom = nom.getText().equals("");
-        boolean pass_admin=password.getText().equals("admin");
-        boolean login_admin=login.getText().equals("admin");
+        boolean pass_admin = password.getText().equals("admin");
+        boolean login_admin = login.getText().equals("admin");
+
         if (_nom || cognoms || login_pass || _dni) {
             JOptionPane.showMessageDialog(null, "Falten dades");
-            
-        }else if(pass_admin&&login_admin){
-             JOptionPane.showMessageDialog(null, "Login i password en us");
-        }
-        else {
+
+        } else if (login_admin) {
+            JOptionPane.showMessageDialog(null, "Login i password en us");
+        } else {
             inserirList();
             clearForm();
         }
@@ -363,10 +363,14 @@ public class GestioUsuaris extends javax.swing.JFrame {
             } else {
 
                 if (JOptionPane.showConfirmDialog(null, "Esta a punt d'esborrar aquesta entrada?") == 0) {
-                    usuari_bd.borrarTreballador(String.valueOf(t.getId()));
-                    Treballador.getTreballadors().remove(index);
-                    model.removeAllElements();
-                    actualitzaLlista();
+                    String res = usuari_bd.borrarTreballador(String.valueOf(t.getId()));
+                    if (res.equals("1")) {
+                        Treballador.getTreballadors().remove(index);
+                        model.removeAllElements();
+                        actualitzaLlista();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Error!! , no s'ha pogut esborrar usuari");
+                    }
                 }
             }
         }
@@ -396,17 +400,17 @@ public class GestioUsuaris extends javax.swing.JFrame {
         String tr1_dni = tr1.getDni();
         String log = tr1.getLogin();
         String pass = tr1.getPassword();
-         boolean pass_admin=tr1.getLogin().equals("admin");
-        boolean login_admin=tr1.getPassword().equals("admin");
+        boolean pass_admin = tr1.getLogin().equals("admin");
+        boolean login_admin = tr1.getPassword().equals("admin");
+
         if (!comprovaDNI(tr1_dni, Treballador.getTreballadors())) {
             JOptionPane.showMessageDialog(null, "Treballador actualment en Actiu");
-        } else if (!comprovaLogin_pass(log, pass, Treballador.getTreballadors())) {
-            JOptionPane.showMessageDialog(null, "Login i Password en ús");
+        } else if (!comprovaLogin_pass(log, Treballador.getTreballadors())) {
+            JOptionPane.showMessageDialog(null, "Login en ús");
 
-        } 
-        else if(pass_admin&&login_admin){
-              JOptionPane.showMessageDialog(null, "Login i Password en ús");
-        }else {
+        } else if (pass_admin && login_admin) {
+            JOptionPane.showMessageDialog(null, "Impossible registre");
+        } else {
             usuari_bd = new GestionarUsuariBd();
             usuari_bd.inserirTreballador(tr1.getNom(), tr1.getCognom1(), tr1.getCognom2(), tr1.getDni(), tr1.getLogin(), tr1.getPassword(), tr1.getEsAdmin());
             model.addElement(tr1);
@@ -428,11 +432,11 @@ public class GestioUsuaris extends javax.swing.JFrame {
 
     }
 
-    public boolean comprovaLogin_pass(String login, String pass, ArrayList<Treballador> a) {
+    public boolean comprovaLogin_pass(String login, ArrayList<Treballador> a) {
         boolean compara = true;
 
         for (int i = 0; i < a.size(); i++) {
-            if (login.equals(a.get(i).getLogin()) && pass.equals(a.get(i).getPassword())) {
+            if (login.equals(a.get(i).getLogin())) {
                 compara = false;
             }
 
@@ -509,11 +513,12 @@ public class GestioUsuaris extends javax.swing.JFrame {
         Iterator it = treballadors.iterator();
         while (it.hasNext()) {
             Treballador t = (Treballador) it.next();
-            if(!(t.getNom().equals("")&&t.getCognom1().equals("")&&t.getCognom2().equals("")
-                &&t.getDni().equals("")&&t.getLogin().equals("admin")
-                    &&t.getPassword().equals("admin")&&t.getEsAdmin()==1)){
-            Treballador.setTreballadors(t);
-            model.addElement(t);}
+            if (!(t.getNom().equals("") && t.getCognom1().equals("") && t.getCognom2().equals("")
+                    && t.getDni().equals("") && t.getLogin().equals("admin")
+                    && t.getPassword().equals("admin") && t.getEsAdmin() == 1)) {
+                Treballador.setTreballadors(t);
+                model.addElement(t);
+            }
         }
         jListTreballadors.addListSelectionListener(new ListSelectionListener() {
             @Override
