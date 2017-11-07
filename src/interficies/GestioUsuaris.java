@@ -324,6 +324,10 @@ public class GestioUsuaris extends javax.swing.JFrame {
     private void btnEsborraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEsborraActionPerformed
             usuari_bd=new GestionarUsuariBd();
       selection = jListTreballadors.getSelectedIndex();
+      if(selection==-1){
+          JOptionPane.showMessageDialog(null,"Seleccionar usuari per esborrar");
+                  }
+      else{
      Treballador t = (Treballador) model.getElementAt(selection);
         String dni = t.getDni();
         int index = cercaTreballadorPerDNI(t, Treballador.getTreballadors());
@@ -341,7 +345,7 @@ public class GestioUsuaris extends javax.swing.JFrame {
             Treballador.getTreballadors().remove(index);
             model.removeAllElements();
             actualitzaLlista();
-        }
+        }}
     }//GEN-LAST:event_btnEsborraActionPerformed
     public static void actualitzaLlista() {
         model.clear();
