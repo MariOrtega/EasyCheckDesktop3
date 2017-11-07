@@ -319,10 +319,15 @@ public class GestioUsuaris extends javax.swing.JFrame {
         boolean login_pass = login.getText().equals("") && password.getText().equals("");
         boolean _dni = dni.getText().equals("");
         boolean _nom = nom.getText().equals("");
-
+        boolean pass_admin=password.getText().equals("admin");
+        boolean login_admin=login.getText().equals("admin");
         if (_nom || cognoms || login_pass || _dni) {
             JOptionPane.showMessageDialog(null, "Falten dades");
-        } else {
+            
+        }else if(pass_admin&&login_admin){
+             JOptionPane.showMessageDialog(null, "Login i password en us");
+        }
+        else {
             inserirList();
             clearForm();
         }
@@ -391,12 +396,17 @@ public class GestioUsuaris extends javax.swing.JFrame {
         String tr1_dni = tr1.getDni();
         String log = tr1.getLogin();
         String pass = tr1.getPassword();
+         boolean pass_admin=tr1.getLogin().equals("admin");
+        boolean login_admin=tr1.getPassword().equals("admin");
         if (!comprovaDNI(tr1_dni, Treballador.getTreballadors())) {
             JOptionPane.showMessageDialog(null, "Treballador actualment en Actiu");
         } else if (!comprovaLogin_pass(log, pass, Treballador.getTreballadors())) {
             JOptionPane.showMessageDialog(null, "Login i Password en ús");
 
-        } else {
+        } 
+        else if(pass_admin&&login_admin){
+              JOptionPane.showMessageDialog(null, "Login i Password en ús");
+        }else {
             usuari_bd = new GestionarUsuariBd();
             usuari_bd.inserirTreballador(tr1.getNom(), tr1.getCognom1(), tr1.getCognom2(), tr1.getDni(), tr1.getLogin(), tr1.getPassword(), tr1.getEsAdmin());
             model.addElement(tr1);
