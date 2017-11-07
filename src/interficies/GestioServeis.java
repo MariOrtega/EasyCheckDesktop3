@@ -12,13 +12,17 @@ import clases.Treballador;
 import static interficies.GestioUsuaris.model;
 import java.awt.Choice;
 import java.awt.Color;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -32,7 +36,6 @@ public class GestioServeis extends javax.swing.JFrame {
     List<Servei> serveis = new ArrayList();
     GestioServeisBD gestio = new GestioServeisBD();
     List<Treballador> treballadors = new ArrayList();
-     
 
     /**
      * Creates new form GestioServeis
@@ -45,7 +48,7 @@ public class GestioServeis extends javax.swing.JFrame {
         Jservicios.setCellRenderer(new RenderServicios());
         serveis = Servei.getLlistaServeis();
         treballadors = Treballador.getTreballadors();
-         
+
         carregaElements();
 
         this.setLocationRelativeTo(null);
@@ -94,6 +97,28 @@ public class GestioServeis extends javax.swing.JFrame {
         for (int i = year; i < 2101; i++) {
             this.año.add(String.valueOf(i));
         }
+    }
+
+    public boolean comprovaData(String dataSeleccionada) {
+        boolean data;
+        Calendar calendar = Calendar.getInstance();
+        int year = (calendar.get(Calendar.YEAR));
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        String dataActual = (day + "/" + month + "/" + year);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date dataActual_parseada = sdf.parse(dataActual, new ParsePosition(0));
+        Date dataSeleccionada_parseada = sdf.parse(dataSeleccionada, new ParsePosition(0));
+
+        if (dataActual_parseada.before(dataSeleccionada_parseada)) {
+            data = true;
+        } else {
+
+            data = false;
+
+        }
+        return data;
     }
 
     /**
@@ -316,7 +341,6 @@ public class GestioServeis extends javax.swing.JFrame {
 
         treballador = this.treballador.getSelectedItem().toString();
         int id_treb = obtenirTreballador(treballador);
-
         descripcio = this.origen.getText() + " - " + this.destino.getText();
         data = this.dia.getSelectedItem().toString();
         mes = this.mes.getSelectedItem().toString();
@@ -325,11 +349,14 @@ public class GestioServeis extends javax.swing.JFrame {
         any = this.año.getSelectedItem().toString();
 
         String data_servei = data + "/" + mes + "/" + any;
-
-        Servei s = new Servei(0, descripcio, id_treb, data_servei, h_inici, h_final, null);
-        gestio.inserirServei(descripcio, data_servei, h_inici, h_final, id_treb);
-        serveis.add(s);
-        model.addElement(s.getLabel());
+        if (comprovaData(data_servei)) {
+            Servei s = new Servei(0, descripcio, id_treb, data_servei, h_inici, h_final, null);
+            gestio.inserirServei(descripcio, data_servei, h_inici, h_final, id_treb);
+            serveis.add(s);
+            model.addElement(s.getLabel());
+        } else {
+            JOptionPane.showMessageDialog(null, "Data incorrecta!!!");
+        }
     }//GEN-LAST:event_btn_InserirActionPerformed
     public Integer obtenirTreballador(String nom) {
         // ArrayList<Treballador> treballadors = Treballador.getTreballadors();
