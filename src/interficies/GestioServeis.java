@@ -6,6 +6,7 @@
 package interficies;
 
 import Renders.RenderServicios;
+import Utils.DescargaTreballador;
 import Utils.GestioServeisBD;
 import clases.Servei;
 import clases.Treballador;
@@ -35,6 +36,7 @@ public class GestioServeis extends javax.swing.JFrame {
     public static DefaultListModel model;
     List<Servei> serveis = new ArrayList();
     GestioServeisBD gestio = new GestioServeisBD();
+    DescargaTreballador des_treb = new DescargaTreballador();
     List<Treballador> treballadors = new ArrayList();
 
     /**
@@ -47,13 +49,13 @@ public class GestioServeis extends javax.swing.JFrame {
         Jservicios.setModel(model);
         Jservicios.setCellRenderer(new RenderServicios());
         serveis = Servei.getLlistaServeis();
-        treballadors = Treballador.getTreballadors();
+        treballadors = des_treb.obtenirTreballadorsDelServer();
 
         carregaElements();
 
         this.setLocationRelativeTo(null);
         for (int i = 0; i < Servei.getLlistaServeis().size(); i++) {
-            System.out.println(Servei.getLlistaServeis().get(i));
+        
             model.addElement(Servei.getLlistaServeis().get(i).getLabel());
 
         }
@@ -339,14 +341,14 @@ public class GestioServeis extends javax.swing.JFrame {
     private void btn_InserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_InserirActionPerformed
         String treballador, descripcio, data, h_inici, h_final, any, mes;
 
-        treballador = this.treballador.getSelectedItem().toString();
+        treballador = this.treballador.getSelectedItem();
         int id_treb = obtenirTreballador(treballador);
         descripcio = this.origen.getText() + " - " + this.destino.getText();
-        data = this.dia.getSelectedItem().toString();
-        mes = this.mes.getSelectedItem().toString();
-        h_inici = this.hora_inicio.getSelectedItem().toString();
-        h_final = this.hora_final.getSelectedItem().toString();
-        any = this.año.getSelectedItem().toString();
+        data = this.dia.getSelectedItem();
+        mes = this.mes.getSelectedItem();
+        h_inici = this.hora_inicio.getSelectedItem();
+        h_final = this.hora_final.getSelectedItem();
+        any = this.año.getSelectedItem();
 
         String data_servei = data + "/" + mes + "/" + any;
         if (comprovaData(data_servei)) {
