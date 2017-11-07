@@ -42,10 +42,9 @@ public class GestioUsuaris extends javax.swing.JFrame {
     private int selection;
     GestionarUsuariBd usuari_bd;
     ImageIcon icono;
-    List <Servei> serveisTotal;
+    List<Servei> serveisTotal;
     DescargaServei descarrega;
-        List <Servei> serveiTreballador;
-
+    List<Servei> serveiTreballador;
 
     /**
      * Creates new form GestioUsuaris
@@ -57,7 +56,7 @@ public class GestioUsuaris extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         jListTreballadors.setCellRenderer(new RenderTreballador());
-        
+
         model = new DefaultListModel();
         _id.setVisible(false);
         jListTreballadors.setModel(model);
@@ -328,16 +327,16 @@ public class GestioUsuaris extends javax.swing.JFrame {
             clearForm();
         }
     }//GEN-LAST:event_btnAfegirActionPerformed
-public int cercaServei(List<Servei>s, int id){
-    int count=0;
-    for (int i=0;i<s.size();i++){
-        int id_servei=s.get(i).getId_treballador();
-        if(id_servei==id){
-            count++;
+    public int cercaServei(List<Servei> s, int id) {
+        int count = 0;
+        for (int i = 0; i < s.size(); i++) {
+            int id_servei = s.get(i).getId_treballador();
+            if (id_servei == id) {
+                count++;
+            }
         }
+        return count;
     }
-    return count;
-}
     private void btnEsborraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEsborraActionPerformed
         usuari_bd = new GestionarUsuariBd();
         selection = jListTreballadors.getSelectedIndex();
@@ -347,24 +346,23 @@ public int cercaServei(List<Servei>s, int id){
             Treballador t = (Treballador) model.getElementAt(selection);
             String dni = t.getDni();
             int index = cercaTreballadorPerDNI(t, Treballador.getTreballadors());
-            
-           
 
-                 int usuari=t.getId();
-                 serveisTotal=descarrega.obtenirServeisDelServer();
-                
-                 if(cercaServei(serveisTotal,usuari)>0){
-                    int resposta= JOptionPane.showConfirmDialog(null, "Impossible esborrar!!!, Hi ha serveis associats.. Vol sustitució?");
-                    if(resposta==0){
-                        new GestioServeis().setVisible(true);
-                    }
-                 }else{
-                     
-                 if (JOptionPane.showConfirmDialog(null, "Esta a punt d'esborrar aquesta entrada?") == 0) {
-                usuari_bd.borrarTreballador(String.valueOf(t.getId()));
-                Treballador.getTreballadors().remove(index);
-                model.removeAllElements();
-                actualitzaLlista(); }
+            int usuari = t.getId();
+            serveisTotal = descarrega.obtenirServeisDelServer();
+
+            if (cercaServei(serveisTotal, usuari) > 0) {
+                int resposta = JOptionPane.showConfirmDialog(null, "Impossible esborrar!!!, Hi ha serveis associats.. Vol sustitució?");
+                if (resposta == 0) {
+                    new GestioServeis().setVisible(true);
+                }
+            } else {
+
+                if (JOptionPane.showConfirmDialog(null, "Esta a punt d'esborrar aquesta entrada?") == 0) {
+                    usuari_bd.borrarTreballador(String.valueOf(t.getId()));
+                    Treballador.getTreballadors().remove(index);
+                    model.removeAllElements();
+                    actualitzaLlista();
+                }
             }
         }
     }//GEN-LAST:event_btnEsborraActionPerformed
@@ -391,8 +389,13 @@ public int cercaServei(List<Servei>s, int id){
         Treballador tr1 = new Treballador();
         tr1 = RecullirDadesFormulari();
         String tr1_dni = tr1.getDni();
-        if (!compara(tr1_dni, Treballador.getTreballadors())) {
+        String login = tr1.getLogin();
+        String pass = tr1.getPassword();
+        if (!comprovaDNI(tr1_dni, Treballador.getTreballadors())) {
             JOptionPane.showMessageDialog(null, "Treballador actualment en Actiu");
+        } else if (!comprovaLogin_pass(login, pass, Treballador.getTreballadors())) {
+            JOptionPane.showMessageDialog(null, "Login i Password en us");
+
         } else {
             usuari_bd = new GestionarUsuariBd();
             usuari_bd.inserirTreballador(tr1.getNom(), tr1.getCognom1(), tr1.getCognom2(), tr1.getDni(), tr1.getLogin(), tr1.getPassword(), tr1.getEsAdmin());
@@ -402,11 +405,24 @@ public int cercaServei(List<Servei>s, int id){
 
     }
 
-    public boolean compara(String t1, ArrayList<Treballador> a) {
+    public boolean comprovaDNI(String t1, ArrayList<Treballador> a) {
         boolean compara = true;
 
         for (int i = 0; i < a.size(); i++) {
             if (t1.equals(a.get(i).getDni())) {
+                compara = false;
+            }
+
+        }
+        return compara;
+
+    }
+
+    public boolean comprovaLogin_pass(String login, String pass, ArrayList<Treballador> a) {
+        boolean compara = true;
+
+        for (int i = 0; i < a.size(); i++) {
+            if (login.equals(a.get(i).getLogin()) && pass.equals(a.get(i).getPassword())) {
                 compara = false;
             }
 
