@@ -389,12 +389,12 @@ public class GestioUsuaris extends javax.swing.JFrame {
         Treballador tr1 = new Treballador();
         tr1 = RecullirDadesFormulari();
         String tr1_dni = tr1.getDni();
-        String login = tr1.getLogin();
+        String log = tr1.getLogin();
         String pass = tr1.getPassword();
         if (!comprovaDNI(tr1_dni, Treballador.getTreballadors())) {
             JOptionPane.showMessageDialog(null, "Treballador actualment en Actiu");
-        } else if (!comprovaLogin_pass(login, pass, Treballador.getTreballadors())) {
-            JOptionPane.showMessageDialog(null, "Login i Password en us");
+        } else if (!comprovaLogin_pass(log, pass, Treballador.getTreballadors())) {
+            JOptionPane.showMessageDialog(null, "Login i Password en ús");
 
         } else {
             usuari_bd = new GestionarUsuariBd();
