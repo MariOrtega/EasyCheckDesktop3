@@ -138,8 +138,8 @@ public class GestioServeis extends javax.swing.JFrame {
     }
 
     public void carregaTreballador(Choice choice) {
-        for (int i = 0; i < Treballador.getTreballadors().size(); i++) {
-            Treballador t = Treballador.getTreballadors().get(i);
+        for (int i = 0; i < treballadors.size(); i++) {
+            Treballador t = treballadors.get(i);
 
             this.treballador.add(t.getNom() + " " + t.getCognom1() + " " + t.getCognom2());
         }

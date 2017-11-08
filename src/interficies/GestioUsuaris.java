@@ -35,9 +35,7 @@ import javax.swing.event.ListSelectionListener;
 public class GestioUsuaris extends javax.swing.JFrame {
 
     public static DefaultListModel model;
-    Treballador t1;
-    private Treballador t3;
-    private Treballador t4;
+    Treballador t;
     Treballador t2;
     private int selection;
     GestionarUsuariBd usuari_bd;
@@ -45,6 +43,9 @@ public class GestioUsuaris extends javax.swing.JFrame {
     List<Servei> serveisTotal;
     DescargaServei descarrega;
     List<Servei> serveiTreballador;
+    static List <Treballador>treballadors;
+    DescargaTreballador descargaTreballador ;
+    int id_treballador;
 
     /**
      * Creates new form GestioUsuaris
@@ -56,6 +57,7 @@ public class GestioUsuaris extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         jListTreballadors.setCellRenderer(new RenderTreballador());
+        descargaTreballador=new DescargaTreballador();
 
         model = new DefaultListModel();
         _id.setVisible(false);
@@ -315,6 +317,7 @@ public class GestioUsuaris extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void btnAfegirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAfegirActionPerformed
+        
         boolean cognoms = cognom1.getText().equals("") && cognom2.getText().equals("");
         boolean login_pass = login.getText().equals("") && password.getText().equals("");
         boolean _dni = dni.getText().equals("");
@@ -326,7 +329,7 @@ public class GestioUsuaris extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Falten dades");
 
         } else if (login_admin) {
-            JOptionPane.showMessageDialog(null, "Login i password en us");
+            JOptionPane.showMessageDialog(null, "Login en us");
         } else {
             inserirList();
             clearForm();
@@ -343,6 +346,8 @@ public class GestioUsuaris extends javax.swing.JFrame {
         return count;
     }
     private void btnEsborraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEsborraActionPerformed
+      
+        
         usuari_bd = new GestionarUsuariBd();
         selection = jListTreballadors.getSelectedIndex();
         if (selection == -1) {
@@ -364,22 +369,36 @@ public class GestioUsuaris extends javax.swing.JFrame {
 
                 if (JOptionPane.showConfirmDialog(null, "Esta a punt d'esborrar aquesta entrada?") == 0) {
                     usuari_bd.borrarTreballador(String.valueOf(t.getId()));
+                   System.out.println("id en borrado"+t.getId());
                    
-                        Treballador.getTreballadors().remove(index);
-                        model.removeAllElements();
-                        actualitzaLlista();
-                    
+                   treballadors=descargaTreballador.obtenirTreballadorsDelServer();
+            
+            model.removeAllElements();
+           actualitzaLlista(treballadors);
+//
+//                        Treballador.getTreballadors().remove(index);
+//                        model.removeAllElements();
+//                        actualitzaLlista();
+                        clearForm();
+//                    
                 }
             }
         }
     }//GEN-LAST:event_btnEsborraActionPerformed
-    public static void actualitzaLlista() {
-        model.clear();
+    public static  void actualitzaLlista() {
+       model.clear();
+       
         for (int i = 0; i < Treballador.getSize(); i++) {
             model.addElement(Treballador.getTreballadors().get(i));
         }
     }
-
+public static  void actualitzaLlista(List<Treballador> t) {
+       model.clear();
+       
+        for (int i = 0; i < t.size(); i++) {
+            model.addElement(t.get(i));
+        }
+    }
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         ModificarUsuari f = new ModificarUsuari();
@@ -411,8 +430,14 @@ public class GestioUsuaris extends javax.swing.JFrame {
         } else {
             usuari_bd = new GestionarUsuariBd();
             usuari_bd.inserirTreballador(tr1.getNom(), tr1.getCognom1(), tr1.getCognom2(), tr1.getDni(), tr1.getLogin(), tr1.getPassword(), tr1.getEsAdmin());
-            model.addElement(tr1);
-            Treballador.setTreballadors(tr1);
+            System.out.println("id en inserir"+tr1.getId());
+            treballadors=descargaTreballador.obtenirTreballadorsDelServer();
+            
+            model.removeAllElements();
+           actualitzaLlista(treballadors);
+//
+//            model.addElement(tr1);
+//            Treballador.setTreballadors(tr1);
         }
 
     }
@@ -475,7 +500,7 @@ public class GestioUsuaris extends javax.swing.JFrame {
 
     public void OmplirFormulari(Treballador t) {
 
-        // _id.setText(String.valueOf(t.getId()));
+        _id.setText(String.valueOf(t.getId()));
         nom.setText(t.getNom());
         cognom1.setText(t.getCognom1());
         cognom2.setText(t.getCognom2());
@@ -507,28 +532,28 @@ public class GestioUsuaris extends javax.swing.JFrame {
 
         DescargaTreballador todo = new DescargaTreballador();
         ArrayList<Treballador> treballadors = (ArrayList<Treballador>) todo.obtenirTreballadorsDelServer();
-
+           //treballadors=descargaTreballador.obtenirTreballadorsDelServer();
         Iterator it = treballadors.iterator();
         while (it.hasNext()) {
             Treballador t = (Treballador) it.next();
-            if (!(t.getNom().equals("") && t.getCognom1().equals("") && t.getCognom2().equals("")
-                    && t.getDni().equals("") && t.getLogin().equals("admin")
-                    && t.getPassword().equals("admin") && t.getEsAdmin() == 1)) {
+            
                 Treballador.setTreballadors(t);
                 model.addElement(t);
-            }
+            
         }
         jListTreballadors.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
+               
                 int selection = jListTreballadors.getSelectedIndex();
 
                 if (jListTreballadors.getModel().getSize() != 0) {
-                    Treballador t = new Treballador();
+                     t = new Treballador();
                     t = (Treballador) model.getElementAt(selection);
                     if (jListTreballadors.getSelectedValue() != null) {
-                        int id_treballador = t.getId();
-
+                   
+                         id_treballador = t.getId();
+System.out.println("id en valuechanged"+id_treballador);
                         nom.setText(t.getNom());
                         cognom1.setText(t.getCognom1());
                         cognom2.setText(t.getCognom2());
