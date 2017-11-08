@@ -14,7 +14,7 @@ import javax.swing.SwingConstants;
 import java.util.Iterator;
 /**
  *
- * @author Toni
+ * @author Carlos Alberto Castro Cañabate
  */
 public class Servei implements Serializable{
     

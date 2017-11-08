@@ -134,7 +134,7 @@ public class llistaServeis extends javax.swing.JFrame {
                     Reserva r = (Reserva) itL.next();
                     System.out.println("ID SERVEI: " +r.getId_servei());
                     if (r.getId_servei()== servei){
-                        System.out.println(r.getEmail_titular());
+                        System.out.println(r.getClient().getEmail_titular());
                         return true;
                     }
                 }

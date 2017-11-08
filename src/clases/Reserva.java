@@ -9,7 +9,14 @@ package clases;
 
 import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
-
+import java.util.ArrayList;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants; 
+import clases.Client;
+/**
+ *
+ * @author Carlos Alberto Castro Cañabate
+ */
 public class Reserva implements Serializable {
 
     private int _id;
@@ -19,6 +26,7 @@ public class Reserva implements Serializable {
     private String data_reserva;    
     private String qr_code;
     private int checkin;
+    static ArrayList<Reserva> reservas  = new ArrayList();
 
     private Reserva() {
 
@@ -131,6 +139,27 @@ public class Reserva implements Serializable {
     public void setClient(Client client) {
         this.client = client;
     }
+    public static ArrayList<Reserva> getReservas() {
+        return reservas;
+    }
+
+    public static void setReservas(Reserva reserva) {
+        Reserva.reservas.add(reserva);
+    }
+    public JLabel getLabel(){
+       
+        JLabel label = new JLabel("<html><FONT FACE=\"impact\" SIZE=6 COLOR=\"red\">"+this.client.getNom_titular()+" "+this.client.getCognom1_titular()+" "+this.client.getCognom2_titular()+"</FONT> <br> "
+                + "<FONT FACE=\"courier\" SIZE=4><b>Dni:</b> "+this.client.getDni_titular()+" <b>Email:</b> "+this.client.getEmail_titular()+" "+"<br> "
+                        + "<b>QR:</b> "+this.qr_code+" <b>Check-In:</b> "+checkIn(checkin)+"<hr style=\"border:2px;\"></FONT></html>", SwingConstants.LEFT);
+        return label;
+        //Integer id, Integer idServei, String localitzador, String dataServei, String nomClient, String cognomClient,String cognomClient2,String emailClient, String QRClient, String dniClient, String checkIn) {
+       // return nomClient+" "+cognomClient+" "+cognomClient2+" Dni: "+dniClient+" "+emailClient+" "+"QR: "+QRClient+" "+checkIn(checkIn);
+    }
+    public String checkIn(Integer checkIn){
+        if (checkIn == 0) return "No Realitzat";
+        else return "Realitzat";
+    }
+    
 
    
 }
