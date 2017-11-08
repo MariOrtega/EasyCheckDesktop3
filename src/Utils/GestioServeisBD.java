@@ -28,7 +28,7 @@ public class GestioServeisBD {
      private static final String BASE_URL = "localhost";
          private static final int PORT = 8080;
     /**
-     * @author Carlos Alberto Castro Cañabate
+     * @author Carlos Alberto Castro Cañabate 
      * @param id
      * @param nom
      * @param cognom1
