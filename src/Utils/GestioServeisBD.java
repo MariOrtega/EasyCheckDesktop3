@@ -39,16 +39,16 @@ public class GestioServeisBD {
      * @param esadmin
      * @return 
      */     
-    public String actualitzarServei(Integer id,String descripcio, String dataservei, String horaInici, String horaFinal, int idTreballador) {
+    public String actualitzarServei(int id, String descripcio, String dataservei, String horaInici, String horaFinal, int idTreballador) {
         String response = "";
-        String query = buildQueryActualitzarServei (id,descripcio, dataservei, horaInici, horaFinal, idTreballador);
-        URL url = buildUrl(BASE_URL, PORT, "/easycheckapi/treballador", null);
+        String query = buildQueryActualitzarServei(id, descripcio, dataservei, horaInici, horaFinal, idTreballador);
+        URL url = buildUrl(BASE_URL, PORT, "/easycheckapi/servei", null);
         response = doPostRequest(url, query);
         if (!response.equals("0")) {
-            System.out.println("Actualitzat servei" + descripcio + " amb id " + id);
+            System.out.println("Actualitzat servei " + descripcio + " amb id " + id);
         }
         return response;
-    }    
+    }   
          
          
      public String inserirServei(String descripcio, String dataservei, String horaInici, String horaFinal, int idTreballador) {
@@ -125,8 +125,8 @@ public class GestioServeisBD {
      * @param idTreballador
      * @return 
      */
-    public String buildQueryActualitzarServei(int id,String descripcio, String dataservei, String horaInici, String horaFinal, int idTreballador) {
-        return "id=" + id + "descripcio=" + descripcio + "&dataservei=" + dataservei + "&horainici=" + horaInici + "&horafinal=" + horaFinal + "&idtreballador=" + idTreballador;
+    public String buildQueryActualitzarServei(int id, String descripcio, String dataservei, String horaInici, String horaFinal, int idTreballador) {
+        return "id=" + id + "&descripcio=" + descripcio + "&dataservei=" + dataservei + "&horainici=" + horaInici + "&horafinal=" + horaFinal + "&idtreballador=" + idTreballador;
     }
       public String buildQueryInserirServei(String descripcio, String dataservei, String horaInici, String horaFinal, int idTreballador) {
         return "descripcio=" + descripcio + "&dataservei=" + dataservei + "&horainici=" + horaInici + "&horafinal=" + horaFinal + "&idtreballador=" + idTreballador;

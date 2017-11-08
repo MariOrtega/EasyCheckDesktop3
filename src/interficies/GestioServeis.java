@@ -7,10 +7,12 @@ package interficies;
 
 import Renders.RenderServicios;
 import Utils.DescargaTreballador;
+import Utils.DescargaServei;
 import Utils.GestioServeisBD;
 import clases.Servei;
 import clases.Treballador;
 import static interficies.GestioUsuaris.model;
+import static interficies.llistaServeis.userID;
 import java.awt.Choice;
 import java.awt.Color;
 import java.text.ParsePosition;
@@ -41,6 +43,7 @@ public class GestioServeis extends javax.swing.JFrame {
     DescargaTreballador des_treb = new DescargaTreballador();
     List<Treballador> treballadors = new ArrayList();
     static Integer id = null;
+    static Integer seleccionat = null;
     /**
      * Creates new form GestioServeis
      */
@@ -67,49 +70,61 @@ public class GestioServeis extends javax.swing.JFrame {
         /**
          * @author Carlos Alberto Castro Cañabate
          */
-        Iterator it = serveis.iterator();
-        Jservicios.setModel(model);
-        while (it.hasNext()) {
-            Servei se = (Servei) it.next();
-            model.addElement(se);
-        }
+        carregaLlista();
         
          Jservicios.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 int selection = Jservicios.getSelectedIndex();
-                JOptionPane.showMessageDialog(null,"seleccio: "+selection);
+                JList list =(JList)e.getSource();
+                if (list.isSelectionEmpty() || list.getValueIsAdjusting()) {
+                    return;
+                }
+                seleccionat = list.getSelectedIndex();
                 Servei s = new Servei();
-                s = (Servei) model.getElementAt(selection);
-                id= s.getId();
-                String data = s.getData_servei();
-                String descripcio = s.getDescripcio();
-                String horaFi = s.getHora_final();
-                String horaInici = s.getHora_inici();
-                Integer idTreballador = s.getId_treballador();
-                descripcio.trim();
-                String []descripcioTotal = descripcio.split("-");
-                
-                origen.setText(descripcioTotal[0]);
-                destino.setText(descripcioTotal[1]);
-                data.trim();
-                String[] dataTotal = data.split("/");
-                dia.select(dataTotal[0]);
-                mes.select(dataTotal[1]);
-                año.select(dataTotal[2]);
-                horaInici.trim();
-                String[] horaIniciTotal = horaInici.split(":");
-                hora_inicio.select(horaIniciTotal[0]);
-                minutos_inicio.select(horaIniciTotal[1]);
-                horaFi.trim();
-                String[] horaFiTotal = horaFi.split(":");
-                hora_final.select(horaFiTotal[0]);
-                minutos_final.select(horaFiTotal[1]);
+                if (selection!=-1){
+                    s = (Servei) model.getElementAt(selection);
+                    id= s.getId();
+                    String data = s.getData_servei();
+                    String descripcio = s.getDescripcio();
+                    String horaFi = s.getHora_final();
+                    String horaInici = s.getHora_inici();
+                    Integer idTreballador = s.getId_treballador();
+                    descripcio.trim();
+                    String []descripcioTotal = descripcio.split("-");
+
+                    origen.setText(descripcioTotal[0]);
+                    destino.setText(descripcioTotal[1]);
+                    data.trim();
+                    String[] dataTotal = data.split("/");
+                    dia.select(dataTotal[0]);
+                    mes.select(dataTotal[1]);
+                    año.select(dataTotal[2]);
+                    String[] horaIniciTotal = horaInici.split(":");
+                    hora_inicio.select(horaIniciTotal[0]);
+                    minutos_inicio.select(horaIniciTotal[1]);
+                    String[] horaFiTotal = horaFi.split(":");
+                    hora_final.select(horaFiTotal[0]);
+                    minutos_final.select(horaFiTotal[1]);
+                    String nomTreballador = nomTreballador(idTreballador);
+                    treballador.select(nomTreballador);
+                }
             }
         });
-        
     }
-
+     /**
+    * @author Carlos Alberto Castro Cañabate
+    */
+    public String nomTreballador (Integer userID){
+        Iterator<Treballador> it = treballadors.iterator();
+        while (it.hasNext()) {
+            Treballador t = it.next();
+            if (t.getId()==userID) {
+                return t.getNom()+" "+t.getCognom1()+" "+t.getCognom2();
+            } 
+        }
+        return null;
+    }
     public void carregaElements() {
 
         carregaTreballador(this.treballador);
@@ -432,7 +447,8 @@ public class GestioServeis extends javax.swing.JFrame {
             Servei s = new Servei(0, descripcio, id_treb, data_servei, h_inici, h_final, null);
             gestio.inserirServei(descripcio, data_servei, h_inici, h_final, id_treb);
             serveis.add(s);
-            model.addElement(s.getLabel());
+            model.addElement(s);
+            //model.addElement(s.getLabel());
         } else {
             JOptionPane.showMessageDialog(null, "Data incorrecta!!!");
         }
@@ -462,18 +478,34 @@ public class GestioServeis extends javax.swing.JFrame {
      * @author Carlos Alberto Castro Cañabate
      * @param evt 
      */
+    
+    public void carregaLlista(){
+        model = new DefaultListModel();
+        Iterator it = serveis.iterator();
+        Jservicios.setModel(model);
+        while (it.hasNext()) {
+            Servei se = (Servei) it.next();
+            model.addElement(se);
+        }
+    }
+    /**
+     * @author Carlos Alberto Castro Cañabate
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        GestioServeisBD inserir = new GestioServeisBD ();
-        String treballador, descripcio, data, h_inici, h_final, any, mes;
+        String treballador, descripcio, data, h_inici,m_inici,m_final, h_final, any, mes;
         
         treballador = this.treballador.getSelectedItem();
         int id_treb = obtenirTreballador(treballador);
-        descripcio = this.origen.getText() + " - " + this.destino.getText();
+        descripcio = this.origen.getText().trim() + " - " + this.destino.getText().trim();
         data = this.dia.getSelectedItem();
         mes = this.mes.getSelectedItem();
         h_inici = this.hora_inicio.getSelectedItem();
-        h_final = this.minutos_inicio.getSelectedItem();
+        m_inici = this.minutos_inicio.getSelectedItem();
+        h_final = this.hora_final.getSelectedItem();
+        m_final = this.minutos_final.getSelectedItem();
+        String horaInici = h_inici +":"+m_inici;
+        String horaFinal = h_final +":"+m_final;
         any = this.año.getSelectedItem();
 
         String data_servei = data + "/" + mes + "/" + any;
@@ -489,27 +521,28 @@ public class GestioServeis extends javax.swing.JFrame {
                 s.setId(id);
                 s.setDescripcio(descripcio);
                 s.setId_treballador(id_treb);
-                s.setHora_final(h_final);
-                s.setHora_inici(h_inici);
+                s.setHora_final(horaFinal);
+                s.setHora_inici(horaInici);
                 s.setData_servei(data_servei);
                 Servei.getLlistaServeis().remove(s);
-                Servei.setLlistaServeis(s);
-  
-                inserir.actualitzarServei(s.getId(),descripcio, data_servei, h_inici, h_final, id_treb);
-
-                GestioUsuaris.actualitzaLlista();
-                //tr=new Treballador(sNom,sCognom,sCognom2,sLogin,sPassword,"1",sDni);
-                //Treballador.getTreballadors().add(tr);
+               // Servei.setLlistaServeis(s);
+               
+                serveis.add(s);
+                model.addElement(s);
+                gestio.actualitzarServei(s.getId(),descripcio, data_servei, h_inici, h_final, id_treb);
+               
+                
+                model.remove(model.getSize()-1);
                 break;
             }
             contador++;
+            
         }
-        model.addElement(serv);
-        //tr=new Treballador(sNom,sCognom,sCognom2,sLogin,sPassword,"1",sDni);
-        // model.addElement(tr);
-        // treballadors.add(tr);
-        //Treballador.setTreballadors(tr);
-        dispose();
+        
+       // carregaLlista();
+        JOptionPane.showMessageDialog(null,"modificat");
+
+     
      
     }//GEN-LAST:event_jButton1ActionPerformed
     public void print(String x) {
