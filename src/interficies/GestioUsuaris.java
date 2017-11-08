@@ -322,14 +322,12 @@ public class GestioUsuaris extends javax.swing.JFrame {
         boolean login_pass = login.getText().equals("") && password.getText().equals("");
         boolean _dni = dni.getText().equals("");
         boolean _nom = nom.getText().equals("");
-        boolean pass_admin = password.getText().equals("admin");
-        boolean login_admin = login.getText().equals("admin");
+       
 
         if (_nom || cognoms || login_pass || _dni) {
             JOptionPane.showMessageDialog(null, "Falten dades");
 
-        } else if (login_admin) {
-            JOptionPane.showMessageDialog(null, "Login en us");
+       
         } else {
             inserirList();
             clearForm();
@@ -369,7 +367,7 @@ public class GestioUsuaris extends javax.swing.JFrame {
 
                 if (JOptionPane.showConfirmDialog(null, "Esta a punt d'esborrar aquesta entrada?") == 0) {
                     usuari_bd.borrarTreballador(String.valueOf(t.getId()));
-                   System.out.println("id en borrado"+t.getId());
+                   System.out.println("id en borrado"+t.getId()); }
                    
                    treballadors=descargaTreballador.obtenirTreballadorsDelServer();
             
@@ -381,7 +379,7 @@ public class GestioUsuaris extends javax.swing.JFrame {
 //                        actualitzaLlista();
                         clearForm();
 //                    
-                }
+               
             }
         }
     }//GEN-LAST:event_btnEsborraActionPerformed
