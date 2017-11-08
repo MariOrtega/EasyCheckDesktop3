@@ -59,10 +59,13 @@ public class GestionarUsuariBd {
         String query = buildQueryBorrarTreballador(idTreballador);
         URL url = buildUrl(BASE_URL, PORT, "/easycheckapi/treballador", null);
         response = doPostRequest(url, query);
-        if (!response.equals("0")) {
-            System.out.println("Borrat treballador " + idTreballador);
+        if (response.charAt(0)!=('0')) {
+            System.out.println("Esborrat treballador " + idTreballador);
+        } else {
+            System.out.println("No s'ha pogut esborrar el treballador");
         }
         return response;
+    
     }
  
     public static String doPostRequest(URL url, String parameters) {
