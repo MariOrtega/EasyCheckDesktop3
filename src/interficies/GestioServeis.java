@@ -500,10 +500,10 @@ public class GestioServeis extends javax.swing.JFrame {
         descripcio = this.origen.getText().trim() + " - " + this.destino.getText().trim();
         data = this.dia.getSelectedItem();
         mes = this.mes.getSelectedItem();
-        h_inici = this.hora_inicio.getSelectedItem();
-        m_inici = this.minutos_inicio.getSelectedItem();
-        h_final = this.hora_final.getSelectedItem();
-        m_final = this.minutos_final.getSelectedItem();
+        h_inici = this.hora_inicio.getSelectedItem().trim();
+        m_inici = this.minutos_inicio.getSelectedItem().trim();
+        h_final = this.hora_final.getSelectedItem().trim();
+        m_final = this.minutos_final.getSelectedItem().trim();
         String horaInici = h_inici +":"+m_inici;
         String horaFinal = h_final +":"+m_final;
         any = this.año.getSelectedItem();
@@ -521,15 +521,15 @@ public class GestioServeis extends javax.swing.JFrame {
                 s.setId(id);
                 s.setDescripcio(descripcio);
                 s.setId_treballador(id_treb);
-                s.setHora_final(horaFinal);
                 s.setHora_inici(horaInici);
+                s.setHora_final(horaFinal);
                 s.setData_servei(data_servei);
                 Servei.getLlistaServeis().remove(s);
                // Servei.setLlistaServeis(s);
-               
+
                 serveis.add(s);
                 model.addElement(s);
-                gestio.actualitzarServei(s.getId(),descripcio, data_servei, h_inici, h_final, id_treb);
+                gestio.actualitzarServei(s.getId(),descripcio, data_servei, horaInici, horaFinal, id_treb);
                
                 
                 model.remove(model.getSize()-1);
