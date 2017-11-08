@@ -40,7 +40,7 @@ public class GestioServeis extends javax.swing.JFrame {
     GestioServeisBD gestio = new GestioServeisBD();
     DescargaTreballador des_treb = new DescargaTreballador();
     List<Treballador> treballadors = new ArrayList();
-    
+    static Integer id = null;
     /**
      * Creates new form GestioServeis
      */
@@ -81,7 +81,7 @@ public class GestioServeis extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null,"seleccio: "+selection);
                 Servei s = new Servei();
                 s = (Servei) model.getElementAt(selection);
-                Integer id= s.getId();
+                id= s.getId();
                 String data = s.getData_servei();
                 String descripcio = s.getDescripcio();
                 String horaFi = s.getHora_final();
@@ -268,6 +268,11 @@ public class GestioServeis extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton1.setText("Modificar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -452,6 +457,61 @@ public class GestioServeis extends javax.swing.JFrame {
     private void origenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_origenActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_origenActionPerformed
+
+    /**
+     * @author Carlos Alberto Castro Cañabate
+     * @param evt 
+     */
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        GestioServeisBD inserir = new GestioServeisBD ();
+        String treballador, descripcio, data, h_inici, h_final, any, mes;
+        
+        treballador = this.treballador.getSelectedItem();
+        int id_treb = obtenirTreballador(treballador);
+        descripcio = this.origen.getText() + " - " + this.destino.getText();
+        data = this.dia.getSelectedItem();
+        mes = this.mes.getSelectedItem();
+        h_inici = this.hora_inicio.getSelectedItem();
+        h_final = this.minutos_inicio.getSelectedItem();
+        any = this.año.getSelectedItem();
+
+        String data_servei = data + "/" + mes + "/" + any;
+
+        ArrayList<Servei> serv = Servei.getLlistaServeis();
+        Iterator it = serv.iterator();
+        int contador = 1;
+        
+        while (it.hasNext()) {
+            Servei s = (Servei) it.next();
+            System.out.println(s.getId());
+            if (s.getId() == id) {
+                s.setId(id);
+                s.setDescripcio(descripcio);
+                s.setId_treballador(id_treb);
+                s.setHora_final(h_final);
+                s.setHora_inici(h_inici);
+                s.setData_servei(data_servei);
+                Servei.getLlistaServeis().remove(s);
+                Servei.setLlistaServeis(s);
+  
+                inserir.actualitzarServei(s.getId(),descripcio, data_servei, h_inici, h_final, id_treb);
+
+                GestioUsuaris.actualitzaLlista();
+                //tr=new Treballador(sNom,sCognom,sCognom2,sLogin,sPassword,"1",sDni);
+                //Treballador.getTreballadors().add(tr);
+                break;
+            }
+            contador++;
+        }
+        model.addElement(serv);
+        //tr=new Treballador(sNom,sCognom,sCognom2,sLogin,sPassword,"1",sDni);
+        // model.addElement(tr);
+        // treballadors.add(tr);
+        //Treballador.setTreballadors(tr);
+        dispose();
+     
+    }//GEN-LAST:event_jButton1ActionPerformed
     public void print(String x) {
         System.out.print(x + " ");
     }

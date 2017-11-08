@@ -5,6 +5,7 @@
  */
 package Utils;
 
+import static Utils.GestionarUsuariBd.doPostRequest;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -26,8 +27,28 @@ import java.util.logging.Logger;
 public class GestioServeisBD {
      private static final String BASE_URL = "localhost";
          private static final int PORT = 8080;
-         
-         
+    /**
+     * @author Carlos Alberto Castro Cañabate
+     * @param id
+     * @param nom
+     * @param cognom1
+     * @param cognom2
+     * @param dni
+     * @param login
+     * @param password
+     * @param esadmin
+     * @return 
+     */     
+    public String actualitzarServei(Integer id,String descripcio, String dataservei, String horaInici, String horaFinal, int idTreballador) {
+        String response = "";
+        String query = buildQueryActualitzarServei (id,descripcio, dataservei, horaInici, horaFinal, idTreballador);
+        URL url = buildUrl(BASE_URL, PORT, "/easycheckapi/treballador", null);
+        response = doPostRequest(url, query);
+        if (!response.equals("0")) {
+            System.out.println("Actualitzat servei" + descripcio + " amb id " + id);
+        }
+        return response;
+    }    
          
          
      public String inserirServei(String descripcio, String dataservei, String horaInici, String horaFinal, int idTreballador) {
@@ -94,8 +115,19 @@ public class GestioServeisBD {
           
         }
         return null;
+    }/**
+     * @author Carlos ALberto Castro Cañabate
+     * @param id
+     * @param descripcio
+     * @param dataservei
+     * @param horaInici
+     * @param horaFinal
+     * @param idTreballador
+     * @return 
+     */
+    public String buildQueryActualitzarServei(int id,String descripcio, String dataservei, String horaInici, String horaFinal, int idTreballador) {
+        return "id=" + id + "descripcio=" + descripcio + "&dataservei=" + dataservei + "&horainici=" + horaInici + "&horafinal=" + horaFinal + "&idtreballador=" + idTreballador;
     }
-    
       public String buildQueryInserirServei(String descripcio, String dataservei, String horaInici, String horaFinal, int idTreballador) {
         return "descripcio=" + descripcio + "&dataservei=" + dataservei + "&horainici=" + horaInici + "&horafinal=" + horaFinal + "&idtreballador=" + idTreballador;
     }
