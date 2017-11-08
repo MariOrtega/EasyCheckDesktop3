@@ -540,7 +540,7 @@ public class GestioServeis extends javax.swing.JFrame {
         }
         
        // carregaLlista();
-        JOptionPane.showMessageDialog(null,"modificat");
+        JOptionPane.showMessageDialog(null,"Servei modificat!");
 
      
      
