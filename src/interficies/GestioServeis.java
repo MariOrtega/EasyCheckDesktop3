@@ -103,7 +103,7 @@ public class GestioServeis extends javax.swing.JFrame {
                 minutos_inicio.select(horaIniciTotal[1]);
                 horaFi.trim();
                 String[] horaFiTotal = horaFi.split(":");
-                hora_inicio.select(horaFiTotal[0]);
+                hora_final.select(horaFiTotal[0]);
                 minutos_final.select(horaFiTotal[1]);
             }
         });
@@ -126,11 +126,13 @@ public class GestioServeis extends javax.swing.JFrame {
     public void carrega(Choice choice, int x) {
         if (x != 25) {
             for (int i = 0; i < x; i++) {
-                choice.add(String.valueOf(i));
+                if (i<10) choice.add("0"+String.valueOf(i));
+                else choice.add(String.valueOf(i));
             }
         } else {
             for (int i = 0; i < x; i++) {
-                choice.add(String.valueOf(i));
+                if (i<10) choice.add("0"+String.valueOf(i));
+                else choice.add(String.valueOf(i));
             }
         }
     }
