@@ -24,6 +24,8 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 /**
  *
@@ -33,7 +35,7 @@ import javax.swing.JOptionPane;
  */
 public class GestioServeis extends javax.swing.JFrame {
 
-    public static DefaultListModel model;
+    DefaultListModel model;
     List<Servei> serveis = new ArrayList();
     GestioServeisBD gestio = new GestioServeisBD();
     DescargaTreballador des_treb = new DescargaTreballador();
@@ -45,9 +47,12 @@ public class GestioServeis extends javax.swing.JFrame {
     public GestioServeis() {
         initComponents();
         this.getContentPane().setBackground(Color.ORANGE);
+       
+       
         model = new DefaultListModel();
         Jservicios.setModel(model);
-        Jservicios.setCellRenderer(new RenderServicios());
+        //this.Jservicios.setCellRenderer(new RenderServicios());
+        
         serveis = Servei.getLlistaServeis();
         treballadors = des_treb.obtenirTreballadorsDelServer();
       
@@ -55,12 +60,54 @@ public class GestioServeis extends javax.swing.JFrame {
         carregaElements();
 
         this.setLocationRelativeTo(null);
-        for (int i = 0; i < Servei.getLlistaServeis().size(); i++) {
-        
-            model.addElement(Servei.getLlistaServeis().get(i).getLabel());
-
+       // for (int i = 0; i < Servei.getLlistaServeis().size(); i++) {
+           // model.addElement(Servei.getLlistaServeis().get(i).getLabel());
+      //  }
+      
+        /**
+         * @author Carlos Alberto Castro Cañabate
+         */
+        Iterator it = serveis.iterator();
+        Jservicios.setModel(model);
+        while (it.hasNext()) {
+            Servei se = (Servei) it.next();
+            model.addElement(se);
         }
-
+        
+         Jservicios.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                int selection = Jservicios.getSelectedIndex();
+                JOptionPane.showMessageDialog(null,"seleccio: "+selection);
+                Servei s = new Servei();
+                s = (Servei) model.getElementAt(selection);
+                Integer id= s.getId();
+                String data = s.getData_servei();
+                String descripcio = s.getDescripcio();
+                String horaFi = s.getHora_final();
+                String horaInici = s.getHora_inici();
+                Integer idTreballador = s.getId_treballador();
+                descripcio.trim();
+                String []descripcioTotal = descripcio.split("-");
+                
+                origen.setText(descripcioTotal[0]);
+                destino.setText(descripcioTotal[1]);
+                data.trim();
+                String[] dataTotal = data.split("/");
+                dia.select(dataTotal[0]);
+                mes.select(dataTotal[1]);
+                año.select(dataTotal[2]);
+                horaInici.trim();
+                String[] horaIniciTotal = horaInici.split(":");
+                hora_inicio.select(horaIniciTotal[0]);
+                minutos_inicio.select(horaIniciTotal[1]);
+                horaFi.trim();
+                String[] horaFiTotal = horaFi.split(":");
+                hora_inicio.select(horaFiTotal[0]);
+                minutos_final.select(horaFiTotal[1]);
+            }
+        });
+        
     }
 
     public void carregaElements() {
@@ -70,17 +117,20 @@ public class GestioServeis extends javax.swing.JFrame {
         carrega(this.dia, 32);
         carrega(this.hora_inicio, 25);
         carrega(this.hora_final, 25);
+        carrega(this.minutos_inicio, 60);
+       
+        carrega(this.minutos_final, 60);
         carrega(this.mes, 13);
     }
 
     public void carrega(Choice choice, int x) {
         if (x != 25) {
-            for (int i = 1; i < x; i++) {
+            for (int i = 0; i < x; i++) {
                 choice.add(String.valueOf(i));
             }
         } else {
-            for (int i = 1; i < x; i++) {
-                choice.add(String.valueOf(i) + ":00");
+            for (int i = 0; i < x; i++) {
+                choice.add(String.valueOf(i));
             }
         }
     }
@@ -134,7 +184,7 @@ public class GestioServeis extends javax.swing.JFrame {
     private void initComponents() {
 
         hora_inicio = new java.awt.Choice();
-        hora_final = new java.awt.Choice();
+        minutos_inicio = new java.awt.Choice();
         jScrollPane3 = new javax.swing.JScrollPane();
         Jservicios = new javax.swing.JList<>();
         btn_Inserir = new javax.swing.JButton();
@@ -156,6 +206,8 @@ public class GestioServeis extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        hora_final = new java.awt.Choice();
+        minutos_final = new java.awt.Choice();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -171,6 +223,12 @@ public class GestioServeis extends javax.swing.JFrame {
 
         btn_cancela.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_cancela.setText("Eliminar");
+
+        origen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                origenActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel3.setText("Destinació");
@@ -218,34 +276,41 @@ public class GestioServeis extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(36, 36, 36)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(origen, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(29, 29, 29)
-                                    .addComponent(destino, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(dia, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(89, 89, 89)
-                                            .addComponent(año, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGap(10, 10, 10)
-                                            .addComponent(jLabel2)
-                                            .addGap(59, 59, 59)
-                                            .addComponent(jLabel1)
-                                            .addGap(53, 53, 53)
-                                            .addComponent(jLabel6)))
-                                    .addGap(83, 83, 83)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel8)
-                                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(origen, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(29, 29, 29)
+                                .addComponent(destino, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(dia, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(89, 89, 89)
+                                        .addComponent(año, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(10, 10, 10)
+                                        .addComponent(jLabel2)
+                                        .addGap(59, 59, 59)
+                                        .addComponent(jLabel1)
+                                        .addGap(53, 53, 53)
+                                        .addComponent(jLabel6)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(167, 167, 167)
+                                        .addComponent(treballador, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel8)
+                                            .addComponent(jLabel9))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(hora_inicio, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(30, 30, 30)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jLabel9)
-                                                .addComponent(hora_final, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(treballador, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                            .addComponent(hora_final, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(30, 30, 30)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(minutos_final, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(minutos_inicio, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(73, 73, 73))))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
@@ -300,9 +365,9 @@ public class GestioServeis extends javax.swing.JFrame {
                         .addComponent(origen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(treballador, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(destino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel6)
@@ -311,17 +376,21 @@ public class GestioServeis extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(dia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(mes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(año, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(9, 9, 9))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(año, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(jLabel8)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jLabel9)
-                            .addComponent(jLabel8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(hora_inicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(hora_final, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)))
+                            .addGap(9, 9, 9))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(hora_inicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(minutos_inicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(hora_final, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(minutos_final, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(57, 57, 57)
@@ -333,7 +402,7 @@ public class GestioServeis extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(34, 34, 34)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         pack();
@@ -348,7 +417,7 @@ public class GestioServeis extends javax.swing.JFrame {
         data = this.dia.getSelectedItem();
         mes = this.mes.getSelectedItem();
         h_inici = this.hora_inicio.getSelectedItem();
-        h_final = this.hora_final.getSelectedItem();
+        h_final = this.minutos_inicio.getSelectedItem();
         any = this.año.getSelectedItem();
 
         String data_servei = data + "/" + mes + "/" + any;
@@ -377,6 +446,10 @@ public class GestioServeis extends javax.swing.JFrame {
     private void sortidaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sortidaMouseClicked
         dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_sortidaMouseClicked
+
+    private void origenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_origenActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_origenActionPerformed
     public void print(String x) {
         System.out.print(x + " ");
     }
@@ -438,6 +511,8 @@ public class GestioServeis extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane3;
     private java.awt.Choice mes;
+    private java.awt.Choice minutos_final;
+    private java.awt.Choice minutos_inicio;
     private java.awt.TextField origen;
     private javax.swing.JLabel sortida;
     private java.awt.Choice treballador;
