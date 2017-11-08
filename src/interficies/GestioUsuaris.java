@@ -363,14 +363,12 @@ public class GestioUsuaris extends javax.swing.JFrame {
             } else {
 
                 if (JOptionPane.showConfirmDialog(null, "Esta a punt d'esborrar aquesta entrada?") == 0) {
-                    String res = usuari_bd.borrarTreballador(String.valueOf(t.getId()));
-                    if (res.equals("1")) {
+                    usuari_bd.borrarTreballador(String.valueOf(t.getId()));
+                   
                         Treballador.getTreballadors().remove(index);
                         model.removeAllElements();
                         actualitzaLlista();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Error!! , no s'ha pogut esborrar usuari");
-                    }
+                    
                 }
             }
         }
