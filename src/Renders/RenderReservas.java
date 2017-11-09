@@ -32,7 +32,7 @@ public class RenderReservas extends JLabel implements ListCellRenderer {
         }
         if (isSelected){
             renderer.setBackground(jlist.getSelectionBackground());
-            renderer.setForeground(jlist.getSelectionForeground());
+            renderer.setForeground(Color.BLUE);
         } else {
             renderer.setBackground(jlist.getBackground());
             renderer.setForeground(jlist.getForeground());

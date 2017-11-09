@@ -222,6 +222,7 @@ public class GestioServeis extends javax.swing.JFrame {
         minutos_final = new java.awt.Choice();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 204, 51));
 
         jScrollPane3.setViewportView(Jservicios);
 

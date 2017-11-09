@@ -5,6 +5,7 @@
  */
 package Renders;
 
+import java.awt.Color;
 import java.awt.Component;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -13,11 +14,11 @@ import javax.swing.ListCellRenderer;
 
 /**
  *
- * @author Carlos
+ * @author Carlos Alberto Castro Cañabate
  */
 public class RenderServicios extends JLabel implements ListCellRenderer {
-    static ImageIcon admin = new ImageIcon("admin.png");
-    static ImageIcon noAdmin= new ImageIcon("noAdmin.png");
+    ImageIcon admin = new ImageIcon(getClass().getResource("/Images/admin.png"));
+    ImageIcon noAdmin= new ImageIcon(getClass().getResource("/Images/treb.png"));
     @Override
     public Component getListCellRendererComponent(JList jlist, Object e, int i,
             boolean isSelected, boolean cellHasFocus) {
@@ -32,7 +33,7 @@ public class RenderServicios extends JLabel implements ListCellRenderer {
         setText(valor);
         if (isSelected){
             renderer.setBackground(jlist.getSelectionBackground());
-            renderer.setForeground(jlist.getSelectionForeground());
+            renderer.setForeground(Color.BLUE);
         } else {
             renderer.setBackground(jlist.getBackground());
             renderer.setForeground(jlist.getForeground());
