@@ -9,6 +9,7 @@ import Renders.RenderServicios;
 import Utils.DescargaTreballador;
 import Utils.DescargaServei;
 import Utils.GestioServeisBD;
+import Utils.ValidaData;
 import clases.Servei;
 import clases.Treballador;
 import static interficies.GestioUsuaris.model;
@@ -44,19 +45,18 @@ public class GestioServeis extends javax.swing.JFrame {
     List<Treballador> treballadors = new ArrayList();
     static Integer id = null;
     static Integer seleccionat = null;
+
     /**
      * Creates new form GestioServeis
      */
     public GestioServeis() {
         initComponents();
         this.getContentPane().setBackground(Color.ORANGE);
-       
-       
+
         model = new DefaultListModel();
         Jservicios.setModel(model);
         serveis = Servei.getLlistaServeis();
         treballadors = des_treb.obtenirTreballadorsDelServer();
-      
 
         carregaElements();
 
@@ -66,27 +66,27 @@ public class GestioServeis extends javax.swing.JFrame {
          * @author Carlos Alberto Castro Cañabate
          */
         carregaLlista();
-        
-         Jservicios.addListSelectionListener(new ListSelectionListener() {
+
+        Jservicios.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 int selection = Jservicios.getSelectedIndex();
-                JList list =(JList)e.getSource();
+                JList list = (JList) e.getSource();
                 if (list.isSelectionEmpty() || list.getValueIsAdjusting()) {
                     return;
                 }
                 seleccionat = list.getSelectedIndex();
                 Servei s = new Servei();
-                if (selection!=-1){
+                if (selection != -1) {
                     s = (Servei) model.getElementAt(selection);
-                    id= s.getId();
+                    id = s.getId();
                     String data = s.getData_servei();
                     String descripcio = s.getDescripcio();
                     String horaFi = s.getHora_final();
                     String horaInici = s.getHora_inici();
                     Integer idTreballador = s.getId_treballador();
                     descripcio.trim();
-                    String []descripcioTotal = descripcio.split("-");
+                    String[] descripcioTotal = descripcio.split("-");
 
                     origen.setText(descripcioTotal[0]);
                     destino.setText(descripcioTotal[1]);
@@ -107,19 +107,21 @@ public class GestioServeis extends javax.swing.JFrame {
             }
         });
     }
-     /**
-    * @author Carlos Alberto Castro Cañabate
-    */
-    public String nomTreballador (Integer userID){
+
+    /**
+     * @author Carlos Alberto Castro Cañabate
+     */
+    public String nomTreballador(Integer userID) {
         Iterator<Treballador> it = treballadors.iterator();
         while (it.hasNext()) {
             Treballador t = it.next();
-            if (t.getId()==userID) {
-                return t.getNom()+" "+t.getCognom1()+" "+t.getCognom2();
-            } 
+            if (t.getId() == userID) {
+                return t.getNom() + " " + t.getCognom1() + " " + t.getCognom2();
+            }
         }
         return null;
     }
+
     public void carregaElements() {
 
         carregaTreballador(this.treballador);
@@ -128,7 +130,7 @@ public class GestioServeis extends javax.swing.JFrame {
         carrega(this.hora_inicio, 25);
         carrega(this.hora_final, 25);
         carrega(this.minutos_inicio, 60);
-       
+
         carrega(this.minutos_final, 60);
         carrega(this.mes, 13);
     }
@@ -136,13 +138,19 @@ public class GestioServeis extends javax.swing.JFrame {
     public void carrega(Choice choice, int x) {
         if (x != 25) {
             for (int i = 0; i < x; i++) {
-                if (i<10) choice.add("0"+String.valueOf(i));
-                else choice.add(String.valueOf(i));
+                if (i < 10) {
+                    choice.add("0" + String.valueOf(i));
+                } else {
+                    choice.add(String.valueOf(i));
+                }
             }
         } else {
             for (int i = 0; i < x; i++) {
-                if (i<10) choice.add("0"+String.valueOf(i));
-                else choice.add(String.valueOf(i));
+                if (i < 10) {
+                    choice.add("0" + String.valueOf(i));
+                } else {
+                    choice.add(String.valueOf(i));
+                }
             }
         }
     }
@@ -165,23 +173,26 @@ public class GestioServeis extends javax.swing.JFrame {
     }
 
     public boolean comprovaData(String dataSeleccionada) {
-        boolean data;
+        boolean data=false;
         Calendar calendar = Calendar.getInstance();
         int year = (calendar.get(Calendar.YEAR));
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int month = calendar.get(Calendar.MONTH) + 1;
         String dataActual = (day + "/" + month + "/" + year);
+        if (ValidaData.checkDay(day, month, year)) {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            Date dataActual_parseada = sdf.parse(dataActual, new ParsePosition(0));
+            Date dataSeleccionada_parseada = sdf.parse(dataSeleccionada, new ParsePosition(0));
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Date dataActual_parseada = sdf.parse(dataActual, new ParsePosition(0));
-        Date dataSeleccionada_parseada = sdf.parse(dataSeleccionada, new ParsePosition(0));
+            if (dataActual_parseada.before(dataSeleccionada_parseada)) {
+                data = true;
+            } else {
 
-        if (dataActual_parseada.before(dataSeleccionada_parseada)) {
-            data = true;
+                data = false;
+
+            }
         } else {
-
             data = false;
-
         }
         return data;
     }
@@ -429,7 +440,7 @@ public class GestioServeis extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_InserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_InserirActionPerformed
-        String treballador, descripcio, data, h_inici, h_final, any, mes,min_ini,min_fi;
+        String treballador, descripcio, data, h_inici, h_final, any, mes, min_ini, min_fi;
 
         treballador = this.treballador.getSelectedItem();
         int id_treb = obtenirTreballador(treballador);
@@ -439,13 +450,13 @@ public class GestioServeis extends javax.swing.JFrame {
         h_inici = this.hora_inicio.getSelectedItem();
         h_final = this.hora_final.getSelectedItem();
         any = this.año.getSelectedItem();
-         min_ini = minutos_inicio.getSelectedItem();
-         min_fi=this.minutos_final.getSelectedItem();
+        min_ini = minutos_inicio.getSelectedItem();
+        min_fi = this.minutos_final.getSelectedItem();
 
         String data_servei = data + "/" + mes + "/" + any;
         if (comprovaData(data_servei)) {
-            Servei s = new Servei(0, descripcio, id_treb, data_servei, h_inici+":"+min_ini, h_final+":"+min_fi, null);
-            gestio.inserirServei(descripcio, data_servei, h_inici+":"+min_ini, h_final+":"+min_fi, id_treb);
+            Servei s = new Servei(0, descripcio, id_treb, data_servei, h_inici + ":" + min_ini, h_final + ":" + min_fi, null);
+            gestio.inserirServei(descripcio, data_servei, h_inici + ":" + min_ini, h_final + ":" + min_fi, id_treb);
             serveis.add(s);
             model.addElement(s);
             //model.addElement(s.getLabel());
@@ -476,10 +487,9 @@ public class GestioServeis extends javax.swing.JFrame {
 
     /**
      * @author Carlos Alberto Castro Cañabate
-     * @param evt 
+     * @param evt
      */
-    
-    public void carregaLlista(){
+    public void carregaLlista() {
         model = new DefaultListModel();
         Iterator it = serveis.iterator();
         Jservicios.setModel(model);
@@ -488,13 +498,14 @@ public class GestioServeis extends javax.swing.JFrame {
             model.addElement(se);
         }
     }
+
     /**
      * @author Carlos Alberto Castro Cañabate
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String treballador, descripcio, data, h_inici,m_inici,m_final, h_final, any, mes;
-        
+        String treballador, descripcio, data, h_inici, m_inici, m_final, h_final, any, mes;
+
         treballador = this.treballador.getSelectedItem();
         int id_treb = obtenirTreballador(treballador);
         descripcio = this.origen.getText().trim() + " - " + this.destino.getText().trim();
@@ -504,8 +515,8 @@ public class GestioServeis extends javax.swing.JFrame {
         m_inici = this.minutos_inicio.getSelectedItem().trim();
         h_final = this.hora_final.getSelectedItem().trim();
         m_final = this.minutos_final.getSelectedItem().trim();
-        String horaInici = h_inici +":"+m_inici;
-        String horaFinal = h_final +":"+m_final;
+        String horaInici = h_inici + ":" + m_inici;
+        String horaFinal = h_final + ":" + m_final;
         any = this.año.getSelectedItem();
 
         String data_servei = data + "/" + mes + "/" + any;
@@ -528,27 +539,28 @@ public class GestioServeis extends javax.swing.JFrame {
 
                     serveis.add(s);
                     model.addElement(s);
-                    gestio.actualitzarServei(s.getId(),descripcio, data_servei, horaInici, horaFinal, id_treb);
-                    model.remove(model.getSize()-1);
+                    gestio.actualitzarServei(s.getId(), descripcio, data_servei, horaInici, horaFinal, id_treb);
+                    model.remove(model.getSize() - 1);
                     break;
                 }
                 contador++;
 
             }
-            JOptionPane.showMessageDialog(null,"Servei modificat!");
-            }
-        else JOptionPane.showMessageDialog(null, "Data incorrecta!");
+            JOptionPane.showMessageDialog(null, "Servei modificat!");
+        } else {
+            JOptionPane.showMessageDialog(null, "Data incorrecta!");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
     /**
      * @author Carlos Alberto Castro Cañabate
-     * @param evt 
+     * @param evt
      */
     private void btn_cancelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelaActionPerformed
         // TODO add your handling code here:
 
-        System.out.println("seleccionat: "+seleccionat);
-        if (seleccionat == null){
-            JOptionPane.showMessageDialog(null,"Selecciona servei!");
+        System.out.println("seleccionat: " + seleccionat);
+        if (seleccionat == null) {
+            JOptionPane.showMessageDialog(null, "Selecciona servei!");
         } else {
             Servei s = (Servei) model.getElementAt(seleccionat);
             Integer id_servei = s.getId();
@@ -557,7 +569,7 @@ public class GestioServeis extends javax.swing.JFrame {
                 Servei.getLlistaServeis().remove(s);
                 model.remove(seleccionat);
             }
-        }  
+        }
     }//GEN-LAST:event_btn_cancelaActionPerformed
 
     public void print(String x) {
