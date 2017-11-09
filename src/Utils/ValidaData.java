@@ -5,8 +5,6 @@
  */
 package Utils;
 
-import java.util.GregorianCalendar;
-
 /**
  *
  * @author Maria
@@ -14,12 +12,7 @@ import java.util.GregorianCalendar;
 public class ValidaData{
 
  
-    public static void main(String[] x) throws java.text.ParseException
-    {
-   System.out.println( checkDay(31,02,2017));
-    
-    
-    }
+   
        public static  boolean  checkDay (int day, int month, int year){
     boolean  valid = false;
     if(day >=1){
