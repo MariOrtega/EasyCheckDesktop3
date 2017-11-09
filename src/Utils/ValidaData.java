@@ -11,9 +11,9 @@ package Utils;
  */
 public class ValidaData{
 
- 
+
    
-       public static  boolean  checkDay (int day, int month, int year){
+       public  static boolean  checkDay (int day, int month, int year){
     boolean  valid = false;
     if(day >=1){
         // For months with 30 days.
