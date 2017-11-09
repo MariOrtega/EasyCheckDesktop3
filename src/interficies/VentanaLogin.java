@@ -225,7 +225,6 @@ public void imprimir(String g){
      * @author Carlos Alberto Castro Cañabate
      */   
     public void accesPrograma() throws SQLException, ClassNotFoundException{
-        
         NOM=this.textUsuario.getText();
         Integer userID=null;
         GestionarUsuariBd gestio = new GestionarUsuariBd();
@@ -233,22 +232,10 @@ public void imprimir(String g){
         if (missatge.contains("0:")){
             JOptionPane.showMessageDialog(null,missatge.substring(2,missatge.length()));
         } else {
-            ArrayList<Treballador> treballadors = Treballador.getTreballadors();
-            Iterator it = treballadors.iterator();
-            while (it.hasNext()){
-                Treballador t= (Treballador) it.next();
-                if (t.getLogin().equals(textUsuario.getText())  ){
-                    if (t.getPassword().equals(textPass.getText())){
-                        userID = t.getId();
-                        TIPUS_USUARI=t.getEsAdmin();
-                        MenuPrincipal ventana= new MenuPrincipal(userID);
-                        ventana.setVisible(true);
-                        this.setVisible(false);   
-                        break;
-                    } 
-                } 
-            
-            }
+            String id_treballador = missatge.substring(3,missatge.length());
+            MenuPrincipal ventana= new MenuPrincipal(Integer.parseInt(id_treballador));
+            ventana.setVisible(true);
+            this.setVisible(false);    
         }
     }
 }
