@@ -21,6 +21,7 @@ import Utils.IntroduccioObjectes;
 import clases.Treballador;
 import java.util.ArrayList;
 import java.util.Iterator;
+import Utils.GestionarUsuariBd;
 
 
 /**
@@ -224,31 +225,30 @@ public void imprimir(String g){
      * @author Carlos Alberto Castro Cañabate
      */   
     public void accesPrograma() throws SQLException, ClassNotFoundException{
-
+        
         NOM=this.textUsuario.getText();
         Integer userID=null;
-        ArrayList<Treballador> treballadors = Treballador.getTreballadors();
-        Iterator it = treballadors.iterator();
-        boolean usuariCorrecte = false;
-        boolean contraseñaCorrecte = false;
-        while (it.hasNext()){
-            Treballador t= (Treballador) it.next();
-            if (t.getLogin().equals(textUsuario.getText())  ){
-                usuariCorrecte = true;
-                if (t.getPassword().equals(textPass.getText())){
-                    userID = t.getId();
-                   TIPUS_USUARI=t.getEsAdmin();
-                    contraseñaCorrecte = true;
-                    break;
+        GestionarUsuariBd gestio = new GestionarUsuariBd();
+        String missatge = gestio.loginTreballador(textUsuario.getText(),textPass.getText());
+        if (missatge.contains("0:")){
+            JOptionPane.showMessageDialog(null,missatge.substring(2,missatge.length()));
+        } else {
+            ArrayList<Treballador> treballadors = Treballador.getTreballadors();
+            Iterator it = treballadors.iterator();
+            while (it.hasNext()){
+                Treballador t= (Treballador) it.next();
+                if (t.getLogin().equals(textUsuario.getText())  ){
+                    if (t.getPassword().equals(textPass.getText())){
+                        userID = t.getId();
+                        TIPUS_USUARI=t.getEsAdmin();
+                        MenuPrincipal ventana= new MenuPrincipal(userID);
+                        ventana.setVisible(true);
+                        this.setVisible(false);   
+                        break;
+                    } 
                 } 
-            } 
+            
+            }
         }
-        if (usuariCorrecte){
-            if (contraseñaCorrecte){
-                MenuPrincipal ventana= new MenuPrincipal(userID);
-                ventana.setVisible(true);
-                this.setVisible(false);   
-            } else  JOptionPane.showMessageDialog(null,"Contraseña incorrecta!");
-        } else JOptionPane.showMessageDialog(null,"Usuari incorrecte!");
     }
 }

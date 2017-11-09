@@ -4,8 +4,9 @@
  * and open the template in the editor.
  */
 package Utils;
-
+import Utils.PostResponse;
 import static Utils.NetUtils.doPostRequest;
+import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -29,6 +30,7 @@ import java.util.logging.Logger;
 public class GestionarUsuariBd {
       private static final String BASE_URL = "localhost";
          private static final int PORT = 8080;
+         private Gson gson = new Gson();
     
     
    
@@ -66,6 +68,31 @@ public class GestionarUsuariBd {
         }
         return response;
     
+    }
+ /**
+  * @author Carlos Alberto Castro Cañabate
+  * @param login
+  * @param password
+  * @return 
+  */
+    public String loginTreballador (String login, String password) {
+        String resposta;
+        String query = buildQueryLogin(login,password);
+        URL url = buildUrl(BASE_URL, PORT, "/easycheckapi/login", null);
+        String json = doPostRequest(url, query);        
+        PostResponse response = gson.fromJson(json, PostResponse.class);
+        resposta = Integer.toString(response.getRequestCode())+": "+response.getMessage();
+        return resposta;
+
+    }
+    /**
+     * @author Carlos Alberto Castro Cañabate
+     * @param login
+     * @param password
+     * @return 
+     */
+    public String buildQueryLogin(String user, String password) {
+        return "user=" + user + "&pass=" + password;
     }
  
     public static String doPostRequest(URL url, String parameters) {
