@@ -509,34 +509,35 @@ public class GestioServeis extends javax.swing.JFrame {
         any = this.año.getSelectedItem();
 
         String data_servei = data + "/" + mes + "/" + any;
+        if (comprovaData(data_servei)) {
+            //  ArrayList<Servei> serv = Servei.getLlistaServeis();
+            Iterator it2 = serveis.iterator();
+            int contador = 1;
 
-      //  ArrayList<Servei> serv = Servei.getLlistaServeis();
-        Iterator it2 = serveis.iterator();
-        int contador = 1;
-        
-        while (it2.hasNext()) {
-            Servei s = (Servei) it2.next();
-            System.out.println(s.getId());
-            if (s.getId() == id) {
-                s.setId(id);
-                s.setDescripcio(descripcio);
-                s.setId_treballador(id_treb);
-                s.setHora_inici(horaInici);
-                s.setHora_final(horaFinal);
-                s.setData_servei(data_servei);
-                Servei.getLlistaServeis().remove(s);
+            while (it2.hasNext()) {
+                Servei s = (Servei) it2.next();
+                System.out.println(s.getId());
+                if (s.getId() == id) {
+                    s.setId(id);
+                    s.setDescripcio(descripcio);
+                    s.setId_treballador(id_treb);
+                    s.setHora_inici(horaInici);
+                    s.setHora_final(horaFinal);
+                    s.setData_servei(data_servei);
+                    Servei.getLlistaServeis().remove(s);
 
-                serveis.add(s);
-                model.addElement(s);
-                gestio.actualitzarServei(s.getId(),descripcio, data_servei, horaInici, horaFinal, id_treb);
-                model.remove(model.getSize()-1);
-                break;
+                    serveis.add(s);
+                    model.addElement(s);
+                    gestio.actualitzarServei(s.getId(),descripcio, data_servei, horaInici, horaFinal, id_treb);
+                    model.remove(model.getSize()-1);
+                    break;
+                }
+                contador++;
+
             }
-            contador++;
-            
-        }
-        JOptionPane.showMessageDialog(null,"Servei modificat!");
-     
+            JOptionPane.showMessageDialog(null,"Servei modificat!");
+            }
+        else JOptionPane.showMessageDialog(null, "Data incorrecta!");
     }//GEN-LAST:event_jButton1ActionPerformed
     /**
      * @author Carlos Alberto Castro Cañabate
