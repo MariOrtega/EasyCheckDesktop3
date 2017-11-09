@@ -225,17 +225,22 @@ public void imprimir(String g){
      * @author Carlos Alberto Castro Cañabate
      */   
     public void accesPrograma() throws SQLException, ClassNotFoundException{
-        NOM=this.textUsuario.getText();
+        
         Integer userID=null;
         GestionarUsuariBd gestio = new GestionarUsuariBd();
         String missatge = gestio.loginTreballador(textUsuario.getText(),textPass.getText());
         if (missatge.contains("0:")){
             JOptionPane.showMessageDialog(null,missatge.substring(2,missatge.length()));
         } else {
-            String id_treballador = missatge.substring(3,missatge.length());
+            NOM=this.textUsuario.getText();
+            String[] esAdmin = missatge.split("Admin:");
+            System.out.println(esAdmin[1]);
+            TIPUS_USUARI= Integer.parseInt(esAdmin[1]);
+            String id_treballador = esAdmin[0].substring(3,esAdmin[0].length());
             MenuPrincipal ventana= new MenuPrincipal(Integer.parseInt(id_treballador));
             ventana.setVisible(true);
             this.setVisible(false);    
+            
         }
     }
 }
