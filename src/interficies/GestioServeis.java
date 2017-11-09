@@ -54,8 +54,6 @@ public class GestioServeis extends javax.swing.JFrame {
        
         model = new DefaultListModel();
         Jservicios.setModel(model);
-        //this.Jservicios.setCellRenderer(new RenderServicios());
-        
         serveis = Servei.getLlistaServeis();
         treballadors = des_treb.obtenirTreballadorsDelServer();
       
@@ -63,10 +61,7 @@ public class GestioServeis extends javax.swing.JFrame {
         carregaElements();
 
         this.setLocationRelativeTo(null);
-       // for (int i = 0; i < Servei.getLlistaServeis().size(); i++) {
-           // model.addElement(Servei.getLlistaServeis().get(i).getLabel());
-      //  }
-      
+
         /**
          * @author Carlos Alberto Castro Cañabate
          */
@@ -240,6 +235,11 @@ public class GestioServeis extends javax.swing.JFrame {
 
         btn_cancela.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_cancela.setText("Eliminar");
+        btn_cancela.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cancelaActionPerformed(evt);
+            }
+        });
 
         origen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -301,50 +301,9 @@ public class GestioServeis extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(origen, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(29, 29, 29)
-                                .addComponent(destino, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(dia, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(89, 89, 89)
-                                        .addComponent(año, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(10, 10, 10)
-                                        .addComponent(jLabel2)
-                                        .addGap(59, 59, 59)
-                                        .addComponent(jLabel1)
-                                        .addGap(53, 53, 53)
-                                        .addComponent(jLabel6)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(167, 167, 167)
-                                        .addComponent(treballador, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel8)
-                                            .addComponent(jLabel9))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(hora_inicio, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(hora_final, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(30, 30, 30)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(minutos_final, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(minutos_inicio, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(73, 73, 73))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
-                                        .addComponent(btn_Inserir, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jButton1)
-                                            .addComponent(btn_cancela, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(0, 0, Short.MAX_VALUE))))
+                                .addComponent(destino, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(35, 35, 35)
+                                .addComponent(treballador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(43, 43, 43)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -356,7 +315,45 @@ public class GestioServeis extends javax.swing.JFrame {
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel7)
-                                .addGap(76, 76, 76))))
+                                .addGap(104, 104, 104))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(dia, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(89, 89, 89)
+                                                .addComponent(año, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(10, 10, 10)
+                                                .addComponent(jLabel2)
+                                                .addGap(59, 59, 59)
+                                                .addComponent(jLabel1)
+                                                .addGap(53, 53, 53)
+                                                .addComponent(jLabel6)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel8)
+                                            .addComponent(jLabel9))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(hora_inicio, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(hora_final, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(minutos_inicio, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(minutos_final, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(btn_Inserir, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jButton1)
+                                            .addComponent(btn_cancela, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(0, 0, Short.MAX_VALUE))))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(200, 200, 200)
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -510,12 +507,12 @@ public class GestioServeis extends javax.swing.JFrame {
 
         String data_servei = data + "/" + mes + "/" + any;
 
-        ArrayList<Servei> serv = Servei.getLlistaServeis();
-        Iterator it = serv.iterator();
+      //  ArrayList<Servei> serv = Servei.getLlistaServeis();
+        Iterator it2 = serveis.iterator();
         int contador = 1;
         
-        while (it.hasNext()) {
-            Servei s = (Servei) it.next();
+        while (it2.hasNext()) {
+            Servei s = (Servei) it2.next();
             System.out.println(s.getId());
             if (s.getId() == id) {
                 s.setId(id);
@@ -525,26 +522,40 @@ public class GestioServeis extends javax.swing.JFrame {
                 s.setHora_final(horaFinal);
                 s.setData_servei(data_servei);
                 Servei.getLlistaServeis().remove(s);
-               // Servei.setLlistaServeis(s);
 
                 serveis.add(s);
                 model.addElement(s);
                 gestio.actualitzarServei(s.getId(),descripcio, data_servei, horaInici, horaFinal, id_treb);
-               
-                
                 model.remove(model.getSize()-1);
                 break;
             }
             contador++;
             
         }
-        
-       // carregaLlista();
         JOptionPane.showMessageDialog(null,"Servei modificat!");
-
-     
      
     }//GEN-LAST:event_jButton1ActionPerformed
+    /**
+     * @author Carlos Alberto Castro Cañabate
+     * @param evt 
+     */
+    private void btn_cancelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelaActionPerformed
+        // TODO add your handling code here:
+
+        System.out.println("seleccionat: "+seleccionat);
+        if (seleccionat == null){
+            JOptionPane.showMessageDialog(null,"Selecciona servei!");
+        } else {
+            Servei s = (Servei) model.getElementAt(seleccionat);
+            Integer id_servei = s.getId();
+            if (JOptionPane.showConfirmDialog(null, "Esta a punt d'esborrar aquesta entrada?") == 0) {
+                gestio.borrarServei(id_servei);
+                Servei.getLlistaServeis().remove(s);
+                model.remove(seleccionat);
+            }
+        }  
+    }//GEN-LAST:event_btn_cancelaActionPerformed
+
     public void print(String x) {
         System.out.print(x + " ");
     }

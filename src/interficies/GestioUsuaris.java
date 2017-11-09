@@ -352,8 +352,8 @@ public class GestioUsuaris extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Seleccionar usuari per esborrar");
         } else {
             Treballador t = (Treballador) model.getElementAt(selection);
-            String dni = t.getDni();
-            int index = cercaTreballadorPerDNI(t, Treballador.getTreballadors());
+            String dni = t.getDni(); // puedes borrarlo
+            int index = cercaTreballadorPerDNI(t, Treballador.getTreballadors()); // puedes borrarlo
 
             int usuari = t.getId();
             serveisTotal = descarrega.obtenirServeisDelServer();

@@ -49,6 +49,22 @@ public class GestioServeisBD {
         }
         return response;
     }   
+    /**
+     * 
+     * @author Carlos Alberto Castro Cañabate
+     * @param idServei
+     * @return 
+     */
+    public String borrarServei(int idServei) {
+        String response = "";
+        String query = buildQueryBorrarServei(idServei);
+        URL url = buildUrl(BASE_URL, PORT, "/easycheckapi/servei", null);
+        response = doPostRequest(url, query);
+        if (response.charAt(0)!=('0')) {
+            System.out.println("Borrat servei " + idServei);
+        }
+        return response;
+    }
          
          
      public String inserirServei(String descripcio, String dataservei, String horaInici, String horaFinal, int idTreballador) {
@@ -127,6 +143,14 @@ public class GestioServeisBD {
      */
     public String buildQueryActualitzarServei(int id, String descripcio, String dataservei, String horaInici, String horaFinal, int idTreballador) {
         return "id=" + id + "&descripcio=" + descripcio + "&dataservei=" + dataservei + "&horainici=" + horaInici + "&horafinal=" + horaFinal + "&idtreballador=" + idTreballador;
+    }
+    /**
+     * @author Carlos Alberto Castro Cañabate
+     * @param idServei
+     * @return 
+     */
+    private String buildQueryBorrarServei(int idServei) {
+        return "borrarid=" + idServei;
     }
       public String buildQueryInserirServei(String descripcio, String dataservei, String horaInici, String horaFinal, int idTreballador) {
         return "descripcio=" + descripcio + "&dataservei=" + dataservei + "&horainici=" + horaInici + "&horafinal=" + horaFinal + "&idtreballador=" + idTreballador;
