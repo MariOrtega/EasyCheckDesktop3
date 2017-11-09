@@ -429,7 +429,7 @@ public class GestioServeis extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_InserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_InserirActionPerformed
-        String treballador, descripcio, data, h_inici, h_final, any, mes;
+        String treballador, descripcio, data, h_inici, h_final, any, mes,min_ini,min_fi;
 
         treballador = this.treballador.getSelectedItem();
         int id_treb = obtenirTreballador(treballador);
@@ -437,13 +437,15 @@ public class GestioServeis extends javax.swing.JFrame {
         data = this.dia.getSelectedItem();
         mes = this.mes.getSelectedItem();
         h_inici = this.hora_inicio.getSelectedItem();
-        h_final = this.minutos_inicio.getSelectedItem();
+        h_final = this.hora_final.getSelectedItem();
         any = this.año.getSelectedItem();
+         min_ini = minutos_inicio.getSelectedItem();
+         min_fi=this.minutos_final.getSelectedItem();
 
         String data_servei = data + "/" + mes + "/" + any;
         if (comprovaData(data_servei)) {
-            Servei s = new Servei(0, descripcio, id_treb, data_servei, h_inici, h_final, null);
-            gestio.inserirServei(descripcio, data_servei, h_inici, h_final, id_treb);
+            Servei s = new Servei(0, descripcio, id_treb, data_servei, h_inici+":"+min_ini, h_final+":"+min_fi, null);
+            gestio.inserirServei(descripcio, data_servei, h_inici+":"+min_ini, h_final+":"+min_fi, id_treb);
             serveis.add(s);
             model.addElement(s);
             //model.addElement(s.getLabel());
