@@ -19,6 +19,8 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -46,7 +48,7 @@ public class GestioServeisBD {
         response = doPostRequest(url, query);
         if (!response.equals("0")) {
             System.out.println("Actualitzat servei " + descripcio + " amb id " + id);
-        }
+        } else System.out.println(response);
         return response;
     }   
     /**
@@ -62,7 +64,7 @@ public class GestioServeisBD {
         response = doPostRequest(url, query);
         if (response.charAt(0)!=('0')) {
             System.out.println("Borrat servei " + idServei);
-        }
+        } 
         return response;
     }
          
@@ -78,10 +80,8 @@ public class GestioServeisBD {
         return response;
     }
      
-     
 
     public static String doPostRequest(URL url, String parameters) {
-        byte[] postData = parameters.getBytes(StandardCharsets.UTF_8);
         HttpURLConnection connection = null;
         try {
             connection = (HttpURLConnection) url.openConnection();
@@ -89,29 +89,25 @@ public class GestioServeisBD {
             connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             connection.setRequestProperty("Content-Length", "" + Integer.toString(parameters.getBytes().length));
             connection.setRequestProperty("Content-Language", "en-US");
-
             connection.setUseCaches(false);
             connection.setDoInput(true);
             connection.setDoOutput(true);
-
-            //Send request
-            DataOutputStream wr = new DataOutputStream(
-                    connection.getOutputStream());
+            //Envia request
+            DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
             wr.writeBytes(parameters);
             wr.flush();
             wr.close();
 
-            InputStream is = connection.getInputStream();
-            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-            String line;
-            StringBuffer response = new StringBuffer();
-            while ((line = rd.readLine()) != null) {
-                response.append(line);
-                response.append('\r');
+            //Rep resposta
+            String responseBody = "";
+            if (connection.getResponseCode() == 200) {
+                InputStream response = connection.getInputStream();
+                Scanner scanner = new Scanner(response);
+                responseBody = scanner.useDelimiter("\\A").next();
             }
-            rd.close();
-            System.out.println(response);
-            return response.toString();
+            
+            System.out.println(responseBody);
+            return responseBody;
 
         } catch (IOException ex) {
             ex.printStackTrace();

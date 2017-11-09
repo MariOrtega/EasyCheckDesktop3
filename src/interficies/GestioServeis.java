@@ -572,9 +572,17 @@ public class GestioServeis extends javax.swing.JFrame {
             Servei s = (Servei) model.getElementAt(seleccionat);
             Integer id_servei = s.getId();
             if (JOptionPane.showConfirmDialog(null, "Esta a punt d'esborrar aquesta entrada?") == 0) {
-                gestio.borrarServei(id_servei);
-                Servei.getLlistaServeis().remove(s);
-                model.remove(seleccionat);
+                String missatge = gestio.borrarServei(id_servei);
+                System.out.println("Missatge: "+missatge);
+                if (missatge.contains("\"requestCode\": 0")){
+                    String[] text = missatge.split("\"message\":");
+                   
+                    JOptionPane.showMessageDialog(null,text[1].substring(0,text[1].length()-2));
+                } else {
+                    Servei.getLlistaServeis().remove(s);
+                    model.remove(seleccionat);
+                }
+                
             }
         }
     }//GEN-LAST:event_btn_cancelaActionPerformed
