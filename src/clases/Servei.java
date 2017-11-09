@@ -181,7 +181,9 @@ public class Servei implements Serializable{
         return null;
     }
     public String toString(){
-        return descripcio ;
+        return "<html><FONT FACE=\"impact\" SIZE=6 COLOR=\"red\">"+descripcio+"</FONT> <br> "
+                + "<FONT FACE=\"courier\" SIZE=4><b>Data:</b> "+data_servei+" "+"<br> "
+                        + "<b>Hora Inici:</b> "+hora_inici+" <b>Hora Fi:</b> "+hora_final+"<br> "+isAdmin(id_treballador)+"<hr style=\"border:2px;\"></FONT></html>";
 //                + 
 //                llistaReserves;
     }
