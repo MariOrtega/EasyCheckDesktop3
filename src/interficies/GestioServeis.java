@@ -535,58 +535,61 @@ public class GestioServeis extends javax.swing.JFrame {
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String treballador, descripcio, data, h_inici, m_inici, m_final, h_final, any, mes;
+        if (seleccionat == null) {
+            JOptionPane.showMessageDialog(null, "Selecciona servei!");
+        } else{
+            String treballador, descripcio, data, h_inici, m_inici, m_final, h_final, any, mes;
+            treballador = this.treballador.getSelectedItem();
+            int id_treb = obtenirTreballador(treballador);
+            descripcio = this.origen.getText().trim() + " - " + this.destino.getText().trim();
+            data = this.dia.getSelectedItem();
+            mes = this.mes.getSelectedItem();
+            h_inici = this.hora_inicio.getSelectedItem().trim();
+            m_inici = this.minutos_inicio.getSelectedItem().trim();
+            h_final = this.hora_final.getSelectedItem().trim();
+            m_final = this.minutos_final.getSelectedItem().trim();
+            String horaInici = h_inici + ":" + m_inici;
+            String horaFinal = h_final + ":" + m_final;
+            any = this.año.getSelectedItem();
 
-        treballador = this.treballador.getSelectedItem();
-        int id_treb = obtenirTreballador(treballador);
-        descripcio = this.origen.getText().trim() + " - " + this.destino.getText().trim();
-        data = this.dia.getSelectedItem();
-        mes = this.mes.getSelectedItem();
-        h_inici = this.hora_inicio.getSelectedItem().trim();
-        m_inici = this.minutos_inicio.getSelectedItem().trim();
-        h_final = this.hora_final.getSelectedItem().trim();
-        m_final = this.minutos_final.getSelectedItem().trim();
-        String horaInici = h_inici + ":" + m_inici;
-        String horaFinal = h_final + ":" + m_final;
-        any = this.año.getSelectedItem();
+            String data_servei = data + "/" + mes + "/" + any;
+            int d=Integer.parseInt(data);
+            int m=Integer.parseInt(mes);
+            int y= Integer.parseInt(any);
+            if (comprovaData(data_servei)&& ValidaData.checkDay(d, m, y)) {
+                //  ArrayList<Servei> serv = Servei.getLlistaServeis();
+                Iterator it2 = serveis.iterator();
+                int contador = 1;
 
-        String data_servei = data + "/" + mes + "/" + any;
-        int d=Integer.parseInt(data);
-        int m=Integer.parseInt(mes);
-        int y= Integer.parseInt(any);
-        if (comprovaData(data_servei)&& ValidaData.checkDay(d, m, y)) {
-            //  ArrayList<Servei> serv = Servei.getLlistaServeis();
-            Iterator it2 = serveis.iterator();
-            int contador = 1;
+                while (it2.hasNext()) {
+                    Servei s = (Servei) it2.next();
+                    System.out.println(s.getId());
+                    if (s.getId() == id) {
+                        s.setId(id);
+                        s.setDescripcio(descripcio);
+                        s.setId_treballador(id_treb);
+                        s.setHora_inici(horaInici);
+                        s.setHora_final(horaFinal);
+                        s.setData_servei(data_servei);
+                        Servei.getLlistaServeis().remove(s);
 
-            while (it2.hasNext()) {
-                Servei s = (Servei) it2.next();
-                System.out.println(s.getId());
-                if (s.getId() == id) {
-                    s.setId(id);
-                    s.setDescripcio(descripcio);
-                    s.setId_treballador(id_treb);
-                    s.setHora_inici(horaInici);
-                    s.setHora_final(horaFinal);
-                    s.setData_servei(data_servei);
-                    Servei.getLlistaServeis().remove(s);
-
-                    serveis.add(s);
-                    model.addElement(s);
-                    PostResponse response = gestio.actualitzarServei(s.getId(), descripcio, data_servei, horaInici, horaFinal, id_treb);
-                    if (response.getRequestCode()==0){
-                        JOptionPane.showMessageDialog(null,response.getMessage());
-                    } else {
-                        model.remove(model.getSize() - 1);
-                    }    
-                    break;
+                        serveis.add(s);
+                        model.addElement(s);
+                        PostResponse response = gestio.actualitzarServei(s.getId(), descripcio, data_servei, horaInici, horaFinal, id_treb);
+                        if (response.getRequestCode()==0){
+                            JOptionPane.showMessageDialog(null,response.getMessage());
+                        } else {
+                            model.remove(model.getSize() - 1);
+                        }    
+                        break;
+                    }
+                    contador++;
                 }
-                contador++;
+                JOptionPane.showMessageDialog(null, "Servei modificat!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Data incorrecta!");
             }
-            JOptionPane.showMessageDialog(null, "Servei modificat!");
-        } else {
-            JOptionPane.showMessageDialog(null, "Data incorrecta!");
-        }
+        }  
     }//GEN-LAST:event_jButton1ActionPerformed
     /**
      * @author Carlos Alberto Castro Cañabate
@@ -595,7 +598,6 @@ public class GestioServeis extends javax.swing.JFrame {
     private void btn_cancelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelaActionPerformed
         // TODO add your handling code here:
 
-        System.out.println("seleccionat: " + seleccionat);
         if (seleccionat == null) {
             JOptionPane.showMessageDialog(null, "Selecciona servei!");
         } else {
