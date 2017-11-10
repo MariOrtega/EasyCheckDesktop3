@@ -7,13 +7,11 @@ package Utils;
 
 /**
  *
- * @author Carlos
+ * @author Carlos Alberto Castro Cañabate
  */
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import clases.Reserva;
 import clases.Servei;
-import clases.Treballador;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -41,19 +39,6 @@ public class DescargaServei {
     }
     
     
-    public String doGetRequest(URL url) {
-        String responseBody = "";
-        try {
-            URLConnection connection = url.openConnection();
-            InputStream response = connection.getInputStream();
-            Scanner scanner = new Scanner(response);
-            responseBody = scanner.useDelimiter("\\A").next();
-        } catch (IOException ex) {
-          //  Logger.getLogger(TestClient.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return responseBody;
-    }
-    
     public URL buildUrl(String host, int port, String path, String query) {
         try {
             return new URI("http", null, host, port, path, query, null).toURL();
@@ -68,7 +53,7 @@ public class DescargaServei {
     public List<Servei> obtenirServeisDelServer() {
         String json = "";
         URL url = buildUrl(BASE_URL, PORT, "/easycheckapi/servei", null);
-        json = doGetRequest(url);
+        json = NetUtils.doGetRequest(url);
         Gson gson = new Gson();
         java.lang.reflect.Type tipusLlistaDeServeis = new TypeToken<List<Servei>>() {
         }.getType();

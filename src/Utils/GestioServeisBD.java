@@ -5,7 +5,6 @@
  */
 package Utils;
 
-import static Utils.GestionarUsuariBd.doPostRequest;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -45,7 +44,7 @@ public class GestioServeisBD {
         String response = "";
         String query = buildQueryActualitzarServei(id, descripcio, dataservei, horaInici, horaFinal, idTreballador);
         URL url = buildUrl(BASE_URL, PORT, "/easycheckapi/servei", null);
-        response = doPostRequest(url, query);
+        response = NetUtils.doPostRequest(url, query);
         if (!response.equals("0")) {
             System.out.println("Actualitzat servei " + descripcio + " amb id " + id);
         } else System.out.println(response);
@@ -61,7 +60,7 @@ public class GestioServeisBD {
         String response = "";
         String query = buildQueryBorrarServei(idServei);
         URL url = buildUrl(BASE_URL, PORT, "/easycheckapi/servei", null);
-        response = doPostRequest(url, query);
+        response = NetUtils.doPostRequest(url, query);
         if (response.charAt(0)!=('0')) {
             System.out.println("Borrat servei " + idServei);
         } 
@@ -73,52 +72,14 @@ public class GestioServeisBD {
         String response = "";
         String query = buildQueryInserirServei(descripcio, dataservei, horaInici, horaFinal, idTreballador);
         URL url = buildUrl(BASE_URL, PORT, "/easycheckapi/servei", null);
-        response = doPostRequest(url, query);
+        response = NetUtils.doPostRequest(url, query);
         if (!response.equals("0")) {
             System.out.println("Inserit servei " + descripcio);
         }
         return response;
     }
      
-
-    public static String doPostRequest(URL url, String parameters) {
-        HttpURLConnection connection = null;
-        try {
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-            connection.setRequestProperty("Content-Length", "" + Integer.toString(parameters.getBytes().length));
-            connection.setRequestProperty("Content-Language", "en-US");
-            connection.setUseCaches(false);
-            connection.setDoInput(true);
-            connection.setDoOutput(true);
-            //Envia request
-            DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
-            wr.writeBytes(parameters);
-            wr.flush();
-            wr.close();
-
-            //Rep resposta
-            String responseBody = "";
-            if (connection.getResponseCode() == 200) {
-                InputStream response = connection.getInputStream();
-                Scanner scanner = new Scanner(response);
-                responseBody = scanner.useDelimiter("\\A").next();
-            }
-            
-            System.out.println(responseBody);
-            return responseBody;
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return "";
-        } finally {
-            if (connection != null) {
-                connection.disconnect();
-            }
-        }
-    }
-     public URL buildUrl(String host, int port, String path, String query) {
+    public URL buildUrl(String host, int port, String path, String query) {
         try {
             return new URI("http", null, host, port, path, query, null).toURL();
         } catch (URISyntaxException ex) {

@@ -7,7 +7,7 @@ package Utils;
 
 /**
  *
- * @author Carlos
+ * @author Carlos Alberto Castro Cañabate
  */
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -40,20 +40,6 @@ public class DescargaReserva {
         reserves = (ArrayList<Reserva>) obtenirReservesDelServer();
     }
     
-    
-    public String doGetRequest(URL url) {
-        String responseBody = "";
-        try {
-            URLConnection connection = url.openConnection();
-            InputStream response = connection.getInputStream();
-            Scanner scanner = new Scanner(response);
-            responseBody = scanner.useDelimiter("\\A").next();
-        } catch (IOException ex) {
-          //  Logger.getLogger(TestClient.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return responseBody;
-    }
-    
     public URL buildUrl(String host, int port, String path, String query) {
         try {
             return new URI("http", null, host, port, path, query, null).toURL();
@@ -68,7 +54,7 @@ public class DescargaReserva {
     public List<Reserva> obtenirReservesDelServer() {
         String json = "";
         URL url = buildUrl(BASE_URL, PORT, "/easycheckapi/reserva", null);
-        json = doGetRequest(url);
+        json = NetUtils.doGetRequest(url);
         Gson gson = new Gson();
         java.lang.reflect.Type tipusLlistaDeReserves = new TypeToken<List<Reserva>>() {
         }.getType();
