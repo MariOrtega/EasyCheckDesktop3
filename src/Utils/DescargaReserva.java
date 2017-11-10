@@ -6,7 +6,6 @@
 package Utils;
 
 /**
- *
  * @author Carlos Alberto Castro Cañabate
  */
 import com.google.gson.Gson;
@@ -16,6 +15,7 @@ import clases.Servei;
 import clases.Treballador;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -31,36 +31,30 @@ public class DescargaReserva {
     
     private static final String BASE_URL = "localhost";
     private static final int PORT = 8080;
-    public static ArrayList<Reserva> reserves;
-    public static void main(String[] args) {
-        DescargaReserva test = new DescargaReserva();
-    }
-    
-    public DescargaReserva(){
-        reserves = (ArrayList<Reserva>) obtenirReservesDelServer();
-    }
-    
-    public URL buildUrl(String host, int port, String path, String query) {
-        try {
-            return new URI("http", null, host, port, path, query, null).toURL();
-        } catch (URISyntaxException ex) {
-            Logger.getLogger(DescargaReserva.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(DescargaReserva.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    public List<Reserva> obtenirReservesDelServer() {
+    private static Gson gson = new Gson();
+    /**
+     * @author Carlos Alberto Castro Cañabate
+     * @return 
+     */
+    public static List<Reserva> obtenirReservesDelServer() {
         String json = "";
-        URL url = buildUrl(BASE_URL, PORT, "/easycheckapi/reserva", null);
+        URL url = NetUtils.buildUrl(BASE_URL, PORT, "/easycheckapi/reserva", null);
         json = NetUtils.doGetRequest(url);
-        Gson gson = new Gson();
-        java.lang.reflect.Type tipusLlistaDeReserves = new TypeToken<List<Reserva>>() {
-        }.getType();
+        java.lang.reflect.Type tipusLlistaDeReserves = new TypeToken<List<Reserva>>() {}.getType();
         ArrayList<Reserva> llistaDeReserves = gson.fromJson(json, tipusLlistaDeReserves);
-
         return llistaDeReserves;
+    }
+    /**
+     * @author Carlos Alberto Castro Cañabate
+     * @param servei
+     * @return 
+     */
+    public static ArrayList<Reserva> getReservesServei(int servei){
+        URL url = NetUtils.buildUrl(BASE_URL, PORT, "/easycheckapi/reserva", "servei="+servei);
+        String json = NetUtils.doGetRequest(url);
+        final Type tipusLlista = new TypeToken<List<Reserva>>(){}.getType();
+        ArrayList<Reserva> llista = gson.fromJson(json, tipusLlista);
+        return llista;
     }
 }
 

@@ -152,21 +152,9 @@ public class Servei implements Serializable{
                 + "<FONT FACE=\"courier\" SIZE=4><b>Data:</b> "+data_servei+" "+"<br> "
                         + "<b>Hora Inici:</b> "+hora_inici+" <b>Hora Fi:</b> "+hora_final+"<br> "+isAdmin(id_treballador)+"<hr style=\"border:2px;\"></FONT></html>", SwingConstants.LEFT);
         return label;
-        //Integer id, Integer idServei, String localitzador, String dataServei, String nomClient, String cognomClient,String cognomClient2,String emailClient, String QRClient, String dniClient, String checkIn) {
-       // return nomClient+" "+cognomClient+" "+cognomClient2+" Dni: "+dniClient+" "+emailClient+" "+"QR: "+QRClient+" "+checkIn(checkIn);
     }
     
-    public static ArrayList<Servei> getServeisTreballador (int treballador){
-        ArrayList<Servei> serveis = new ArrayList();
-        Iterator<Servei> it = llistaServeis.iterator();
-        while(it.hasNext()){
-            Servei s = it.next();
-            if (s.id_treballador==treballador){
-                serveis.add(s);
-            }
-        }
-        return serveis;
-    }
+   
     public String isAdmin (int treballador){
         ArrayList<Treballador> treballadors = Treballador.getTreballadors();
         Iterator<Treballador> it = treballadors.iterator();
@@ -184,17 +172,5 @@ public class Servei implements Serializable{
         return "<html><FONT FACE=\"impact\" SIZE=6 COLOR=\"red\">"+descripcio+"</FONT> <br> "
                 + "<FONT FACE=\"courier\" SIZE=4><b>Data:</b> "+data_servei+" "+"<br> "
                         + "<b>Hora Inici:</b> "+hora_inici+" <b>Hora Fi:</b> "+hora_final+"<br> "+isAdmin(id_treballador)+"<hr style=\"border:2px;\"></FONT></html>";
-//                + 
-//                llistaReserves;
     }
 }
-/*
-    
-     public static ArrayList<Servei> getLlistaServeis() {
-        return llistaServeis;
-    }
-
-    public static void setLlistaServeis(Servei servei) {
-        llistaServeis.add(servei);
-    }
-} */

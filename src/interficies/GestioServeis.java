@@ -5,14 +5,12 @@
  */
 package interficies;
 
-import Renders.RenderServicios;
 import Utils.DescargaTreballador;
 import Utils.DescargaServei;
 import Utils.GestioServeisBD;
 import Utils.ValidaData;
 import clases.Servei;
 import clases.Treballador;
-import static interficies.GestioUsuaris.model;
 import java.awt.Choice;
 import java.awt.Color;
 import java.text.ParsePosition;
@@ -20,7 +18,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -54,7 +51,6 @@ public class GestioServeis extends javax.swing.JFrame {
 
         model = new DefaultListModel();
         Jservicios.setModel(model);
-        serveis = Servei.getLlistaServeis();
         treballadors = des_treb.obtenirTreballadorsDelServer();
 
         carregaElements();
@@ -466,6 +462,7 @@ public class GestioServeis extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Data incorrecta!!!");
         }
+        carregaLlista();
     }//GEN-LAST:event_btn_InserirActionPerformed
     public Integer obtenirTreballador(String nom) {
         // ArrayList<Treballador> treballadors = Treballador.getTreballadors();
@@ -492,7 +489,9 @@ public class GestioServeis extends javax.swing.JFrame {
      * @author Carlos Alberto Castro Cañabate
      * @param evt
      */
-    public void carregaLlista() {
+    public void carregaLlista(){
+        serveis = DescargaServei.obtenirServeisDelServer();
+        model.removeAllElements();
         model = new DefaultListModel();
         Iterator it = serveis.iterator();
         Jservicios.setModel(model);
@@ -615,6 +614,8 @@ public class GestioServeis extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(GestioServeis.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 

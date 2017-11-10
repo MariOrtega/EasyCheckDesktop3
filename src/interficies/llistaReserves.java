@@ -5,24 +5,17 @@
  */
 package interficies;
 import Renders.RenderReservas;
+import Utils.DescargaReserva;
 import clases.Reserva;
 import clases.Servei;
 import java.awt.Color;
-import javax.swing.ImageIcon;
 import java.util.ArrayList;
-import java.util.Iterator;
 import javax.swing.DefaultListModel;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import java.awt.Font;
-import javax.swing.JFrame;
 import java.util.Iterator;
-import javax.swing.JOptionPane;
-import java.util.List;
+
 /**
  *
- * @author Carlos
+ * @author Carlos Alberto Castro Cañabate
  */
 public class llistaReserves extends javax.swing.JFrame {
     DefaultListModel modeloLista;
@@ -42,14 +35,12 @@ public class llistaReserves extends javax.swing.JFrame {
         jListaReservas.setCellRenderer(new RenderReservas());
         jListaReservas.setSelectionBackground(Color.ORANGE);
         jLabel3.setText(obtenirNomServei());
-        ArrayList<Reserva> listaReservas =(ArrayList<Reserva>)Reserva.getReservas();
+        ArrayList<Reserva> listaReservas = DescargaReserva.getReservesServei(servei);
         Iterator it = listaReservas.iterator();
         modeloLista.clear();
         while(it.hasNext()){
             Reserva reserva = (Reserva) it.next();
-            if (reserva.getId_servei()== servei){
-                modeloLista.addElement(reserva.getLabel());  
-            } 
+            modeloLista.addElement(reserva.getLabel());  
         } 
     }
     public String obtenirNomServei(){

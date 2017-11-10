@@ -43,7 +43,7 @@ public class GestioServeisBD {
     public String actualitzarServei(int id, String descripcio, String dataservei, String horaInici, String horaFinal, int idTreballador) {
         String response = "";
         String query = buildQueryActualitzarServei(id, descripcio, dataservei, horaInici, horaFinal, idTreballador);
-        URL url = buildUrl(BASE_URL, PORT, "/easycheckapi/servei", null);
+        URL url = NetUtils.buildUrl(BASE_URL, PORT, "/easycheckapi/servei", null);
         response = NetUtils.doPostRequest(url, query);
         if (!response.equals("0")) {
             System.out.println("Actualitzat servei " + descripcio + " amb id " + id);
@@ -59,7 +59,7 @@ public class GestioServeisBD {
     public String borrarServei(int idServei) {
         String response = "";
         String query = buildQueryBorrarServei(idServei);
-        URL url = buildUrl(BASE_URL, PORT, "/easycheckapi/servei", null);
+        URL url = NetUtils.buildUrl(BASE_URL, PORT, "/easycheckapi/servei", null);
         response = NetUtils.doPostRequest(url, query);
         if (response.charAt(0)!=('0')) {
             System.out.println("Borrat servei " + idServei);
@@ -71,7 +71,7 @@ public class GestioServeisBD {
      public String inserirServei(String descripcio, String dataservei, String horaInici, String horaFinal, int idTreballador) {
         String response = "";
         String query = buildQueryInserirServei(descripcio, dataservei, horaInici, horaFinal, idTreballador);
-        URL url = buildUrl(BASE_URL, PORT, "/easycheckapi/servei", null);
+        URL url = NetUtils.buildUrl(BASE_URL, PORT, "/easycheckapi/servei", null);
         response = NetUtils.doPostRequest(url, query);
         if (!response.equals("0")) {
             System.out.println("Inserit servei " + descripcio);
@@ -79,16 +79,7 @@ public class GestioServeisBD {
         return response;
     }
      
-    public URL buildUrl(String host, int port, String path, String query) {
-        try {
-            return new URI("http", null, host, port, path, query, null).toURL();
-        } catch (URISyntaxException ex) {
-           
-        } catch (MalformedURLException ex) {
-          
-        }
-        return null;
-    }/**
+    /**
      * @author Carlos ALberto Castro Cañabate
      * @param id
      * @param descripcio

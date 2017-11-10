@@ -5,12 +5,13 @@
  */
 package interficies;
 import Renders.RenderServicios;
+import Utils.DescargaReserva;
+import Utils.DescargaServei;
 import java.awt.event.ItemEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.ArrayList;
 import javax.swing.event.ListSelectionListener;
@@ -24,13 +25,14 @@ import Utils.DescargaTreballador;
 
 /**
  *
- * @author Carlos
+ * @author Carlos Alberto Castro Cañabate
  */
 public class llistaServeis extends javax.swing.JFrame {
     DefaultListModel modeloLista;
     Integer[] idServei = new Integer [1000];
     Integer treballador = 0;
     ArrayList<Treballador> treballadors = null;
+    List<Servei> listaServeis = null;
     
     /**
      * Creates new form NewJFrame
@@ -38,6 +40,8 @@ public class llistaServeis extends javax.swing.JFrame {
     public llistaServeis() {
         DescargaTreballador todo = new DescargaTreballador();
         treballadors = (ArrayList<Treballador>) todo.obtenirTreballadorsDelServer(); 
+        listaServeis = DescargaServei.obtenirServeisDelServer();
+
         initComponents();
         
         modeloLista = new DefaultListModel();
@@ -114,32 +118,11 @@ public class llistaServeis extends javax.swing.JFrame {
         return idTreballador;
     }
     public Boolean reservesServei (int servei){
-        List<Reserva> lista = new ArrayList();
-        ArrayList<Servei> serveis = Servei.getLlistaServeis();
-        Iterator itS = serveis.iterator();
-        while(itS.hasNext()){
-            Servei s = (Servei) itS.next();
-            if (s.getId()== servei){
-                System.out.println("Servei seleccionat:"+servei);
-                lista = s.getLlistaReserves();  
-                Iterator itL = lista.iterator();
-                while (itL.hasNext()){
-                    Reserva r = (Reserva) itL.next();
-                    System.out.println("ID SERVEI: " +r.getId_servei());
-                    if (r.getId_servei()== servei){
-                        System.out.println(r.getClient().getEmail_titular());
-                        return true;
-                    }
-                }
-            }
-        
-        }
-        
-       
-        return false;
+        List<Reserva> lista = DescargaReserva.getReservesServei(servei);
+        if (lista.isEmpty()) return false;
+        else return true;
     }
     public void llistaTots(){
-        ArrayList<Servei>listaServeis = Servei.getLlistaServeis();
         int contador=0;
         Iterator it = listaServeis.iterator();
         modeloLista.clear();
@@ -154,25 +137,20 @@ public class llistaServeis extends javax.swing.JFrame {
     }
     public void llistaTreballador(int treballadorSeleccionat){
         int contador = 0;
-        ArrayList<Servei>listaServeis = Servei.getServeisTreballador(treballadorSeleccionat);
-        
+        ArrayList<Servei>listaServeis = DescargaServei.getServeisTreballador(treballadorSeleccionat);
         Iterator it = listaServeis.iterator();
         modeloLista.clear();
         while(it.hasNext()){
             listaServeis.size();
             Servei servei = (Servei) it.next();
-            if (treballadorSeleccionat== servei.getId_treballador()){
-                idServei[contador] = servei.getId();
-                modeloLista.addElement(servei.getLabel());
-                jlista.ensureIndexIsVisible(modeloLista.getSize());
-                treballador = servei.getId_treballador();
-            } 
+            idServei[contador] = servei.getId();
+            modeloLista.addElement(servei.getLabel());
+            jlista.ensureIndexIsVisible(modeloLista.getSize());
+            treballador = servei.getId_treballador();
             contador++;
         } 
     }
     public void emplenarChoice (){
-       // DescargaTreballador todo = new DescargaTreballador();
-      //  ArrayList<Treballador> treballadors = (ArrayList<Treballador>) todo.obtenirTreballadorsDelServer(); 
         choiceTrabajador.add("Tots");
         Iterator it = treballadors.iterator();
         while(it.hasNext()){
