@@ -367,7 +367,7 @@ public class GestioUsuaris extends javax.swing.JFrame {
      */
     private void btnAfegirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAfegirActionPerformed
 
-        if (!FormulariComplert()) {
+        if (FormulariComplert()) {
             JOptionPane.showMessageDialog(null, "Falten dades");
 
         } else {
