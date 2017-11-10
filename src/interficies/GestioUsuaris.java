@@ -400,8 +400,52 @@ public class GestioUsuaris extends javax.swing.JFrame {
     }
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        ModificarUsuari f = new ModificarUsuari();
-        this.setVisible(true);
+       usuari_bd = new GestionarUsuariBd();
+        
+        int id = Integer.parseInt(_id.getText());
+        String sNom = nom.getText();
+        String sCognom = cognom1.getText();
+        String sCognom2 = cognom2.getText();
+        String sLogin = login.getText();
+        String sPassword = password.getText();
+        String sDni = dni.getText();
+        boolean x = esAdmin.getState();
+        ArrayList<Treballador> treb = (ArrayList<Treballador>) descargaTreballador.obtenirTreballadorsDelServer();
+        Iterator it = treb.iterator();
+        int contador = 1;
+
+        while (it.hasNext()) {
+            Treballador t = (Treballador) it.next();
+            System.out.println("Id del treballador a modificar" + t.getId());
+            if (t.getId() == id) {
+                t.setId(id);
+                t.setNom(sNom);
+                t.setCognom1(sCognom);
+                t.setCognom2(sCognom2);
+                t.setLogin(sLogin);
+                t.setPassword(sPassword);
+                t.setDni(sDni);
+                if (x) {
+                    t.setEsAdmin(1);
+                } else {
+                    t.setEsAdmin(0);
+                }
+                
+               
+                PostResponse response = usuari_bd.actualitzarTreballador(t.getId(), sNom, sCognom, sCognom2, sDni, sLogin, sPassword, t.getEsAdmin());
+                if (response.getRequestCode() == 0) {
+                    JOptionPane.showMessageDialog(null, response.getMessage());
+                }else{
+               
+               InsereixTreballador();
+                actualitzaLlista();
+
+                break;
+            }}
+            contador++;
+
+        }
+
 
     }//GEN-LAST:event_btnModificarActionPerformed
 
