@@ -19,13 +19,13 @@ import javax.swing.JOptionPane;
  * @author Maria
  */
 public class MenuPrincipal extends javax.swing.JFrame {
-
+    
     static Integer userID;
     ArrayList<Treballador> treballadors = Treballador.getTreballadors();
     ImageIcon icono;
 
     /**
-     *@author Maria Remedios Ortega
+     * @author Maria Remedios Ortega
      */
     public MenuPrincipal(Integer userID) {
         this.userID = userID;
@@ -42,15 +42,15 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 if (t.getEsAdmin() == 1) {
                     icono = new ImageIcon(getClass().getResource("/Images/admin.png"));
                     nom.setIcon(icono);
-
+                    
                 } else {
                     icono = new ImageIcon(getClass().getResource("/Images/treb.png"));
-
+                    
                     nom.setIcon(icono);
                 }
             }
         }
-
+        
     }
 
     /**
@@ -193,21 +193,24 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
-
-        System.exit(0);
+        
+        dispose();
+        new VentanaLogin().setVisible(true);
+        
+        
     }//GEN-LAST:event_jLabel6MouseClicked
-/**
- * @author Maria Remedios Ortega
- * @param evt 
- */
+    /**
+     * @author Maria Remedios Ortega
+     * @param evt
+     */
     private void gestorUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gestorUsuariosMouseClicked
-
+        
         if (VentanaLogin.TIPUS_USUARI == 1) {
             GestioUsuaris gestio = new GestioUsuaris();
             gestio.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(null, "Acces denegat per a treballadors!");
-
+            
         }
 
     }//GEN-LAST:event_gestorUsuariosMouseClicked
@@ -216,25 +219,25 @@ public class MenuPrincipal extends javax.swing.JFrame {
      * @author Carlos Alberto Castro Cañabate
      */
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-
-        llistaServeis  serveis = new llistaServeis();
+        
+        llistaServeis serveis = new llistaServeis();
         serveis.setVisible(true);
         serveis.setLocationRelativeTo(null);
     }//GEN-LAST:event_jLabel2MouseClicked
-/**
- * @author Maria Remedios Ortega
- * @param evt 
- */
+    /**
+     * @author Maria Remedios Ortega
+     * @param evt
+     */
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
-
+        
         if (VentanaLogin.TIPUS_USUARI == 1) {
             GestioServeis serveis = new GestioServeis();
             serveis.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(null, "Acces denegat per a treballadors!");
-
+            
         }
-
+        
 
     }//GEN-LAST:event_jLabel4MouseClicked
 
@@ -284,7 +287,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MenuPrincipal(userID).setVisible(true);
-
+                
             }
         });
     }
