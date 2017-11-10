@@ -31,7 +31,7 @@ public class Treballador implements Serializable {
     private String password;
     private int esAdmin;
     private List<Servei> llistaServeis = new ArrayList();
-    String cap = "<html><br><table width=\"350\" cellspacing=\"1 cellpadding=\"3\" border=\"0\" align=\"center\" bgcolor=\"#FF0033\"> \n"
+    String cap = "<html><br><table width=\"450\" cellspacing=\"1 cellpadding=\"3\" border=\"0\" align=\"center\" bgcolor=\"#FF0033\"> \n"
             + "<tr> \n<td><font color=\"#FFFFFF\" face=\"arial, verdana, helvetica\" size=6> \n<b>";
     String mig = "</font></td> </tr> \n <tr>   <td bgcolor=\"#ffffcc\"> \n <font face=\"arial, verdana, helvetica \"size=4>  DNI: ";
     String login_="<BR>Login: ";
