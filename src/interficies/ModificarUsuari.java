@@ -7,6 +7,7 @@ package interficies;
 
 import Renders.RenderTreballador;
 import Utils.GestionarUsuariBd;
+import Utils.PostResponse;
 import clases.Reserva;
 import clases.Treballador;
 import static interficies.GestioUsuaris.model;
@@ -18,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -268,18 +270,18 @@ inserir= new GestionarUsuariBd();
                     t.setEsAdmin(1);
                 else
                     t.setEsAdmin(0);
-                
-                Treballador.getTreballadors().remove(t);
-                Treballador.setTreballadors(t);
-                inserir.actualitzarTreballador(t.getId(), sNom, sCognom, sCognom2, sDni, sLogin, sPassword, t.getEsAdmin());
+     
+                 PostResponse response= inserir.actualitzarTreballador(t.getId(), sNom, sCognom, sCognom2, sDni, sLogin, sPassword, t.getEsAdmin());
+               if(response.getRequestCode()==0){
+                   JOptionPane.showMessageDialog(null, response.getMessage());
+               }else{
                 GestioUsuaris.actualitzaLlista();
-                //tr=new Treballador(sNom,sCognom,sCognom2,sLogin,sPassword,"1",sDni);
-                //Treballador.getTreballadors().add(tr);
-                break;
+                  model.addElement(tr);
+               }
             }
             contador++;
         }
-        model.addElement(tr);
+     
         //tr=new Treballador(sNom,sCognom,sCognom2,sLogin,sPassword,"1",sDni);
         // model.addElement(tr);
         // treballadors.add(tr);

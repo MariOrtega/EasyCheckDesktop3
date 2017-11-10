@@ -19,37 +19,43 @@ public class GestionarUsuariBd {
     
    
 
-    public String inserirTreballador(String nom, String cognom1, String cognom2, String dni, String login, String password, int esadmin) {
-        String response = "";
+    public PostResponse inserirTreballador(String nom, String cognom1, String cognom2, String dni, String login, String password, int esadmin) {
+      PostResponse response ;
         String query = buildQueryInserirTreballador(nom, cognom1, cognom2, dni, login, password, esadmin);
         URL url = NetUtils.buildUrl(BASE_URL, PORT, "/easycheckapi/treballador", null);
-        response = NetUtils.doPostRequest(url, query);
-        if (!response.equals("0")) {
-            System.out.println("Inserit treballador " + nom);
-        }
+       String json = NetUtils.doPostRequest(url, query);
+       response=gson.fromJson(json, PostResponse.class);
+//        if (!response.equals("0")) {
+//            System.out.println("Inserit treballador " + nom);
+//        }
         return response;
     }
 
-    public String actualitzarTreballador(int id, String nom, String cognom1, String cognom2, String dni, String login, String password, int esadmin) {
-        String response = "";
+    public PostResponse actualitzarTreballador(int id, String nom, String cognom1, String cognom2, String dni, String login, String password, int esadmin) {
+        PostResponse response ;
         String query = buildQueryActualitzarTreballador(id, nom, cognom1, cognom2, dni, login, password, esadmin);
         URL url = NetUtils.buildUrl(BASE_URL, PORT, "/easycheckapi/treballador", null);
-        response = NetUtils.doPostRequest(url, query);
-        if (!response.equals("0")) {
-            System.out.println("Actualitzat treballador " + nom + " amb id " + id);
-        }
+        String json = NetUtils.doPostRequest(url, query);
+                response = gson.fromJson(json, PostResponse.class);
+
+//        if (!response.equals("0")) {
+//            System.out.println("Actualitzat treballador " + nom + " amb id " + id);
+//        }
         return response;
     }
- public String borrarTreballador(String idTreballador) {
-        String response = "";
+ public PostResponse borrarTreballador(String idTreballador) {
+        PostResponse response;
         String query = buildQueryBorrarTreballador(idTreballador);
         URL url = NetUtils.buildUrl(BASE_URL, PORT, "/easycheckapi/treballador", null);
-        response = NetUtils.doPostRequest(url, query);
-        if (response.charAt(0)!=('0')) {
-            System.out.println("Esborrat treballador " + idTreballador);
-        } else {
-            System.out.println("No s'ha pogut esborrar el treballador");
-        }
+        String json = NetUtils.doPostRequest(url, query);
+        response = gson.fromJson(json, PostResponse.class);
+        
+        
+//        if (response.charAt(0)!=('0')) {
+//            System.out.println("Esborrat treballador " + idTreballador);
+//        } else {
+//            System.out.println("No s'ha pogut esborrar el treballador");
+//        }
         return response;
     
     }

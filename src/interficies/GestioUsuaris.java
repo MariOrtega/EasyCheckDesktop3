@@ -9,20 +9,15 @@ import Renders.RenderTreballador;
 import Utils.DescargaServei;
 import Utils.DescargaTreballador;
 import Utils.GestionarUsuariBd;
-import Utils.IntroduccioObjectes;
-
+import Utils.PostResponse;
 import clases.Treballador;
 import clases.Servei;
-
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -43,8 +38,8 @@ public class GestioUsuaris extends javax.swing.JFrame {
     List<Servei> serveisTotal;
     DescargaServei descarrega;
     List<Servei> serveiTreballador;
-    static List <Treballador>treballadors;
-    DescargaTreballador descargaTreballador ;
+    static List<Treballador> treballadors;
+    DescargaTreballador descargaTreballador;
     int id_treballador;
 
     /**
@@ -57,15 +52,48 @@ public class GestioUsuaris extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         jListTreballadors.setCellRenderer(new RenderTreballador());
-        descargaTreballador=new DescargaTreballador();
+        descargaTreballador = new DescargaTreballador();
 
         model = new DefaultListModel();
         _id.setVisible(false);
         jListTreballadors.setModel(model);
-        // MARI LO HE CAMBIADO TODO A UTILS.INTRODUCCIO OBJECTES, para meter ya consultas, reservas y trabajadores al inicio.
-        // Sino luego tengo que volver a introducir los trabajadores, porque cuando meto trabajadores les adjunto la reserva.
+        
         InsereixTreballador();
+        jListTreballadors.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
 
+                int selection = jListTreballadors.getSelectedIndex();
+
+                if (jListTreballadors.getModel().getSize() != 0) {
+                    t = new Treballador();
+                    t = (Treballador) model.getElementAt(selection);
+                    if (jListTreballadors.getSelectedValue() != null) {
+
+                        id_treballador = t.getId();
+                        _id.setText(String.valueOf(id_treballador));
+                        nom.setText(t.getNom());
+                        cognom1.setText(t.getCognom1());
+                        cognom2.setText(t.getCognom2());
+                        dni.setText(t.getDni());
+                        login.setText(t.getLogin());
+                        password.setText(t.getPassword());
+                        int j = t.getEsAdmin();
+                        if (j == 1) {
+                            esAdmin.setState(true);
+                            icono = new ImageIcon(getClass().getResource("/Images/admin.png"));
+                            usuario.setIcon(icono);
+                            usuario2.setText("Administrador");
+                        } else {
+                            esAdmin.setState(false);
+                            icono = new ImageIcon(getClass().getResource("/Images/treb.png"));
+                            usuario2.setText("    Usuari");
+                            usuario.setIcon(icono);
+                        }
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -317,82 +345,55 @@ public class GestioUsuaris extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void btnAfegirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAfegirActionPerformed
-        
+
         boolean cognoms = cognom1.getText().equals("") && cognom2.getText().equals("");
         boolean login_pass = login.getText().equals("") && password.getText().equals("");
         boolean _dni = dni.getText().equals("");
         boolean _nom = nom.getText().equals("");
-       
 
         if (_nom || cognoms || login_pass || _dni) {
             JOptionPane.showMessageDialog(null, "Falten dades");
 
-       
         } else {
             inserirList();
             clearForm();
         }
     }//GEN-LAST:event_btnAfegirActionPerformed
-    public int cercaServei(List<Servei> s, int id) {
-        int count = 0;
-        for (int i = 0; i < s.size(); i++) {
-            int id_servei = s.get(i).getId_treballador();
-            if (id_servei == id) {
-                count++;
-            }
-        }
-        return count;
-    }
+
     private void btnEsborraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEsborraActionPerformed
-      
-        
+
         usuari_bd = new GestionarUsuariBd();
         selection = jListTreballadors.getSelectedIndex();
         if (selection == -1) {
             JOptionPane.showMessageDialog(null, "Seleccionar usuari per esborrar");
         } else {
             Treballador t = (Treballador) model.getElementAt(selection);
-            String dni = t.getDni(); // puedes borrarlo
-            int index = cercaTreballadorPerDNI(t, Treballador.getTreballadors()); // puedes borrarlo
-
-            int usuari = t.getId();
-            serveisTotal = descarrega.obtenirServeisDelServer();
-
-            if (cercaServei(serveisTotal, usuari) > 0) {
-                int resposta = JOptionPane.showConfirmDialog(null, "Impossible esborrar!!!, Hi ha serveis associats.. Vol sustitució?");
-                if (resposta == 0) {
-                    new GestioServeis().setVisible(true);
-                }
-            } else {
-
-                if (JOptionPane.showConfirmDialog(null, "Esta a punt d'esborrar aquesta entrada?") == 0) {
-                    usuari_bd.borrarTreballador(String.valueOf(t.getId()));
-                   System.out.println("id en borrado"+t.getId()); }
-                   
-                   treballadors=descargaTreballador.obtenirTreballadorsDelServer();
-            
-            model.removeAllElements();
-           actualitzaLlista(treballadors);
-//
-//                        Treballador.getTreballadors().remove(index);
-//                        model.removeAllElements();
-//                        actualitzaLlista();
-                        clearForm();
-//                    
+             PostResponse response = usuari_bd.borrarTreballador(String.valueOf(t.getId()));
+            if (response.getRequestCode() == 0) {
+                JOptionPane.showMessageDialog(null, response.getMessage());
                
             }
+            else{
+            treballadors = descargaTreballador.obtenirTreballadorsDelServer();
+
+            model.removeAllElements();
+            actualitzaLlista(treballadors);
+
+            clearForm();}
+
         }
     }//GEN-LAST:event_btnEsborraActionPerformed
-    public static  void actualitzaLlista() {
-       model.clear();
-       
+    public static void actualitzaLlista() {
+        model.clear();
+
         for (int i = 0; i < Treballador.getSize(); i++) {
             model.addElement(Treballador.getTreballadors().get(i));
         }
     }
-public static  void actualitzaLlista(List<Treballador> t) {
-       model.clear();
-       
+
+    public static void actualitzaLlista(List<Treballador> t) {
+        model.clear();
+
         for (int i = 0; i < t.size(); i++) {
             model.addElement(t.get(i));
         }
@@ -412,69 +413,21 @@ public static  void actualitzaLlista(List<Treballador> t) {
 
         Treballador tr1 = new Treballador();
         tr1 = RecullirDadesFormulari();
-        String tr1_dni = tr1.getDni();
-        String log = tr1.getLogin();
-        String pass = tr1.getPassword();
-        boolean pass_admin = tr1.getLogin().equals("admin");
-        boolean login_admin = tr1.getPassword().equals("admin");
+         usuari_bd = new GestionarUsuariBd();
+        PostResponse r = usuari_bd.inserirTreballador(tr1.getNom(), tr1.getCognom1(), tr1.getCognom2(), tr1.getDni(), tr1.getLogin(), tr1.getPassword(), tr1.getEsAdmin());
+        if (r.getRequestCode() == 0) {
+            JOptionPane.showMessageDialog(null, r.getMessage());
+        }else{
 
-        if (!comprovaDNI(tr1_dni, Treballador.getTreballadors())) {
-            JOptionPane.showMessageDialog(null, "Treballador actualment en Actiu");
-        } else if (!comprovaLogin_pass(log, Treballador.getTreballadors())) {
-            JOptionPane.showMessageDialog(null, "Login en ús");
+        treballadors = descargaTreballador.obtenirTreballadorsDelServer();
 
-        } else if (pass_admin && login_admin) {
-            JOptionPane.showMessageDialog(null, "Impossible registre");
-        } else {
-            usuari_bd = new GestionarUsuariBd();
-            usuari_bd.inserirTreballador(tr1.getNom(), tr1.getCognom1(), tr1.getCognom2(), tr1.getDni(), tr1.getLogin(), tr1.getPassword(), tr1.getEsAdmin());
-            System.out.println("id en inserir"+tr1.getId());
-            treballadors=descargaTreballador.obtenirTreballadorsDelServer();
-            
-            model.removeAllElements();
-           actualitzaLlista(treballadors);
-//
-//            model.addElement(tr1);
-//            Treballador.setTreballadors(tr1);
-        }
+        model.removeAllElements();
+        actualitzaLlista(treballadors);}
+
 
     }
 
-    public boolean comprovaDNI(String t1, ArrayList<Treballador> a) {
-        boolean compara = true;
 
-        for (int i = 0; i < a.size(); i++) {
-            if (t1.equals(a.get(i).getDni())) {
-                compara = false;
-            }
-
-        }
-        return compara;
-
-    }
-
-    public boolean comprovaLogin_pass(String login, ArrayList<Treballador> a) {
-        boolean compara = true;
-
-        for (int i = 0; i < a.size(); i++) {
-            if (login.equals(a.get(i).getLogin())) {
-                compara = false;
-            }
-
-        }
-        return compara;
-
-    }
-
-    public int cercaTreballadorPerDNI(Treballador t, ArrayList<Treballador> a) {
-        int index = 0;
-        for (int i = 0; i < a.size(); i++) {
-            if (t.getDni().equals(a.get(i).getDni())) {
-                index = i;
-            }
-        }
-        return index;
-    }
 
     public Treballador RecullirDadesFormulari() {
         String sNom = nom.getText();
@@ -485,7 +438,6 @@ public static  void actualitzaLlista(List<Treballador> t) {
         String sDni = dni.getText();
         Integer sEsAdmin = 0;
 
-        //  int Id= Integer.parseInt(_id.getText());
         if (esAdmin.getState()) {
             sEsAdmin = 1;
         } else {
@@ -522,7 +474,7 @@ public static  void actualitzaLlista(List<Treballador> t) {
         password.setText("");
         dni.setText("");
         esAdmin.setState(false);
-        // _id.setText("");
+
     }
 
     public void InsereixTreballador() {
@@ -530,50 +482,16 @@ public static  void actualitzaLlista(List<Treballador> t) {
 
         DescargaTreballador todo = new DescargaTreballador();
         ArrayList<Treballador> treballadors = (ArrayList<Treballador>) todo.obtenirTreballadorsDelServer();
-           //treballadors=descargaTreballador.obtenirTreballadorsDelServer();
+     
         Iterator it = treballadors.iterator();
         while (it.hasNext()) {
             Treballador t = (Treballador) it.next();
-            
-                Treballador.setTreballadors(t);
-                model.addElement(t);
-            
-        }
-        jListTreballadors.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-               
-                int selection = jListTreballadors.getSelectedIndex();
 
-                if (jListTreballadors.getModel().getSize() != 0) {
-                     t = new Treballador();
-                    t = (Treballador) model.getElementAt(selection);
-                    if (jListTreballadors.getSelectedValue() != null) {
-                   
-                         id_treballador = t.getId();
-System.out.println("id en valuechanged"+id_treballador);
-                        nom.setText(t.getNom());
-                        cognom1.setText(t.getCognom1());
-                        cognom2.setText(t.getCognom2());
-                        dni.setText(t.getDni());
-                        login.setText(t.getLogin());
-                        password.setText(t.getPassword());
-                        int j = t.getEsAdmin();
-                        if (j == 1) {
-                            esAdmin.setState(true);
-                            icono = new ImageIcon(getClass().getResource("/Images/admin.png"));
-                            usuario.setIcon(icono);
-                            usuario2.setText("Administrador");
-                        } else {
-                            esAdmin.setState(false);
-                            icono = new ImageIcon(getClass().getResource("/Images/treb.png"));
-                            usuario2.setText("    Usuari");
-                            usuario.setIcon(icono);
-                        }
-                    }
-                }
-            }
-        });
+            Treballador.setTreballadors(t);
+            model.addElement(t);
+
+        }
+        
     }
 
     /**
