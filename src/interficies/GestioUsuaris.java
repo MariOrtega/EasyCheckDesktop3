@@ -42,9 +42,9 @@ public class GestioUsuaris extends javax.swing.JFrame {
     DescargaTreballador descargaTreballador;
     int id_treballador;
 
-   /**
-    *  @author Maria Remedios Ortega
-    */
+    /**
+     * @author Maria Remedios Ortega
+     */
     public GestioUsuaris() {
 
         initComponents();
@@ -57,14 +57,14 @@ public class GestioUsuaris extends javax.swing.JFrame {
         model = new DefaultListModel();
         _id.setVisible(false);
         jListTreballadors.setModel(model);
-        
+
         InsereixTreballador();
         jListTreballadors.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
 
                 int selection = jListTreballadors.getSelectedIndex();
-
+             
                 if (jListTreballadors.getModel().getSize() != 0) {
                     t = new Treballador();
                     t = (Treballador) model.getElementAt(selection);
@@ -339,25 +339,35 @@ public class GestioUsuaris extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 /**
- *  @author Maria Remedios Ortega
- * @param evt 
- */
+     * @author Maria Remedios Ortega
+     * @param evt
+     */
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
         dispose();
 
     }//GEN-LAST:event_jLabel1MouseClicked
-/**
- *  @author Maria Remedios Ortega
- * @param evt 
- */
-    private void btnAfegirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAfegirActionPerformed
-
+    public boolean FormulariComplert() {
         boolean cognoms = cognom1.getText().equals("") && cognom2.getText().equals("");
         boolean login_pass = login.getText().equals("") && password.getText().equals("");
         boolean _dni = dni.getText().equals("");
         boolean _nom = nom.getText().equals("");
 
         if (_nom || cognoms || login_pass || _dni) {
+
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    /**
+     * @author Maria Remedios Ortega
+     * @param evt
+     */
+    private void btnAfegirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAfegirActionPerformed
+
+        if (!FormulariComplert()) {
             JOptionPane.showMessageDialog(null, "Falten dades");
 
         } else {
@@ -365,37 +375,47 @@ public class GestioUsuaris extends javax.swing.JFrame {
             clearForm();
         }
     }//GEN-LAST:event_btnAfegirActionPerformed
-/**
- *  @author Maria Remedios Ortega
- * @param evt 
- */
+    /**
+     * @author Maria Remedios Ortega
+     * 
+     * @return 
+     */
+    
+    public int Tria(){
+         usuari_bd = new GestionarUsuariBd();
+        selection = jListTreballadors.getSelectedIndex();
+       return selection;
+    }
+    /**
+     * @author Maria Remedios Ortega
+     * @param evt 
+     */
     private void btnEsborraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEsborraActionPerformed
 
-        usuari_bd = new GestionarUsuariBd();
-        selection = jListTreballadors.getSelectedIndex();
-        if (selection == -1) {
+        
+        if (Tria()==-1) {
             JOptionPane.showMessageDialog(null, "Seleccionar usuari per esborrar");
         } else {
             Treballador t = (Treballador) model.getElementAt(selection);
-             PostResponse response = usuari_bd.borrarTreballador(String.valueOf(t.getId()));
+            PostResponse response = usuari_bd.borrarTreballador(String.valueOf(t.getId()));
             if (response.getRequestCode() == 0) {
                 JOptionPane.showMessageDialog(null, response.getMessage());
-               
+
+            } else {
+                treballadors = descargaTreballador.obtenirTreballadorsDelServer();
+
+                model.removeAllElements();
+                actualitzaLlista(treballadors);
+
+                clearForm();
             }
-            else{
-            treballadors = descargaTreballador.obtenirTreballadorsDelServer();
-
-            model.removeAllElements();
-            actualitzaLlista(treballadors);
-
-            clearForm();}
 
         }
     }//GEN-LAST:event_btnEsborraActionPerformed
-  /**
-   *  @author Maria Remedios Ortega
-   */
-    
+    /**
+     * @author Maria Remedios Ortega
+     */
+
     public static void actualitzaLlista() {
         model.clear();
 
@@ -403,10 +423,11 @@ public class GestioUsuaris extends javax.swing.JFrame {
             model.addElement(Treballador.getTreballadors().get(i));
         }
     }
-/**
- *  @author Maria Remedios Ortega
- * @param t 
- */
+
+    /**
+     * @author Maria Remedios Ortega
+     * @param t
+     */
     public static void actualitzaLlista(List<Treballador> t) {
         model.clear();
 
@@ -414,55 +435,59 @@ public class GestioUsuaris extends javax.swing.JFrame {
             model.addElement(t.get(i));
         }
     }
-/**
- *  @author Maria Remedios Ortega
- * @param evt 
- */
+
+    /**
+     * @author Maria Remedios Ortega
+     * @param evt
+     */
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-       usuari_bd = new GestionarUsuariBd();
-        
-        int id = Integer.parseInt(_id.getText());
-        String sNom = nom.getText();
-        String sCognom = cognom1.getText();
-        String sCognom2 = cognom2.getText();
-        String sLogin = login.getText();
-        String sPassword = password.getText();
-        String sDni = dni.getText();
-        boolean x = esAdmin.getState();
-        ArrayList<Treballador> treb = (ArrayList<Treballador>) descargaTreballador.obtenirTreballadorsDelServer();
-        Iterator it = treb.iterator();
-        int contador = 1;
+       if (Tria()==-1) {
+            JOptionPane.showMessageDialog(null, "Seleccionar usuari per esborrar");
+       
+        } else {
+            int id = Integer.parseInt(_id.getText());
+            String sNom = nom.getText();
+            String sCognom = cognom1.getText();
+            String sCognom2 = cognom2.getText();
+            String sLogin = login.getText();
+            String sPassword = password.getText();
+            String sDni = dni.getText();
+            boolean x = esAdmin.getState();
 
-        while (it.hasNext()) {
-            Treballador t = (Treballador) it.next();
-            System.out.println("Id del treballador a modificar" + t.getId());
-            if (t.getId() == id) {
-                t.setId(id);
-                t.setNom(sNom);
-                t.setCognom1(sCognom);
-                t.setCognom2(sCognom2);
-                t.setLogin(sLogin);
-                t.setPassword(sPassword);
-                t.setDni(sDni);
-                if (x) {
-                    t.setEsAdmin(1);
-                } else {
-                    t.setEsAdmin(0);
+            ArrayList<Treballador> treb = (ArrayList<Treballador>) descargaTreballador.obtenirTreballadorsDelServer();
+            Iterator it = treb.iterator();
+            int contador = 1;
+
+            while (it.hasNext()) {
+                Treballador t = (Treballador) it.next();
+                System.out.println("Id del treballador a modificar" + t.getId());
+                if (t.getId() == id) {
+                    t.setId(id);
+                    t.setNom(sNom);
+                    t.setCognom1(sCognom);
+                    t.setCognom2(sCognom2);
+                    t.setLogin(sLogin);
+                    t.setPassword(sPassword);
+                    t.setDni(sDni);
+                    if (x) {
+                        t.setEsAdmin(1);
+                    } else {
+                        t.setEsAdmin(0);
+                    }
+
+                    PostResponse response = usuari_bd.actualitzarTreballador(t.getId(), sNom, sCognom, sCognom2, sDni, sLogin, sPassword, t.getEsAdmin());
+                    if (response.getRequestCode() == 0) {
+                        JOptionPane.showMessageDialog(null, response.getMessage());
+                    } else {
+
+                        InsereixTreballador();
+                        actualitzaLlista();
+
+                        break;
+                    }
                 }
-                
-               
-                PostResponse response = usuari_bd.actualitzarTreballador(t.getId(), sNom, sCognom, sCognom2, sDni, sLogin, sPassword, t.getEsAdmin());
-                if (response.getRequestCode() == 0) {
-                    JOptionPane.showMessageDialog(null, response.getMessage());
-                }else{
-               
-               InsereixTreballador();
-                actualitzaLlista();
-
-                break;
-            }}
-            contador++;
-
+                contador++;
+            }
         }
 
 
@@ -471,32 +496,31 @@ public class GestioUsuaris extends javax.swing.JFrame {
     private void dniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dniActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_dniActionPerformed
-/**
- *  @author Maria Remedios Ortega
- */
+    /**
+     * @author Maria Remedios Ortega
+     */
     public void inserirList() {
 
         Treballador tr1 = new Treballador();
         tr1 = RecullirDadesFormulari();
-         usuari_bd = new GestionarUsuariBd();
+        usuari_bd = new GestionarUsuariBd();
         PostResponse r = usuari_bd.inserirTreballador(tr1.getNom(), tr1.getCognom1(), tr1.getCognom2(), tr1.getDni(), tr1.getLogin(), tr1.getPassword(), tr1.getEsAdmin());
         if (r.getRequestCode() == 0) {
             JOptionPane.showMessageDialog(null, r.getMessage());
-        }else{
+        } else {
 
-        treballadors = descargaTreballador.obtenirTreballadorsDelServer();
+            treballadors = descargaTreballador.obtenirTreballadorsDelServer();
 
-        model.removeAllElements();
-        actualitzaLlista(treballadors);}
-
+            model.removeAllElements();
+            actualitzaLlista(treballadors);
+        }
 
     }
 
-
-/**
- *  @author Maria Remedios Ortega
- * @return 
- */
+    /**
+     * @author Maria Remedios Ortega
+     * @return
+     */
     public Treballador RecullirDadesFormulari() {
         String sNom = nom.getText();
         String sCognom = cognom1.getText();
@@ -515,10 +539,11 @@ public class GestioUsuaris extends javax.swing.JFrame {
         return new Treballador(0, sNom, sCognom, sCognom2, sDni, sLogin, sPassword, sEsAdmin, serv);
 
     }
-/**
- *  @author Maria Remedios Ortega
- * @param t 
- */
+
+    /**
+     * @author Maria Remedios Ortega
+     * @param t
+     */
     public void OmplirFormulari(Treballador t) {
 
         _id.setText(String.valueOf(t.getId()));
@@ -536,9 +561,10 @@ public class GestioUsuaris extends javax.swing.JFrame {
         }
 
     }
-/**
- *  @author Maria Remedios Ortega
- */
+
+    /**
+     * @author Maria Remedios Ortega
+     */
     public void clearForm() {
         nom.setText("");
         cognom1.setText("");
@@ -549,28 +575,35 @@ public class GestioUsuaris extends javax.swing.JFrame {
         esAdmin.setState(false);
 
     }
-/**
- *  @author Maria Remedios Ortega
- */
+
+    /**
+     * @author Maria Remedios Ortega
+     */
     public void InsereixTreballador() {
         Treballador.getTreballadors().clear();
 
         DescargaTreballador todo = new DescargaTreballador();
         ArrayList<Treballador> treballadors = (ArrayList<Treballador>) todo.obtenirTreballadorsDelServer();
-     
+
         Iterator it = treballadors.iterator();
         while (it.hasNext()) {
             Treballador t = (Treballador) it.next();
-               if(t.getLogin().equals("admin")){
-                 t=new Treballador();
-                         t.setId(1);
-                         t.setNom("");t.setCognom1("");t.setCognom2("");t.setDni("");t.setLogin("admin");t.setPassword("admin");t.setEsAdmin(1);
-               }
+            if (t.getLogin().equals("admin")) {
+                t = new Treballador();
+                t.setId(1);
+                t.setNom("");
+                t.setCognom1("");
+                t.setCognom2("");
+                t.setDni("");
+                t.setLogin("admin");
+                t.setPassword("admin");
+                t.setEsAdmin(1);
+            }
             Treballador.setTreballadors(t);
             model.addElement(t);
 
         }
-        
+
     }
 
     /**
