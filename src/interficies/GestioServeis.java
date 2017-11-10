@@ -122,18 +122,18 @@ public class GestioServeis extends javax.swing.JFrame {
 
         carregaTreballador(this.treballador);
         carregaAny(this.año);
-        carrega(this.dia, 32);
-        carrega(this.hora_inicio, 25);
-        carrega(this.hora_final, 25);
-        carrega(this.minutos_inicio, 60);
+        carrega(this.dia, 32,1);
+        carrega(this.hora_inicio, 25,0);
+        carrega(this.hora_final, 25,0);
+        carrega(this.minutos_inicio, 60,0);
 
-        carrega(this.minutos_final, 60);
-        carrega(this.mes, 13);
+        carrega(this.minutos_final, 60,0);
+        carrega(this.mes, 13,1);
     }
 
-    public void carrega(Choice choice, int x) {
+    public void carrega(Choice choice, int x,int h) {
         if (x != 25) {
-            for (int i = 0; i < x; i++) {
+            for (int i = h; i < x; i++) {
                 if (i < 10) {
                     choice.add("0" + String.valueOf(i));
                 } else {
