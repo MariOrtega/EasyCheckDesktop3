@@ -225,7 +225,6 @@ public void imprimir(String g){
      * @author Carlos Alberto Castro Cañabate
      */   
     public void accesPrograma() throws SQLException, ClassNotFoundException{
-        
         Integer userID=null;
         GestionarUsuariBd gestio = new GestionarUsuariBd();
         String missatge = gestio.loginTreballador(textUsuario.getText(),textPass.getText());
