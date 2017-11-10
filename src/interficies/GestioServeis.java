@@ -8,6 +8,7 @@ package interficies;
 import Utils.DescargaTreballador;
 import Utils.DescargaServei;
 import Utils.GestioServeisBD;
+import Utils.PostResponse;
 import Utils.ValidaData;
 import clases.Servei;
 import clases.Treballador;
@@ -455,9 +456,12 @@ public class GestioServeis extends javax.swing.JFrame {
         int y= Integer.parseInt(any);
         if (comprovaData(data_servei)&&ValidaData.checkDay(d, m, y)) {
             Servei s = new Servei(0, descripcio, id_treb, data_servei, h_inici + ":" + min_ini, h_final + ":" + min_fi, null);
-            gestio.inserirServei(descripcio, data_servei, h_inici + ":" + min_ini, h_final + ":" + min_fi, id_treb);
+           PostResponse response= gestio.inserirServei(descripcio, data_servei, h_inici + ":" + min_ini, h_final + ":" + min_fi, id_treb);
+           if(response.getRequestCode()==0){
+               JOptionPane.showMessageDialog(null, response.getMessage());
+           }else{
             serveis.add(s);
-            model.addElement(s);
+            model.addElement(s);}
             //model.addElement(s.getLabel());
         } else {
             JOptionPane.showMessageDialog(null, "Data incorrecta!!!");

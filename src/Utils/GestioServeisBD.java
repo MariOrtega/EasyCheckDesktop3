@@ -5,6 +5,7 @@
  */
 package Utils;
 
+import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -28,6 +29,7 @@ import javax.swing.JOptionPane;
 public class GestioServeisBD {
      private static final String BASE_URL = "localhost";
          private static final int PORT = 8080;
+         private Gson gson = new Gson();
     /**
      * @author Carlos Alberto Castro Cañabate 
      * @param id
@@ -68,14 +70,15 @@ public class GestioServeisBD {
     }
          
          
-     public String inserirServei(String descripcio, String dataservei, String horaInici, String horaFinal, int idTreballador) {
-        String response = "";
+     public PostResponse inserirServei(String descripcio, String dataservei, String horaInici, String horaFinal, int idTreballador) {
+       PostResponse response;
         String query = buildQueryInserirServei(descripcio, dataservei, horaInici, horaFinal, idTreballador);
         URL url = NetUtils.buildUrl(BASE_URL, PORT, "/easycheckapi/servei", null);
-        response = NetUtils.doPostRequest(url, query);
-        if (!response.equals("0")) {
-            System.out.println("Inserit servei " + descripcio);
-        }
+        String json = NetUtils.doPostRequest(url, query);
+         response=gson.fromJson(json, PostResponse.class);
+//        if (!response.equals("0")) {
+//            System.out.println("Inserit servei " + descripcio);
+//        }
         return response;
     }
      
