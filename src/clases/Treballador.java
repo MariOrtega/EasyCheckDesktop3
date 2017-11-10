@@ -14,7 +14,13 @@ import java.util.Iterator;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
-public class Treballador implements Serializable{
+/**
+ *
+ * @author Maria
+ */
+
+public class Treballador implements Serializable {
+
     static ArrayList<Treballador> treballadors = new ArrayList();
     private int _id;
     private String nom;
@@ -25,12 +31,32 @@ public class Treballador implements Serializable{
     private String password;
     private int esAdmin;
     private List<Servei> llistaServeis = new ArrayList();
-    
-    public Treballador(){
-     
+    String cap = "<html><br><table width=\"350\" cellspacing=\"1 cellpadding=\"3\" border=\"0\" align=\"center\" bgcolor=\"#FF0033\"> \n"
+            + "<tr> \n<td><font color=\"#FFFFFF\" face=\"arial, verdana, helvetica\" size=6> \n<b>";
+    String mig = "</font></td> </tr> \n <tr>   <td bgcolor=\"#ffffcc\"> \n <font face=\"arial, verdana, helvetica \"size=4>  DNI: ";
+    String login_="<BR>Login: ";
+    String fi=" </font> \n </td></tr></table></br></html>";
+
+    /**
+     * @author Maria Remedios Ortega
+     */
+    public Treballador() {
+
     }
 
-    public Treballador(int _id, String nom, String cognom1, String cognom2, String dni,String login, String password, int esAdmin, List<Servei> llista) {
+    /**
+     * @author Maria Remedios Ortega
+     * @param _id
+     * @param nom
+     * @param cognom1
+     * @param cognom2
+     * @param dni
+     * @param login
+     * @param password
+     * @param esAdmin
+     * @param llista
+     */
+    public Treballador(int _id, String nom, String cognom1, String cognom2, String dni, String login, String password, int esAdmin, List<Servei> llista) {
         this._id = _id;
         this.nom = nom;
         this.cognom1 = cognom1;
@@ -139,6 +165,7 @@ public class Treballador implements Serializable{
     public void setEsAdmin(int esAdmin) {
         this.esAdmin = esAdmin;
     }
+
     /**
      * @return the dni
      */
@@ -154,6 +181,7 @@ public class Treballador implements Serializable{
     }
 
     /**
+     * @author Maria Remedios Ortega
      * @return the llistaServeis
      */
     public List<Servei> getLlistaServeis() {
@@ -166,33 +194,41 @@ public class Treballador implements Serializable{
     public void setLlistaServeis(List<Servei> llistaServeis) {
         this.llistaServeis = llistaServeis;
     }
-    
+
+    /**
+     * @author Maria Remedios Ortega
+     * @return
+     */
     public static ArrayList<Treballador> getTreballadors() {
         return treballadors;
     }
 
+    /**
+     * @author Maria Remedios Ortega
+     * @param treballador
+     */
     public static void setTreballadors(Treballador treballador) {
         Treballador.treballadors.add(treballador);
     }
+
+    /**
+     * @author Maria Remedios Ortega
+     * @return
+     */
     public String toString() {
-        //return "Treballador: " + nom + "  " + cognom1 + "  " + cognom2;
         
-              return  "<html><br><table width=\"350\" cellspacing=\"1\""
-                      + " cellpadding=\"3\" border=\"0\" align=\"center\" bgcolor=\"#FF0033\"> \n" +
-"<tr> \n" +
-"   <td><font color=\"#FFFFFF\" face=\"arial, verdana, helvetica\" size=6> \n" +
-"<b>"+getNom()+"  " +getCognom1()+"  "+getCognom2()+"</b> \n" +
-"   </font></td> </tr> \n" + 
-"<tr>   <td bgcolor=\"#ffffcc\"> \n" +
-"   <font face=\"arial, verdana, helvetica \"size=4>  DNI: "+getDni()+
-              "<BR>Login: "+getLogin()
-              + " </font> \n" +
-"   </td>" +
-"</tr>" +
-"</table></br></html>";
+        
+        return cap+ getNom() + "  " + getCognom1() + "  " + getCognom2() +mig+getDni()+login_+ getLogin()+fi;
+        
     }
-     public static int getSize() {
+
+    /**
+     * @author Maria Remedios Ortega
+     * @return
+     */
+    public static int getSize() {
         return treballadors.size();
     }
 
+    
 }

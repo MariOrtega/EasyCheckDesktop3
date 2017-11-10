@@ -25,7 +25,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     ImageIcon icono;
 
     /**
-     * Creates new form Ventana2
+     *@author Maria Remedios Ortega
      */
     public MenuPrincipal(Integer userID) {
         this.userID = userID;
@@ -196,14 +196,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         System.exit(0);
     }//GEN-LAST:event_jLabel6MouseClicked
-
+/**
+ * @author Maria Remedios Ortega
+ * @param evt 
+ */
     private void gestorUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gestorUsuariosMouseClicked
 
-//        Iterator it = treballadors.iterator();
-//        while (it.hasNext()) {
-//            Treballador t = (Treballador) it.next();
-//            if (t.getId() == userID) {
-//                if (t.getEsAdmin() == 1) {
         if (VentanaLogin.TIPUS_USUARI == 1) {
             GestioUsuaris gestio = new GestioUsuaris();
             gestio.setVisible(true);
@@ -211,13 +209,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Acces denegat per a treballadors!");
 
         }
-
-//                    this.setLocationRelativeTo(null);
-//                } else {
-//                    JOptionPane.showMessageDialog(null, "Acces denegat per a treballadors!");
-//                }
-//            }
-//        }
 
     }//GEN-LAST:event_gestorUsuariosMouseClicked
 
@@ -230,7 +221,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
         serveis.setVisible(true);
         serveis.setLocationRelativeTo(null);
     }//GEN-LAST:event_jLabel2MouseClicked
-
+/**
+ * @author Maria Remedios Ortega
+ * @param evt 
+ */
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
 
         if (VentanaLogin.TIPUS_USUARI == 1) {

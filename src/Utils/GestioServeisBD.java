@@ -63,7 +63,15 @@ public class GestioServeisBD {
         return response;
     }
          
-         
+     /**
+      *  @author Maria Remedios Ortega
+      * @param descripcio
+      * @param dataservei
+      * @param horaInici
+      * @param horaFinal
+      * @param idTreballador
+      * @return 
+      */    
      public PostResponse inserirServei(String descripcio, String dataservei, String horaInici, String horaFinal, int idTreballador) {
         String query = buildQueryInserirServei(descripcio, dataservei, horaInici, horaFinal, idTreballador);
         URL url = NetUtils.buildUrl(BASE_URL, PORT, "/easycheckapi/servei", null);
@@ -93,6 +101,15 @@ public class GestioServeisBD {
     private String buildQueryBorrarServei(int idServei) {
         return "borrarid=" + idServei;
     }
+    /**
+     *  @author Maria Remedios Ortega
+     * @param descripcio
+     * @param dataservei
+     * @param horaInici
+     * @param horaFinal
+     * @param idTreballador
+     * @return 
+     */
       public String buildQueryInserirServei(String descripcio, String dataservei, String horaInici, String horaFinal, int idTreballador) {
         return "descripcio=" + descripcio + "&dataservei=" + dataservei + "&horainici=" + horaInici + "&horafinal=" + horaFinal + "&idtreballador=" + idTreballador;
     }

@@ -42,9 +42,9 @@ public class GestioUsuaris extends javax.swing.JFrame {
     DescargaTreballador descargaTreballador;
     int id_treballador;
 
-    /**
-     * Creates new form GestioUsuaris
-     */
+   /**
+    *  @author Maria Remedios Ortega
+    */
     public GestioUsuaris() {
 
         initComponents();
@@ -338,12 +338,18 @@ public class GestioUsuaris extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+/**
+ *  @author Maria Remedios Ortega
+ * @param evt 
+ */
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
         dispose();
 
     }//GEN-LAST:event_jLabel1MouseClicked
-
+/**
+ *  @author Maria Remedios Ortega
+ * @param evt 
+ */
     private void btnAfegirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAfegirActionPerformed
 
         boolean cognoms = cognom1.getText().equals("") && cognom2.getText().equals("");
@@ -359,7 +365,10 @@ public class GestioUsuaris extends javax.swing.JFrame {
             clearForm();
         }
     }//GEN-LAST:event_btnAfegirActionPerformed
-
+/**
+ *  @author Maria Remedios Ortega
+ * @param evt 
+ */
     private void btnEsborraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEsborraActionPerformed
 
         usuari_bd = new GestionarUsuariBd();
@@ -383,6 +392,10 @@ public class GestioUsuaris extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_btnEsborraActionPerformed
+  /**
+   *  @author Maria Remedios Ortega
+   */
+    
     public static void actualitzaLlista() {
         model.clear();
 
@@ -390,7 +403,10 @@ public class GestioUsuaris extends javax.swing.JFrame {
             model.addElement(Treballador.getTreballadors().get(i));
         }
     }
-
+/**
+ *  @author Maria Remedios Ortega
+ * @param t 
+ */
     public static void actualitzaLlista(List<Treballador> t) {
         model.clear();
 
@@ -398,7 +414,10 @@ public class GestioUsuaris extends javax.swing.JFrame {
             model.addElement(t.get(i));
         }
     }
-
+/**
+ *  @author Maria Remedios Ortega
+ * @param evt 
+ */
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
        usuari_bd = new GestionarUsuariBd();
         
@@ -452,7 +471,9 @@ public class GestioUsuaris extends javax.swing.JFrame {
     private void dniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dniActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_dniActionPerformed
-
+/**
+ *  @author Maria Remedios Ortega
+ */
     public void inserirList() {
 
         Treballador tr1 = new Treballador();
@@ -472,7 +493,10 @@ public class GestioUsuaris extends javax.swing.JFrame {
     }
 
 
-
+/**
+ *  @author Maria Remedios Ortega
+ * @return 
+ */
     public Treballador RecullirDadesFormulari() {
         String sNom = nom.getText();
         String sCognom = cognom1.getText();
@@ -491,7 +515,10 @@ public class GestioUsuaris extends javax.swing.JFrame {
         return new Treballador(0, sNom, sCognom, sCognom2, sDni, sLogin, sPassword, sEsAdmin, serv);
 
     }
-
+/**
+ *  @author Maria Remedios Ortega
+ * @param t 
+ */
     public void OmplirFormulari(Treballador t) {
 
         _id.setText(String.valueOf(t.getId()));
@@ -509,7 +536,9 @@ public class GestioUsuaris extends javax.swing.JFrame {
         }
 
     }
-
+/**
+ *  @author Maria Remedios Ortega
+ */
     public void clearForm() {
         nom.setText("");
         cognom1.setText("");
@@ -520,7 +549,9 @@ public class GestioUsuaris extends javax.swing.JFrame {
         esAdmin.setState(false);
 
     }
-
+/**
+ *  @author Maria Remedios Ortega
+ */
     public void InsereixTreballador() {
         Treballador.getTreballadors().clear();
 

@@ -117,7 +117,9 @@ public class GestioServeis extends javax.swing.JFrame {
         }
         return null;
     }
-
+/**
+ * @author Maria Remedios Ortega
+ */
     public void carregaElements() {
 
         carregaTreballador(this.treballador);
@@ -130,7 +132,9 @@ public class GestioServeis extends javax.swing.JFrame {
         carrega(this.minutos_final, 60,0);
         carrega(this.mes, 13,1);
     }
-
+/**
+ * @author Maria Remedios Ortega
+ */
     public void carrega(Choice choice, int x,int h) {
         if (x != 25) {
             for (int i = h; i < x; i++) {
@@ -150,7 +154,9 @@ public class GestioServeis extends javax.swing.JFrame {
             }
         }
     }
-
+/**
+ * @author Maria Remedios Ortega
+ */
     public void carregaTreballador(Choice choice) {
         for (int i = 0; i < treballadors.size(); i++) {
             Treballador t = treballadors.get(i);
@@ -160,7 +166,9 @@ public class GestioServeis extends javax.swing.JFrame {
             this.treballador.add(t.getNom() + " " + t.getCognom1() + " " + t.getCognom2());}
         }
     }
-
+/**
+ * @author Maria Remedios Ortega
+ */
     public void carregaAny(Choice choice) {
         Calendar calendar = Calendar.getInstance();
         int year = (calendar.get(Calendar.YEAR));
@@ -169,7 +177,11 @@ public class GestioServeis extends javax.swing.JFrame {
             this.año.add(String.valueOf(i));
         }
     }
- 
+ /**
+  * @author Maria Remedios Ortega
+  * @param dataSeleccionada
+  * @return 
+  */
     public boolean comprovaData(String dataSeleccionada) {
         ValidaData d= new ValidaData();
         boolean data=false;
@@ -437,7 +449,10 @@ public class GestioServeis extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+/**
+ * @author Maria Remedios Ortega
+ * @param evt 
+ */
     private void btn_InserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_InserirActionPerformed
         String treballador, descripcio, data, h_inici, h_final, any, mes, min_ini, min_fi;
 
@@ -464,14 +479,19 @@ public class GestioServeis extends javax.swing.JFrame {
            }else{
             serveis.add(s);
             model.addElement(s);}
-            //model.addElement(s.getLabel());
         } else {
             JOptionPane.showMessageDialog(null, "Data incorrecta!!!");
         }
         carregaLlista();
     }//GEN-LAST:event_btn_InserirActionPerformed
+    
+    /**
+     * @author Maria Remedios Ortega
+     * @param nom
+     * @return 
+     */
     public Integer obtenirTreballador(String nom) {
-        // ArrayList<Treballador> treballadors = Treballador.getTreballadors();
+      
         Integer idTreballador = 0;
         Iterator<Treballador> it = treballadors.iterator();
         while (it.hasNext()) {
@@ -483,6 +503,9 @@ public class GestioServeis extends javax.swing.JFrame {
         }
         return idTreballador;
     }
+ /**
+ * @author Maria Remedios Ortega
+ */
     private void sortidaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sortidaMouseClicked
         dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_sortidaMouseClicked
@@ -590,10 +613,6 @@ public class GestioServeis extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btn_cancelaActionPerformed
-
-    public void print(String x) {
-        System.out.print(x + " ");
-    }
 
     /**
      * @param args the command line arguments

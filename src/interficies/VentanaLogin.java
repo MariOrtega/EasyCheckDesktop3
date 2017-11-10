@@ -36,15 +36,13 @@ public class VentanaLogin extends javax.swing.JFrame {
    GestionarUsuariBd gestio;
    
     /**
-     * Creates new form Ventana1
+     * @author Maria Remedios Ortega
      */
     public VentanaLogin() {
         initComponents();
         
-        //Creació del superadmin/////////////////////////////////////////////
         gestio=new GestionarUsuariBd();
-        gestio.inserirTreballador(NOM, NOM, NOM, NOM, "admin", "admin", 1);
-        
+ 
         NOM=this.textUsuario.getText();
         this.setLocationRelativeTo(null);
         this.getContentPane().setBackground(Color.ORANGE);
@@ -148,13 +146,16 @@ public class VentanaLogin extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+/**
+ * @author Maria Remedios Ortega
+ */
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         System.exit(0);
     }//GEN-LAST:event_btnCancelActionPerformed
-public void imprimir(String g){
-    System.out.println(g);
-}
+/**
+ * @author Maria Remedios Ortega
+ * @param evt 
+ */
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         try {
             accesPrograma();
