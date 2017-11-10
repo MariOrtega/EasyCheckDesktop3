@@ -31,6 +31,7 @@ import Utils.GestionarUsuariBd;
 public class VentanaLogin extends javax.swing.JFrame {
   public static String NOM="";
   public static int TIPUS_USUARI;
+  public static int USER_ID;
    GestionarUsuariBd gestio;
    
     /**
@@ -236,7 +237,8 @@ public void imprimir(String g){
             System.out.println(esAdmin[1]);
             TIPUS_USUARI= Integer.parseInt(esAdmin[1]);
             String id_treballador = esAdmin[0].substring(3,esAdmin[0].length());
-            MenuPrincipal ventana= new MenuPrincipal(Integer.parseInt(id_treballador));
+            USER_ID= Integer.parseInt(id_treballador);
+            MenuPrincipal ventana= new MenuPrincipal(USER_ID);
             ventana.setVisible(true);
             this.setVisible(false);    
             

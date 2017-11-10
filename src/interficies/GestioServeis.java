@@ -13,7 +13,6 @@ import Utils.ValidaData;
 import clases.Servei;
 import clases.Treballador;
 import static interficies.GestioUsuaris.model;
-import static interficies.llistaServeis.userID;
 import java.awt.Choice;
 import java.awt.Color;
 import java.text.ParsePosition;

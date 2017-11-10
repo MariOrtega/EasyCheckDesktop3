@@ -225,17 +225,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
      * @author Carlos Alberto Castro Cañabate
      */
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-        
-        llistaServeis serveis = null;
-        if (VentanaLogin.TIPUS_USUARI == 1) {
-            // Si l'usuari logejat es admin enviem per parametre -1 per poder identificar-ho després i mostrar l'UI per admins.
-            serveis = new llistaServeis(-1);
-        } else {
-            serveis = new llistaServeis(userID);
-        }
-               
-            
-        
+
+        llistaServeis  serveis = new llistaServeis();
         serveis.setVisible(true);
         serveis.setLocationRelativeTo(null);
     }//GEN-LAST:event_jLabel2MouseClicked

@@ -30,14 +30,12 @@ public class llistaServeis extends javax.swing.JFrame {
     DefaultListModel modeloLista;
     Integer[] idServei = new Integer [1000];
     Integer treballador = 0;
-    static Integer userID;
     ArrayList<Treballador> treballadors = null;
     
     /**
      * Creates new form NewJFrame
      */
-    public llistaServeis(Integer userID) {
-        this.userID = userID;
+    public llistaServeis() {
         DescargaTreballador todo = new DescargaTreballador();
         treballadors = (ArrayList<Treballador>) todo.obtenirTreballadorsDelServer(); 
         initComponents();
@@ -78,7 +76,7 @@ public class llistaServeis extends javax.swing.JFrame {
             }
         });
         String nomTreballador = nomTreballador();
-        if (esADmin()){
+        if (VentanaLogin.TIPUS_USUARI == 1) {
             emplenarChoice();
             llistaTots();
             label_Principal.setText("Consulta serveis per a Administradors: ");
@@ -87,7 +85,7 @@ public class llistaServeis extends javax.swing.JFrame {
             choiceTrabajador.setVisible(false);
             labelChoice.setVisible(false);
           //  labelChoice.setText("");
-            llistaTreballador(userID);
+            llistaTreballador(VentanaLogin.USER_ID);
             label_Principal.setText("Consulta serveis usuari: "+nomTreballador);
         }
     }
@@ -95,18 +93,13 @@ public class llistaServeis extends javax.swing.JFrame {
         Iterator<Treballador> it = treballadors.iterator();
         while (it.hasNext()) {
             Treballador t = it.next();
-            if (t.getId()==userID) {
+            if (t.getId()==VentanaLogin.USER_ID) {
                 return t.getNom()+" "+t.getCognom1()+" "+t.getCognom2();
             } 
         }
         return null;
     }
-    public boolean esADmin(){
-        // SI el treballador es admin
-        if (userID==-1){
-            return true;
-        } else return false;
-    }
+
     public  Integer obtenirTreballador(String nom) {
        // ArrayList<Treballador> treballadors = Treballador.getTreballadors();
         Integer idTreballador = 0;
@@ -330,7 +323,7 @@ public class llistaServeis extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new llistaServeis(userID).setVisible(true);
+                new llistaServeis().setVisible(true);
             }
         });
     }
