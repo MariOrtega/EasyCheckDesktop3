@@ -386,10 +386,7 @@ public class GestioUsuaris extends javax.swing.JFrame {
         selection = jListTreballadors.getSelectedIndex();
        return selection;
     }
-    /**
-     * @author Maria Remedios Ortega
-     * @param evt 
-     */
+    
     private void btnEsborraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEsborraActionPerformed
 
         
@@ -588,17 +585,7 @@ public class GestioUsuaris extends javax.swing.JFrame {
         Iterator it = treballadors.iterator();
         while (it.hasNext()) {
             Treballador t = (Treballador) it.next();
-            if (t.getLogin().equals("admin")) {
-                t = new Treballador();
-                t.setId(1);
-                t.setNom("");
-                t.setCognom1("");
-                t.setCognom2("");
-                t.setDni("");
-                t.setLogin("admin");
-                t.setPassword("admin");
-                t.setEsAdmin(1);
-            }
+           
             Treballador.setTreballadors(t);
             model.addElement(t);
 

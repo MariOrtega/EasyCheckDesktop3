@@ -159,12 +159,9 @@ public class GestioServeis extends javax.swing.JFrame {
  */
     public void carregaTreballador(Choice choice) {
         for (int i = 0; i < treballadors.size(); i++) {
-            Treballador t = treballadors.get(i);
-                if(t.getLogin().equals("admin")){
-                    this.treballador.add(t.getNom() );
-                }else{
+            Treballador t = treballadors.get(i);        
             this.treballador.add(t.getNom() + " " + t.getCognom1() + " " + t.getCognom2());}
-        }
+        
     }
 /**
  * @author Maria Remedios Ortega
