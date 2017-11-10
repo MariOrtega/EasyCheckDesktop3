@@ -22,6 +22,7 @@ import clases.Treballador;
 import java.util.ArrayList;
 import java.util.Iterator;
 import Utils.GestionarUsuariBd;
+import Utils.PostResponse;
 
 
 /**
@@ -228,15 +229,17 @@ public void imprimir(String g){
     public void accesPrograma() throws SQLException, ClassNotFoundException{
         Integer userID=null;
         GestionarUsuariBd gestio = new GestionarUsuariBd();
-        String missatge = gestio.loginTreballador(textUsuario.getText(),textPass.getText());
-        if (missatge.contains("0:")){
-            JOptionPane.showMessageDialog(null,missatge.substring(2,missatge.length()));
+        PostResponse response = gestio.loginTreballador(textUsuario.getText(),textPass.getText());
+        if (response.getRequestCode()==0){
+            JOptionPane.showMessageDialog(null,response.getMessage());
         } else {
             NOM=this.textUsuario.getText();
+            String missatge = response.getMessage();
+            System.out.println(missatge);
             String[] esAdmin = missatge.split("Admin:");
             System.out.println(esAdmin[1]);
             TIPUS_USUARI= Integer.parseInt(esAdmin[1]);
-            String id_treballador = esAdmin[0].substring(3,esAdmin[0].length());
+            String id_treballador = esAdmin[0].substring(0,esAdmin[0].length());
             USER_ID= Integer.parseInt(id_treballador);
             MenuPrincipal ventana= new MenuPrincipal(USER_ID);
             ventana.setVisible(true);

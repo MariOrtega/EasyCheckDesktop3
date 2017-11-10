@@ -65,14 +65,12 @@ public class GestionarUsuariBd {
   * @param password
   * @return 
   */
-    public String loginTreballador (String login, String password) {
-        String resposta;
+    public PostResponse  loginTreballador (String login, String password) {
         String query = buildQueryLogin(login,password);
         URL url = NetUtils.buildUrl(BASE_URL, PORT, "/easycheckapi/login", null);
         String json = NetUtils.doPostRequest(url, query);        
         PostResponse response = gson.fromJson(json, PostResponse.class);
-        resposta = Integer.toString(response.getRequestCode())+": "+response.getMessage();
-        return resposta;
+        return response;
 
     }
     /**

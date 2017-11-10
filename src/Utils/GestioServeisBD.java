@@ -42,43 +42,33 @@ public class GestioServeisBD {
      * @param esadmin
      * @return 
      */     
-    public String actualitzarServei(int id, String descripcio, String dataservei, String horaInici, String horaFinal, int idTreballador) {
-        String response = "";
+    public PostResponse actualitzarServei(int id, String descripcio, String dataservei, String horaInici, String horaFinal, int idTreballador) {
+        PostResponse response;
         String query = buildQueryActualitzarServei(id, descripcio, dataservei, horaInici, horaFinal, idTreballador);
         URL url = NetUtils.buildUrl(BASE_URL, PORT, "/easycheckapi/servei", null);
-        response = NetUtils.doPostRequest(url, query);
-        if (!response.equals("0")) {
-            System.out.println("Actualitzat servei " + descripcio + " amb id " + id);
-        } else System.out.println(response);
+        String json = NetUtils.doPostRequest(url, query);
+        response=gson.fromJson(json, PostResponse.class);
         return response;
     }   
     /**
-     * 
      * @author Carlos Alberto Castro Cañabate
      * @param idServei
      * @return 
      */
-    public String borrarServei(int idServei) {
-        String response = "";
+    public PostResponse borrarServei(int idServei) {
         String query = buildQueryBorrarServei(idServei);
         URL url = NetUtils.buildUrl(BASE_URL, PORT, "/easycheckapi/servei", null);
-        response = NetUtils.doPostRequest(url, query);
-        if (response.charAt(0)!=('0')) {
-            System.out.println("Borrat servei " + idServei);
-        } 
+        String json = NetUtils.doPostRequest(url, query);
+        PostResponse response=gson.fromJson(json, PostResponse.class);
         return response;
     }
          
          
      public PostResponse inserirServei(String descripcio, String dataservei, String horaInici, String horaFinal, int idTreballador) {
-       PostResponse response;
         String query = buildQueryInserirServei(descripcio, dataservei, horaInici, horaFinal, idTreballador);
         URL url = NetUtils.buildUrl(BASE_URL, PORT, "/easycheckapi/servei", null);
         String json = NetUtils.doPostRequest(url, query);
-         response=gson.fromJson(json, PostResponse.class);
-//        if (!response.equals("0")) {
-//            System.out.println("Inserit servei " + descripcio);
-//        }
+        PostResponse response=gson.fromJson(json, PostResponse.class);
         return response;
     }
      

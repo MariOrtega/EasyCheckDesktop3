@@ -548,12 +548,15 @@ public class GestioServeis extends javax.swing.JFrame {
 
                     serveis.add(s);
                     model.addElement(s);
-                    gestio.actualitzarServei(s.getId(), descripcio, data_servei, horaInici, horaFinal, id_treb);
-                    model.remove(model.getSize() - 1);
+                    PostResponse response = gestio.actualitzarServei(s.getId(), descripcio, data_servei, horaInici, horaFinal, id_treb);
+                    if (response.getRequestCode()==0){
+                        JOptionPane.showMessageDialog(null,response.getMessage());
+                    } else {
+                        model.remove(model.getSize() - 1);
+                    }    
                     break;
                 }
                 contador++;
-
             }
             JOptionPane.showMessageDialog(null, "Servei modificat!");
         } else {
@@ -574,12 +577,9 @@ public class GestioServeis extends javax.swing.JFrame {
             Servei s = (Servei) model.getElementAt(seleccionat);
             Integer id_servei = s.getId();
             if (JOptionPane.showConfirmDialog(null, "Esta a punt d'esborrar aquesta entrada?") == 0) {
-                String missatge = gestio.borrarServei(id_servei);
-                System.out.println("Missatge: "+missatge);
-                if (missatge.contains("\"requestCode\": 0")){
-                    String[] text = missatge.split("\"message\":");
-                   
-                    JOptionPane.showMessageDialog(null,text[1].substring(0,text[1].length()-2));
+                PostResponse response = gestio.borrarServei(id_servei);
+                if (response.getRequestCode()==0){
+                    JOptionPane.showMessageDialog(null,response.getMessage());
                 } else {
                     Servei.getLlistaServeis().remove(s);
                     model.remove(seleccionat);
