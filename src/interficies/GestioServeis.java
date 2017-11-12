@@ -5,11 +5,12 @@
  */
 package interficies;
 
+import Comprovacions.CarregaChoice;
 import Utils.DescargaTreballador;
 import Utils.DescargaServei;
 import Utils.GestioServeisBD;
 import Utils.PostResponse;
-import Utils.ValidaData;
+import Comprovacions.ValidaData;
 import clases.Servei;
 import clases.Treballador;
 import java.awt.Choice;
@@ -53,9 +54,7 @@ public class GestioServeis extends javax.swing.JFrame {
         model = new DefaultListModel();
         Jservicios.setModel(model);
         treballadors = des_treb.obtenirTreballadorsDelServer();
-
         carregaElements();
-
         this.setLocationRelativeTo(null);
 
         /**
@@ -117,92 +116,20 @@ public class GestioServeis extends javax.swing.JFrame {
         }
         return null;
     }
-/**
- * @author Maria Remedios Ortega
- */
+
+    /**
+     * @author Maria Remedios Ortega
+     */
     public void carregaElements() {
 
-        carregaTreballador(this.treballador);
-        carregaAny(this.año);
-        carrega(this.dia, 32,1);
-        carrega(this.hora_inicio, 25,0);
-        carrega(this.hora_final, 25,0);
-        carrega(this.minutos_inicio, 60,0);
-
-        carrega(this.minutos_final, 60,0);
-        carrega(this.mes, 13,1);
-    }
-/**
- * @author Maria Remedios Ortega
- */
-    public void carrega(Choice choice, int x,int h) {
-        if (x != 25) {
-            for (int i = h; i < x; i++) {
-                if (i < 10) {
-                    choice.add("0" + String.valueOf(i));
-                } else {
-                    choice.add(String.valueOf(i));
-                }
-            }
-        } else {
-            for (int i = 0; i < x; i++) {
-                if (i < 10) {
-                    choice.add("0" + String.valueOf(i));
-                } else {
-                    choice.add(String.valueOf(i));
-                }
-            }
-        }
-    }
-/**
- * @author Maria Remedios Ortega
- */
-    public void carregaTreballador(Choice choice) {
-        for (int i = 0; i < treballadors.size(); i++) {
-            Treballador t = treballadors.get(i);        
-            this.treballador.add(t.getNom() + " " + t.getCognom1() + " " + t.getCognom2());}
-        
-    }
-/**
- * @author Maria Remedios Ortega
- */
-    public void carregaAny(Choice choice) {
-        Calendar calendar = Calendar.getInstance();
-        int year = (calendar.get(Calendar.YEAR));
-        System.out.println(year);
-        for (int i = year; i < 2101; i++) {
-            this.año.add(String.valueOf(i));
-        }
-    }
- /**
-  * @author Maria Remedios Ortega
-  * @param dataSeleccionada
-  * @return 
-  */
-    public boolean comprovaData(String dataSeleccionada) {
-        ValidaData d= new ValidaData();
-        boolean data=false;
-        Calendar calendar = Calendar.getInstance();
-        int year = (calendar.get(Calendar.YEAR));
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        int month = calendar.get(Calendar.MONTH) + 1;
-        System.out.println(day);
-        String dataActual = (day + "/" + month + "/" + year);
-       
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            Date dataActual_parseada = sdf.parse(dataActual, new ParsePosition(0));
-            Date dataSeleccionada_parseada = sdf.parse(dataSeleccionada, new ParsePosition(0));
-
-            if (dataActual_parseada.before(dataSeleccionada_parseada)) {
-                data = true;
-            } else {
-
-                data = false;
-
-            }
-      
-        
-        return data;
+        CarregaChoice.carregaTreballador(this.treballador, (ArrayList<Treballador>) treballadors);
+        CarregaChoice.carregaAny(this.año);
+        CarregaChoice.carrega(this.dia, 32, 1);
+        CarregaChoice.carrega(this.hora_inicio, 25, 0);
+        CarregaChoice.carrega(this.hora_final, 25, 0);
+        CarregaChoice.carrega(this.minutos_inicio, 60, 0);
+        CarregaChoice.carrega(this.minutos_final, 60, 0);
+        CarregaChoice.carrega(this.mes, 13, 1);
     }
 
     /**
@@ -461,10 +388,12 @@ public class GestioServeis extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-/**
- * @author Maria Remedios Ortega
- * @param evt 
- */
+
+
+    /**
+     * @author Maria Remedios Ortega
+     * @param evt
+     */
     private void btn_InserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_InserirActionPerformed
         String treballador, descripcio, data, h_inici, h_final, any, mes, min_ini, min_fi;
 
@@ -478,32 +407,49 @@ public class GestioServeis extends javax.swing.JFrame {
         any = this.año.getSelectedItem();
         min_ini = minutos_inicio.getSelectedItem();
         min_fi = this.minutos_final.getSelectedItem();
-
         String data_servei = data + "/" + mes + "/" + any;
-        int d=Integer.parseInt(data);
-        int m=Integer.parseInt(mes);
-        int y= Integer.parseInt(any);
-        if (comprovaData(data_servei)&&ValidaData.checkDay(d, m, y)) {
-            Servei s = new Servei(0, descripcio, id_treb, data_servei, h_inici + ":" + min_ini, h_final + ":" + min_fi, null);
-           PostResponse response= gestio.inserirServei(descripcio, data_servei, h_inici + ":" + min_ini, h_final + ":" + min_fi, id_treb);
-           if(response.getRequestCode()==0){
-               JOptionPane.showMessageDialog(null, response.getMessage());
-           }else{
-            serveis.add(s);
-            model.addElement(s);}
-        } else {
-            JOptionPane.showMessageDialog(null, "Data incorrecta!!!");
+
+      
+
+        int d = Integer.parseInt(data);
+        int m = Integer.parseInt(mes);
+        int y = Integer.parseInt(any);
+       Servei serv = new Servei(0, descripcio, id_treb, data_servei, h_inici + ":" + min_ini, h_final + ":" + min_fi, null);
+
+       
+       
+        if (ValidaData.comprovaFormulari(this.origen.getText(), this.destino.getText(), id_treb))
+        {
+            if (ValidaData.comprovaData(data_servei) && ValidaData.checkDay(d, m, y)) 
+            {
+                Servei s = new Servei(0, descripcio, id_treb, data_servei, h_inici + ":" + min_ini, h_final + ":" + min_fi, null);
+              
+                PostResponse response = gestio.inserirServei(descripcio, data_servei, h_inici + ":" + min_ini, h_final + ":" + min_fi, id_treb);
+                if (response.getRequestCode() == 0) {
+                    JOptionPane.showMessageDialog(null, response.getMessage());
+                } else {
+                    serveis.add(s);
+                    model.addElement(s);
+                }
+                
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Data incorrecta!!!");
+
+            }
         }
-        carregaLlista();
+            carregaLlista();
+        
+      
     }//GEN-LAST:event_btn_InserirActionPerformed
-    
+   
     /**
      * @author Maria Remedios Ortega
      * @param nom
-     * @return 
+     * @return
      */
     public Integer obtenirTreballador(String nom) {
-      
+
         Integer idTreballador = 0;
         Iterator<Treballador> it = treballadors.iterator();
         while (it.hasNext()) {
@@ -515,9 +461,10 @@ public class GestioServeis extends javax.swing.JFrame {
         }
         return idTreballador;
     }
- /**
- * @author Maria Remedios Ortega
- */
+
+    /**
+     * @author Maria Remedios Ortega
+     */
     private void sortidaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sortidaMouseClicked
         dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_sortidaMouseClicked
@@ -530,7 +477,7 @@ public class GestioServeis extends javax.swing.JFrame {
      * @author Carlos Alberto Castro Cañabate
      * @param evt
      */
-    public void carregaLlista(){
+    public void carregaLlista() {
         serveis = DescargaServei.obtenirServeisDelServer();
         model.removeAllElements();
         model = new DefaultListModel();
@@ -549,7 +496,7 @@ public class GestioServeis extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (seleccionat == null) {
             JOptionPane.showMessageDialog(null, "Selecciona servei!");
-        } else{
+        } else {
             String treballador, descripcio, data, h_inici, m_inici, m_final, h_final, any, mes;
             treballador = this.treballador.getSelectedItem();
             int id_treb = obtenirTreballador(treballador);
@@ -565,10 +512,10 @@ public class GestioServeis extends javax.swing.JFrame {
             any = this.año.getSelectedItem();
 
             String data_servei = data + "/" + mes + "/" + any;
-            int d=Integer.parseInt(data);
-            int m=Integer.parseInt(mes);
-            int y= Integer.parseInt(any);
-            if (comprovaData(data_servei)&& ValidaData.checkDay(d, m, y)) {
+            int d = Integer.parseInt(data);
+            int m = Integer.parseInt(mes);
+            int y = Integer.parseInt(any);
+            if (ValidaData.comprovaData(data_servei) && ValidaData.checkDay(d, m, y)) {
                 //  ArrayList<Servei> serv = Servei.getLlistaServeis();
                 Iterator it2 = serveis.iterator();
                 int contador = 1;
@@ -588,11 +535,11 @@ public class GestioServeis extends javax.swing.JFrame {
                         serveis.add(s);
                         model.addElement(s);
                         PostResponse response = gestio.actualitzarServei(s.getId(), descripcio, data_servei, horaInici, horaFinal, id_treb);
-                        if (response.getRequestCode()==0){
-                            JOptionPane.showMessageDialog(null,response.getMessage());
+                        if (response.getRequestCode() == 0) {
+                            JOptionPane.showMessageDialog(null, response.getMessage());
                         } else {
                             model.remove(model.getSize() - 1);
-                        }    
+                        }
                         break;
                     }
                     contador++;
@@ -601,7 +548,7 @@ public class GestioServeis extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(null, "Data incorrecta!");
             }
-        }  
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
     /**
      * @author Carlos Alberto Castro Cañabate
@@ -617,13 +564,13 @@ public class GestioServeis extends javax.swing.JFrame {
             Integer id_servei = s.getId();
             if (JOptionPane.showConfirmDialog(null, "Esta a punt d'esborrar aquesta entrada?") == 0) {
                 PostResponse response = gestio.borrarServei(id_servei);
-                if (response.getRequestCode()==0){
-                    JOptionPane.showMessageDialog(null,response.getMessage());
+                if (response.getRequestCode() == 0) {
+                    JOptionPane.showMessageDialog(null, response.getMessage());
                 } else {
                     Servei.getLlistaServeis().remove(s);
                     model.remove(seleccionat);
                 }
-                
+
             }
         }
     }//GEN-LAST:event_btn_cancelaActionPerformed
@@ -642,16 +589,24 @@ public class GestioServeis extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GestioServeis.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GestioServeis.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GestioServeis.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GestioServeis.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GestioServeis.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GestioServeis.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GestioServeis.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GestioServeis.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
