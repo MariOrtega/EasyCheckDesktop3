@@ -17,6 +17,8 @@ import javax.swing.SwingConstants;
 /**
  *
  * @author Maria
+ * 
+ * Classe creada per formatar la sortida a la interficie de gestor usuaris
  */
 public class RenderTreballador extends JLabel implements ListCellRenderer {
 

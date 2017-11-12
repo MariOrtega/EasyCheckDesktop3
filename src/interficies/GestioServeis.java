@@ -414,8 +414,7 @@ public class GestioServeis extends javax.swing.JFrame {
         int d = Integer.parseInt(data);
         int m = Integer.parseInt(mes);
         int y = Integer.parseInt(any);
-       Servei serv = new Servei(0, descripcio, id_treb, data_servei, h_inici + ":" + min_ini, h_final + ":" + min_fi, null);
-
+     
        
        
         if (ValidaData.comprovaFormulari(this.origen.getText(), this.destino.getText(), id_treb))
