@@ -200,6 +200,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jLabel6MouseClicked
     /**
+     * 
+     * Mètode per comprovar si l'usuaris es admin o treballador, segons el seu rol tindrà accès 
+     * o no a gestionar usuaris i serveis o consultar solament els seus serveis.
      * @author Maria Remedios Ortega
      * @param evt
      */
@@ -225,6 +228,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
         serveis.setLocationRelativeTo(null);
     }//GEN-LAST:event_jLabel2MouseClicked
     /**
+     * Mètode per comprovar si l'usuaris es admin o treballador, segons el seu rol tindrà accès 
+     * o no a gestionar usuaris i serveis o consultar solament els seus serveis.
+     *
      * @author Maria Remedios Ortega
      * @param evt
      */

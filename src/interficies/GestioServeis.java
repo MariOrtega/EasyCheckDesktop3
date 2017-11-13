@@ -119,6 +119,8 @@ public class GestioServeis extends javax.swing.JFrame {
 
     /**
      * @author Maria Remedios Ortega
+     * 
+     * Mètode pel qual es carreguen tots els elements dels choice d'aquest JFrame
      */
     public void carregaElements() {
 
@@ -393,6 +395,9 @@ public class GestioServeis extends javax.swing.JFrame {
     /**
      * @author Maria Remedios Ortega
      * @param evt
+     * 
+     * Mètode per inserir un servei a la base de dades amb peticio al servidor Post.
+     * Prèviament es controla si la data introduida es correcta.
      */
     private void btn_InserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_InserirActionPerformed
         String treballador, descripcio, data, h_inici, h_final, any, mes, min_ini, min_fi;
@@ -443,9 +448,11 @@ public class GestioServeis extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_InserirActionPerformed
    
     /**
+     * 
+     * Mètode per obtenir mitjançant el nom del treballador el seu id.
      * @author Maria Remedios Ortega
      * @param nom
-     * @return
+     * @return int amb el id del treballador
      */
     public Integer obtenirTreballador(String nom) {
 

@@ -18,9 +18,16 @@ public class GestionarUsuariBd {
     private static final String BASE_URL = "easycheck.hopto.org";
     private static final int PORT = 8080;
     private Gson gson = new Gson();
+    
+    
 
     /**
      * @author Maria Remedios Ortega
+     * 
+     * Mètode pel qual s'envia una peticio post i el servidor conecta amb la base de dades 
+     * enviant el query respectiu. El servidor retornarà PostResponse amb un codi(0 o 1) i missatge
+     * amb el resultat de l'operació efectuada.
+     * 
      * @param nom
      * @param cognom1
      * @param cognom2
@@ -28,7 +35,7 @@ public class GestionarUsuariBd {
      * @param login
      * @param password
      * @param esadmin
-     * @return
+     * @return response
      */
     public PostResponse inserirTreballador(String nom, String cognom1, String cognom2, String dni, String login, String password, int esadmin) {
         PostResponse response;
@@ -41,6 +48,11 @@ public class GestionarUsuariBd {
     }
 
     /**
+     * 
+     * Mètode pel qual s'envia una peticio post i el servidor conecta amb la base de dades 
+     * enviant el query respectiu. El servidor retornarà PostResponse amb un codi(0 o 1) i missatge
+     * amb el resultat de l'operació efectuada.
+     * 
      * @author Maria Remedios Ortega
      * @param id
      * @param nom
@@ -50,7 +62,7 @@ public class GestionarUsuariBd {
      * @param login
      * @param password
      * @param esadmin
-     * @return
+     * @return response
      */
     public PostResponse actualitzarTreballador(int id, String nom, String cognom1, String cognom2, String dni, String login, String password, int esadmin) {
         PostResponse response;
@@ -64,8 +76,13 @@ public class GestionarUsuariBd {
 
     /**
      * @author Maria Remedios Ortega
+     * 
+     * Mètode pel qual s'envia una peticio post i el servidor conecta amb la base de dades 
+     * enviant el query respectiu. El servidor retornarà PostResponse amb un codi(0 o 1) i missatge
+     * amb el resultat de l'operació efectuada.
+     * 
      * @param idTreballador
-     * @return
+     * @return response
      */
     public PostResponse borrarTreballador(String idTreballador) {
         PostResponse response;

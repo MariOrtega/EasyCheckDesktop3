@@ -79,7 +79,7 @@ public class GestioServeisBD {
      * @param horaInici
      * @param horaFinal
      * @param idTreballador
-     * @return PostResponse
+     * @return response 
      */
     public PostResponse inserirServei(String descripcio, String dataservei, String horaInici, String horaFinal, int idTreballador) {
         String query = buildQueryInserirServei(descripcio, dataservei, horaInici, horaFinal, idTreballador);

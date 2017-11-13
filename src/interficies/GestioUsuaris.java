@@ -64,12 +64,13 @@ public class GestioUsuaris extends javax.swing.JFrame {
             public void valueChanged(ListSelectionEvent e) {
 
                 int selection = jListTreballadors.getSelectedIndex();
-             
+
                 if (jListTreballadors.getModel().getSize() != 0) {
                     t = new Treballador();
                     t = (Treballador) model.getElementAt(selection);
                     if (jListTreballadors.getSelectedValue() != null) {
 
+                        // es recull les dades del treballador seleccionat
                         id_treballador = t.getId();
                         _id.setText(String.valueOf(id_treballador));
                         nom.setText(t.getNom());
@@ -79,6 +80,8 @@ public class GestioUsuaris extends javax.swing.JFrame {
                         login.setText(t.getLogin());
                         password.setText(t.getPassword());
                         int j = t.getEsAdmin();
+
+                        // es controla si es administrador o usuari i s'assignarà l'icon corresponent
                         if (j == 1) {
                             esAdmin.setState(true);
                             icono = new ImageIcon(getClass().getResource("/Images/admin.png"));
@@ -197,11 +200,6 @@ public class GestioUsuaris extends javax.swing.JFrame {
         jLabel8.setText("DNI");
 
         dni.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        dni.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dniActionPerformed(evt);
-            }
-        });
 
         jScrollPane1.setViewportView(jListTreballadors);
 
@@ -346,6 +344,15 @@ public class GestioUsuaris extends javax.swing.JFrame {
         dispose();
 
     }//GEN-LAST:event_jLabel1MouseClicked
+
+    /**
+     * @author Maria
+     *
+     * Mètode que es l'encarregat de comprovar que el formulari esta degudament
+     * complert
+     *
+     * @return boolean
+     */
     public boolean FormulariComplert() {
         boolean cognoms = cognom1.getText().equals("") && cognom2.getText().equals("");
         boolean login_pass = login.getText().equals("") && password.getText().equals("");
@@ -376,21 +383,29 @@ public class GestioUsuaris extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAfegirActionPerformed
     /**
+     * Mètode per comprovar si s'ha seleccionat un objecte al JList abans de
+     * realitzar cap acció
+     *
      * @author Maria Remedios Ortega
-     * 
-     * @return 
+     *
+     * @return integer amb la selecció(-1 si no s'ha seleccionat res, 1 si s'ha
+     * seleccionat objecte)
      */
-    
-    public int Tria(){
-         usuari_bd = new GestionarUsuariBd();
+    public int Tria() {
+        usuari_bd = new GestionarUsuariBd();
         selection = jListTreballadors.getSelectedIndex();
-       return selection;
+        return selection;
     }
-    
+
+    /**
+     * Mètode per esborrar treballador seleccionat al Jlist Maria Remedios
+     * Ortega
+     *
+     * @param evt
+     */
     private void btnEsborraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEsborraActionPerformed
 
-        
-        if (Tria()==-1) {
+        if (Tria() == -1) {
             JOptionPane.showMessageDialog(null, "Seleccionar usuari per esborrar");
         } else {
             Treballador t = (Treballador) model.getElementAt(selection);
@@ -411,6 +426,8 @@ public class GestioUsuaris extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEsborraActionPerformed
     /**
      * @author Maria Remedios Ortega
+     *
+     * Mètode pel qual carrega del servidor llista de treballadors
      */
 
     public static void actualitzaLlista() {
@@ -422,6 +439,9 @@ public class GestioUsuaris extends javax.swing.JFrame {
     }
 
     /**
+     *
+     * Mètode que actualitza ArrayList de treballadors
+     *
      * @author Maria Remedios Ortega
      * @param t
      */
@@ -434,13 +454,17 @@ public class GestioUsuaris extends javax.swing.JFrame {
     }
 
     /**
+     *
+     * Mètode per modificar objecte seleccionat al JList. Envia petició Post al
+     * servidor i aquest realitza els canvis pertinents
+     *
      * @author Maria Remedios Ortega
      * @param evt
      */
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-       if (Tria()==-1) {
+        if (Tria() == -1) {
             JOptionPane.showMessageDialog(null, "Seleccionar usuari per esborrar");
-       
+
         } else {
             int id = Integer.parseInt(_id.getText());
             String sNom = nom.getText();
@@ -489,12 +513,11 @@ public class GestioUsuaris extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_btnModificarActionPerformed
-
-    private void dniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dniActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_dniActionPerformed
     /**
      * @author Maria Remedios Ortega
+     *
+     * Recull dades del formulari amb el nou treballador inserit. Envia petició
+     * post al server amb les dades. mostra en JList
      */
     public void inserirList() {
 
@@ -515,8 +538,10 @@ public class GestioUsuaris extends javax.swing.JFrame {
     }
 
     /**
+     * Recull dades del formulari i retorna objecte Treballador amb les dades
+     *
      * @author Maria Remedios Ortega
-     * @return
+     * @return Treballador
      */
     public Treballador RecullirDadesFormulari() {
         String sNom = nom.getText();
@@ -538,28 +563,8 @@ public class GestioUsuaris extends javax.swing.JFrame {
     }
 
     /**
-     * @author Maria Remedios Ortega
-     * @param t
-     */
-    public void OmplirFormulari(Treballador t) {
-
-        _id.setText(String.valueOf(t.getId()));
-        nom.setText(t.getNom());
-        cognom1.setText(t.getCognom1());
-        cognom2.setText(t.getCognom2());
-        dni.setText(t.getDni());
-        login.setText(t.getLogin());
-        password.setText(t.getPassword());
-        Integer value = t.getEsAdmin();
-        if (value == 1) {
-            esAdmin.setState(true);
-        } else {
-            esAdmin.setState(false);
-        }
-
-    }
-
-    /**
+     * Mètode per esborrar formulari de JFrame
+     *
      * @author Maria Remedios Ortega
      */
     public void clearForm() {
@@ -575,6 +580,9 @@ public class GestioUsuaris extends javax.swing.JFrame {
 
     /**
      * @author Maria Remedios Ortega
+     *
+     * Descarrega llista de treballadors a un arrayList i assigna els
+     * treballadors a un Jlist per mostrar
      */
     public void InsereixTreballador() {
         Treballador.getTreballadors().clear();
@@ -585,7 +593,7 @@ public class GestioUsuaris extends javax.swing.JFrame {
         Iterator it = treballadors.iterator();
         while (it.hasNext()) {
             Treballador t = (Treballador) it.next();
-           
+
             Treballador.setTreballadors(t);
             model.addElement(t);
 
