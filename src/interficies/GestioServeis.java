@@ -536,21 +536,22 @@ public class GestioServeis extends javax.swing.JFrame {
                         s.setHora_inici(horaInici);
                         s.setHora_final(horaFinal);
                         s.setData_servei(data_servei);
-                        Servei.getLlistaServeis().remove(s);
-
-                        serveis.add(s);
-                        model.addElement(s);
+                        
                         PostResponse response = gestio.actualitzarServei(s.getId(), descripcio, data_servei, horaInici, horaFinal, id_treb);
                         if (response.getRequestCode() == 0) {
                             JOptionPane.showMessageDialog(null, response.getMessage());
                         } else {
+                            Servei.getLlistaServeis().remove(s);
+                            serveis.add(s);
+                            model.addElement(s);
                             model.remove(model.getSize() - 1);
+                            JOptionPane.showMessageDialog(null, "Servei modificat!");
                         }
                         break;
                     }
                     contador++;
                 }
-                JOptionPane.showMessageDialog(null, "Servei modificat!");
+               
             } else {
                 JOptionPane.showMessageDialog(null, "Data incorrecta!");
             }
