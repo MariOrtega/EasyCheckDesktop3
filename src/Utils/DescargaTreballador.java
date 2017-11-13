@@ -27,20 +27,20 @@ import java.util.logging.Logger;
  * @author Carlos
  */
 public class DescargaTreballador {
-    
+
 //    private static final String BASE_URL = "localhost";
-//    private static final int PORT = 8080;
-     private static final String BASE_URL = "easycheck.hopto.org";
-         private static final int PORT = 8080;
+    private static final String BASE_URL = "easycheck.hopto.org";
+    private static final int PORT = 8080;
     public static ArrayList<Treballador> treballadors;
+
     public static void main(String[] args) {
         DescargaTreballador test = new DescargaTreballador();
     }
-    
-    public DescargaTreballador(){
+
+    public DescargaTreballador() {
         treballadors = (ArrayList<Treballador>) obtenirTreballadorsDelServer();
     }
-    
+
     public URL buildUrl(String host, int port, String path, String query) {
         try {
             return new URI("http", null, host, port, path, query, null).toURL();
@@ -51,9 +51,11 @@ public class DescargaTreballador {
         }
         return null;
     }
-    public List<Servei> obtenirServeisDelServer(){
+
+    public List<Servei> obtenirServeisDelServer() {
         return null;
     }
+
     public List<Treballador> obtenirTreballadorsDelServer() {
         String json = "";
         URL url = buildUrl(BASE_URL, PORT, "/easycheckapi/treballador", null);
@@ -62,8 +64,7 @@ public class DescargaTreballador {
         java.lang.reflect.Type tipusLlistaDeTreballadors = new TypeToken<List<Treballador>>() {
         }.getType();
         ArrayList<Treballador> llistaDeTreballadors = gson.fromJson(json, tipusLlistaDeTreballadors);
-        
+
         return llistaDeTreballadors;
     }
 }
-

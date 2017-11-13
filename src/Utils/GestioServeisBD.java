@@ -27,13 +27,14 @@ import javax.swing.JOptionPane;
  * @author Maria
  */
 public class GestioServeisBD {
-     //private static final String BASE_URL = "localhost";
-         //private static final int PORT = 8080;
+    //private static final String BASE_URL = "localhost";
+
     private static final String BASE_URL = "easycheck.hopto.org";
-         private static final int PORT = 8080;
-         private Gson gson = new Gson();
+    private static final int PORT = 8080;
+    private Gson gson = new Gson();
+
     /**
-     * @author Carlos Alberto Castro Cañabate 
+     * @author Carlos Alberto Castro Cañabate
      * @param id
      * @param nom
      * @param cognom1
@@ -42,46 +43,52 @@ public class GestioServeisBD {
      * @param login
      * @param password
      * @param esadmin
-     * @return 
-     */     
+     * @return
+     */
     public PostResponse actualitzarServei(int id, String descripcio, String dataservei, String horaInici, String horaFinal, int idTreballador) {
         PostResponse response;
         String query = buildQueryActualitzarServei(id, descripcio, dataservei, horaInici, horaFinal, idTreballador);
         URL url = NetUtils.buildUrl(BASE_URL, PORT, "/easycheckapi/servei", null);
         String json = NetUtils.doPostRequest(url, query);
-        response=gson.fromJson(json, PostResponse.class);
+        response = gson.fromJson(json, PostResponse.class);
         return response;
-    }   
+    }
+
     /**
      * @author Carlos Alberto Castro Cañabate
      * @param idServei
-     * @return 
+     * @return
      */
     public PostResponse borrarServei(int idServei) {
         String query = buildQueryBorrarServei(idServei);
         URL url = NetUtils.buildUrl(BASE_URL, PORT, "/easycheckapi/servei", null);
         String json = NetUtils.doPostRequest(url, query);
-        PostResponse response=gson.fromJson(json, PostResponse.class);
+        PostResponse response = gson.fromJson(json, PostResponse.class);
         return response;
     }
-         
-     /**
-      *  @author Maria Remedios Ortega
-      * @param descripcio
-      * @param dataservei
-      * @param horaInici
-      * @param horaFinal
-      * @param idTreballador
-      * @return 
-      */    
-     public PostResponse inserirServei(String descripcio, String dataservei, String horaInici, String horaFinal, int idTreballador) {
+
+    /**
+     * @author Maria Remedios Ortega
+     *
+     * Mètode per inserir un servei a la base de dades fent una crida post al
+     * server. S'enviaran les dades al server i aquest l'inserirà al server. Si
+     * hi ha cap problema el server s'encarrega de retornar un PostResponse amb
+     * un codi( 0 o 1) i missatge corresponent.
+     * @param descripcio
+     * @param dataservei
+     * @param horaInici
+     * @param horaFinal
+     * @param idTreballador
+     * @return PostResponse
+     */
+    public PostResponse inserirServei(String descripcio, String dataservei, String horaInici, String horaFinal, int idTreballador) {
         String query = buildQueryInserirServei(descripcio, dataservei, horaInici, horaFinal, idTreballador);
         URL url = NetUtils.buildUrl(BASE_URL, PORT, "/easycheckapi/servei", null);
         String json = NetUtils.doPostRequest(url, query);
-        PostResponse response=gson.fromJson(json, PostResponse.class);
+        PostResponse response = gson.fromJson(json, PostResponse.class);
         return response;
     }
-     
+
     /**
      * @author Carlos ALberto Castro Cañabate
      * @param id
@@ -90,29 +97,31 @@ public class GestioServeisBD {
      * @param horaInici
      * @param horaFinal
      * @param idTreballador
-     * @return 
+     * @return
      */
     public String buildQueryActualitzarServei(int id, String descripcio, String dataservei, String horaInici, String horaFinal, int idTreballador) {
         return "id=" + id + "&descripcio=" + descripcio + "&dataservei=" + dataservei + "&horainici=" + horaInici + "&horafinal=" + horaFinal + "&idtreballador=" + idTreballador;
     }
+
     /**
      * @author Carlos Alberto Castro Cañabate
      * @param idServei
-     * @return 
+     * @return
      */
     private String buildQueryBorrarServei(int idServei) {
         return "borrarid=" + idServei;
     }
+
     /**
-     *  @author Maria Remedios Ortega
+     * @author Maria Remedios Ortega
      * @param descripcio
      * @param dataservei
      * @param horaInici
      * @param horaFinal
      * @param idTreballador
-     * @return 
+     * @return
      */
-      public String buildQueryInserirServei(String descripcio, String dataservei, String horaInici, String horaFinal, int idTreballador) {
+    public String buildQueryInserirServei(String descripcio, String dataservei, String horaInici, String horaFinal, int idTreballador) {
         return "descripcio=" + descripcio + "&dataservei=" + dataservei + "&horainici=" + horaInici + "&horafinal=" + horaFinal + "&idtreballador=" + idTreballador;
     }
 }
