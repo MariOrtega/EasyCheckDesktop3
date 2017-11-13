@@ -70,7 +70,6 @@ public class ValidaData {
  */
     public static boolean comprovaData(String dataSeleccionada) {
 
-        // boolean data = false;
         Calendar calendar = Calendar.getInstance();
         int year = (calendar.get(Calendar.YEAR));
         int day = calendar.get(Calendar.DAY_OF_MONTH);

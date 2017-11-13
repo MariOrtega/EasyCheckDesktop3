@@ -12,19 +12,10 @@ package Utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import clases.Servei;
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Type;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class DescargaServei {
 
