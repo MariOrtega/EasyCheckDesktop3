@@ -72,14 +72,14 @@ public class VentanaLogin extends javax.swing.JFrame {
         setBackground(new java.awt.Color(102, 255, 255));
         setForeground(new java.awt.Color(102, 255, 255));
 
-        btnAceptar.setText("Aceptar");
+        btnAceptar.setText("Acceptar");
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAceptarActionPerformed(evt);
             }
         });
 
-        btnCancel.setText("Cancelar");
+        btnCancel.setText("Cancel.lar");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
