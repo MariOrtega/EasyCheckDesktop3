@@ -22,7 +22,7 @@ import javax.swing.SwingConstants;
  */
 public class RenderTreballador extends JLabel implements ListCellRenderer {
 
-    Treballador t;
+   
 /**
  *  @author Maria Remedios Ortega
  */
@@ -37,6 +37,9 @@ public class RenderTreballador extends JLabel implements ListCellRenderer {
  * @param isSelected
  * @param cellHasFocus
  * @return 
+ * 
+ * Mètode pel qual els objectes que conté el jList quedaran formatat i en seleccionar
+ * un d'ell canviara de color a vermell
  */
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {

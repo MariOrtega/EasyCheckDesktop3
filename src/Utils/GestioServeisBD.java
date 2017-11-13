@@ -27,7 +27,9 @@ import javax.swing.JOptionPane;
  * @author Maria
  */
 public class GestioServeisBD {
-     private static final String BASE_URL = "localhost";
+     //private static final String BASE_URL = "localhost";
+         //private static final int PORT = 8080;
+    private static final String BASE_URL = "easycheck.hopto.org";
          private static final int PORT = 8080;
          private Gson gson = new Gson();
     /**

@@ -29,8 +29,10 @@ import java.util.logging.Logger;
 
 public class DescargaReserva {
     
-    private static final String BASE_URL = "localhost";
-    private static final int PORT = 8080;
+//    private static final String BASE_URL = "localhost";
+//    private static final int PORT = 8080;
+     private static final String BASE_URL = "easycheck.hopto.org";
+         private static final int PORT = 8080;
     private static Gson gson = new Gson();
     /**
      * @author Carlos Alberto Castro Cañabate
