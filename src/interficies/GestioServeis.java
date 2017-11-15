@@ -13,13 +13,8 @@ import Utils.PostResponse;
 import Comprovacions.ValidaData;
 import clases.Servei;
 import clases.Treballador;
-import java.awt.Choice;
 import java.awt.Color;
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -63,6 +58,11 @@ public class GestioServeis extends javax.swing.JFrame {
         carregaLlista();
 
         Jservicios.addListSelectionListener(new ListSelectionListener() {
+            /**
+             * @author Carlos Alberto Castro Cañabate
+             * Mètode que omple els camps de la interficie grafica al clicar sobre un servei de la llista
+             * @param e 
+             */
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 int selection = Jservicios.getSelectedIndex();
@@ -105,6 +105,10 @@ public class GestioServeis extends javax.swing.JFrame {
 
     /**
      * @author Carlos Alberto Castro Cañabate
+     * 
+     * Mètode per retornar el nom d'un treballador a partir del seu id
+     * @param userID de el treballador
+     * @return nom del treballador
      */
     public String nomTreballador(Integer userID) {
         Iterator<Treballador> it = treballadors.iterator();
@@ -414,20 +418,14 @@ public class GestioServeis extends javax.swing.JFrame {
         min_fi = this.minutos_final.getSelectedItem();
         String data_servei = data + "/" + mes + "/" + any;
 
-      
-
         int d = Integer.parseInt(data);
         int m = Integer.parseInt(mes);
         int y = Integer.parseInt(any);
      
-       
-       
-        if (ValidaData.comprovaFormulari(this.origen.getText(), this.destino.getText(), id_treb))
-        {
-            if (ValidaData.comprovaData(data_servei) && ValidaData.checkDay(d, m, y)) 
-            {
+        if (ValidaData.comprovaFormulari(this.origen.getText(), this.destino.getText(), id_treb)) {
+            if (ValidaData.comprovaData(data_servei) && ValidaData.checkDay(d, m, y)) {
                 Servei s = new Servei(0, descripcio, id_treb, data_servei, h_inici + ":" + min_ini, h_final + ":" + min_fi, null);
-              
+                
                 PostResponse response = gestio.inserirServei(descripcio, data_servei, h_inici + ":" + min_ini, h_final + ":" + min_fi, id_treb);
                 if (response.getRequestCode() == 0) {
                     JOptionPane.showMessageDialog(null, response.getMessage());
@@ -435,20 +433,14 @@ public class GestioServeis extends javax.swing.JFrame {
                     serveis.add(s);
                     model.addElement(s);
                 }
-                
-
             } else {
                 JOptionPane.showMessageDialog(null, "Data incorrecta!!!");
-
             }
         }
-            carregaLlista();
-        
-      
+        carregaLlista();
     }//GEN-LAST:event_btn_InserirActionPerformed
    
     /**
-     * 
      * Mètode per obtenir mitjançant el nom del treballador el seu id.
      * @author Maria Remedios Ortega
      * @param nom
@@ -481,7 +473,8 @@ public class GestioServeis extends javax.swing.JFrame {
 
     /**
      * @author Carlos Alberto Castro Cañabate
-     * @param evt
+     * 
+     * Mètode per carregar la llista de serveis
      */
     public void carregaLlista() {
         serveis = DescargaServei.obtenirServeisDelServer();
@@ -497,12 +490,16 @@ public class GestioServeis extends javax.swing.JFrame {
 
     /**
      * @author Carlos Alberto Castro Cañabate
+     * 
+     * Mètode per modificarun servei a la base de dades amb peticio al servidor Post.
+     * Prèviament es controla si la data introduida es correcta, y que el treballador seleccionat no tingui hores solapades.
+     * @param evt 
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        if (seleccionat == null) {
+        if (seleccionat == null) {  // Si no hi ha servei seleccionat no deixa modificar
             JOptionPane.showMessageDialog(null, "Selecciona servei!");
-        } else {
+        } else { // Si hi ha servei seleccionat, obtenim els camps amb les dades del servei:
             String treballador, descripcio, data, h_inici, m_inici, m_final, h_final, any, mes;
             treballador = this.treballador.getSelectedItem();
             int id_treb = obtenirTreballador(treballador);
@@ -521,6 +518,7 @@ public class GestioServeis extends javax.swing.JFrame {
             int d = Integer.parseInt(data);
             int m = Integer.parseInt(mes);
             int y = Integer.parseInt(any);
+            // Un cop obtingudes correctament totes les dades, validem que siguim correctes:
             if (ValidaData.comprovaData(data_servei) && ValidaData.checkDay(d, m, y)) {
                 //  ArrayList<Servei> serv = Servei.getLlistaServeis();
                 Iterator it2 = serveis.iterator();
@@ -536,11 +534,11 @@ public class GestioServeis extends javax.swing.JFrame {
                         s.setHora_inici(horaInici);
                         s.setHora_final(horaFinal);
                         s.setData_servei(data_servei);
-                        
+                        // Enviem petició de modificació al server
                         PostResponse response = gestio.actualitzarServei(s.getId(), descripcio, data_servei, horaInici, horaFinal, id_treb);
-                        if (response.getRequestCode() == 0) {
+                        if (response.getRequestCode() == 0) { // Si no deixa modificar, mostrem missatge d'error
                             JOptionPane.showMessageDialog(null, response.getMessage());
-                        } else {
+                        } else { // Si deixa modificar, ho fem.
                             Servei.getLlistaServeis().remove(s);
                             serveis.add(s);
                             model.addElement(s);
@@ -559,21 +557,23 @@ public class GestioServeis extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
     /**
      * @author Carlos Alberto Castro Cañabate
+     * Mètode per eliminar un servei a la base de dades amb peticio al servidor Post.
+     * controla si el servei te reserves adjudicades abans de eliminar.
      * @param evt
      */
     private void btn_cancelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelaActionPerformed
-        // TODO add your handling code here:
-
+        // Si no hem seleccionat cap servei no podrem eliminar:  
         if (seleccionat == null) {
             JOptionPane.showMessageDialog(null, "Selecciona servei!");
-        } else {
+        } else {  // Si tenim un servei seleccionat
             Servei s = (Servei) model.getElementAt(seleccionat);
             Integer id_servei = s.getId();
             if (JOptionPane.showConfirmDialog(null, "Esta a punt d'esborrar aquesta entrada?") == 0) {
+                // Enviem la petició de eliminar el servi al server
                 PostResponse response = gestio.borrarServei(id_servei);
-                if (response.getRequestCode() == 0) {
+                if (response.getRequestCode() == 0) { // Si te alguna reserva ens mostrarà error
                     JOptionPane.showMessageDialog(null, response.getMessage());
-                } else {
+                } else {  // Sino eliminarà el servei
                     Servei.getLlistaServeis().remove(s);
                     model.remove(seleccionat);
                 }

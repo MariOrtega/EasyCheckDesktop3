@@ -21,15 +21,17 @@ public class GestioServeisBD {
 
     /**
      * @author Carlos Alberto Castro Cañabate
-     * @param id
-     * @param nom
-     * @param cognom1
-     * @param cognom2
-     * @param dni
-     * @param login
-     * @param password
-     * @param esadmin
-     * @return
+     * 
+     * Mètode pel qual s'envia una peticio post i el servidor conecta amb la base de dades 
+     * enviant el query respectiu. El servidor retornarà PostResponse amb un codi(0 o 1) i missatge
+     * amb el resultat de l'operació efectuada.
+     * @param id del servei
+     * @param descripcio del servei
+     * @param dataservei del servei
+     * @param horaInici del servei
+     * @param horaFinal del servei
+     * @param idTreballador del servei
+     * @return PostResponse amb un codi(0 o 1) i missatge amb el resultat de l'operació efectuada.
      */
     public PostResponse actualitzarServei(int id, String descripcio, String dataservei, String horaInici, String horaFinal, int idTreballador) {
         PostResponse response;
@@ -42,8 +44,11 @@ public class GestioServeisBD {
 
     /**
      * @author Carlos Alberto Castro Cañabate
-     * @param idServei
-     * @return
+     * Mètode pel qual s'envia una peticio post i el servidor conecta amb la base de dades 
+     * enviant el query respectiu. El servidor retornarà PostResponse amb un codi(0 o 1) i missatge
+     * amb el resultat de l'operació efectuada.
+     * @param idServei servei a eliminar
+     * @return PostResponse amb un codi(0 o 1) i missatge amb el resultat de l'operació efectuada.
      */
     public PostResponse borrarServei(int idServei) {
         String query = buildQueryBorrarServei(idServei);

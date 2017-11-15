@@ -11,13 +11,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- *
  * @author Carlos Alberto Castro Cañabate
+ * Classe per introduir els objectes del server al model 
  */
 public class IntroduccioObjectes {
     public IntroduccioObjectes(){
         añadirObjetosAClases();
     }
+
     public void añadirObjetosAClases(){
         Treballador.getTreballadors().clear();
         Servei.getLlistaServeis().clear();

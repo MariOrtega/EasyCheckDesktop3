@@ -31,7 +31,16 @@ public class Reserva implements Serializable {
     private Reserva() {
 
     }
-
+    /**
+     * Constructor de Reserva
+     * @param id
+     * @param idSer
+     * @param client
+     * @param loc
+     * @param data
+     * @param qrcode
+     * @param checkin 
+     */
     public Reserva(int id, int idSer, Client client, String loc, String data, String qrcode, int checkin) {
         this._id = id;
         this.id_servei = idSer;
@@ -139,22 +148,37 @@ public class Reserva implements Serializable {
     public void setClient(Client client) {
         this.client = client;
     }
+    /**
+     * 
+     * @return ArrayList<Reserva>
+     */
     public static ArrayList<Reserva> getReservas() {
         return reservas;
     }
-
+    /**
+     * Afegir una reserva al ArrayList
+     * @param reserva a afegir
+     */
     public static void setReservas(Reserva reserva) {
         Reserva.reservas.add(reserva);
     }
+    /**
+     * Mètode per retornar un label amb els camps a mostrar
+     * @return JLabel
+     */
     public JLabel getLabel(){
        
         JLabel label = new JLabel("<html><FONT FACE=\"impact\" SIZE=6 COLOR=\"red\">"+this.client.getNom_titular()+" "+this.client.getCognom1_titular()+" "+this.client.getCognom2_titular()+"</FONT> <br> "
                 + "<FONT FACE=\"courier\" SIZE=4><b>Dni:</b> "+this.client.getDni_titular()+" <b>Email:</b> "+this.client.getEmail_titular()+" "+"<br> "
                         + "<b>QR:</b> "+this.qr_code+" <b>Check-In:</b> "+checkIn(checkin)+"<hr style=\"border:2px;\"></FONT></html>", SwingConstants.LEFT);
         return label;
-        //Integer id, Integer idServei, String localitzador, String dataServei, String nomClient, String cognomClient,String cognomClient2,String emailClient, String QRClient, String dniClient, String checkIn) {
-       // return nomClient+" "+cognomClient+" "+cognomClient2+" Dni: "+dniClient+" "+emailClient+" "+"QR: "+QRClient+" "+checkIn(checkIn);
     }
+    
+    /**
+     * Mètode per substituir check-in 0-1 per Realitzar-No Realitzat
+     * @param checkIn de la reserva
+     * @return Realitzat o no.
+     */
     public String checkIn(Integer checkIn){
         if (checkIn == 0) return "No Realitzat";
         else return "Realitzat";

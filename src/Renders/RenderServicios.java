@@ -13,12 +13,21 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
 /**
- *
  * @author Carlos Alberto Castro Cañabate
+ * Classe creada per formatar la sortida a la interficie de llistaServeis
  */
 public class RenderServicios extends JLabel implements ListCellRenderer {
     ImageIcon admin = new ImageIcon(getClass().getResource("/Images/admin.png"));
     ImageIcon noAdmin= new ImageIcon(getClass().getResource("/Images/treb.png"));
+    /**
+     * 
+     * @param jlist
+     * @param e
+     * @param i
+     * @param isSelected
+     * @param cellHasFocus
+     * @return 
+     */
     @Override
     public Component getListCellRendererComponent(JList jlist, Object e, int i,
             boolean isSelected, boolean cellHasFocus) {

@@ -24,8 +24,8 @@ public class DescargaReserva {
     private static Gson gson = new Gson();
 
     /**
-     * @author Carlos Alberto Castro Cañabate
-     * @return
+     * Mètode per obtenir les reserves del servidor
+     * @return llista de reserves del server
      */
     public static List<Reserva> obtenirReservesDelServer() {
         String json = "";
@@ -38,9 +38,9 @@ public class DescargaReserva {
     }
 
     /**
-     * @author Carlos Alberto Castro Cañabate
-     * @param servei
-     * @return
+     * Mètode per obtenir la llista de reserves d'un servei
+     * @param servei a filtrar
+     * @return llista de reserves d'un servei
      */
     public static ArrayList<Reserva> getReservesServei(int servei) {
         URL url = NetUtils.buildUrl(BASE_URL, PORT, "/easycheckapi/reserva", "servei=" + servei);

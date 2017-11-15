@@ -6,7 +6,6 @@
 package Utils;
 
 /**
- *
  * @author Carlos Alberto Castro Cañabate
  */
 import com.google.gson.Gson;
@@ -26,8 +25,8 @@ public class DescargaServei {
     private static Gson gson = new Gson();
 
     /**
-     * @author Carlos Alberto Castro Cañabate
-     * @return
+     * Mètode per obtenir els serveis del servidor
+     * @return llista de serveis del server
      */
     public static List<Servei> obtenirServeisDelServer() {
         String json = "";
@@ -37,13 +36,13 @@ public class DescargaServei {
         java.lang.reflect.Type tipusLlistaDeServeis = new TypeToken<List<Servei>>() {
         }.getType();
         ArrayList<Servei> llistaDeServeis = gson.fromJson(json, tipusLlistaDeServeis);
-
         return llistaDeServeis;
     }
 
     /**
-     * @author Carlos Alberto Castro Cañabate
-     * @return
+     * Mètode per obtenir els serveis d'un treballador del servidor
+     * @param treballador a filtrar
+     * @return llista de serveis d'un treballador del server
      */
     public static ArrayList<Servei> getServeisTreballador(int treballador) {
         URL url = NetUtils.buildUrl(BASE_URL, PORT, "/easycheckapi/servei", "treballador=" + treballador);

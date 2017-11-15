@@ -24,8 +24,9 @@ import Utils.DescargaTreballador;
 
 
 /**
- *
  * @author Carlos Alberto Castro Cañabate
+ * 
+ * Clase per mostrar les dades de els serveis
  */
 public class llistaServeis extends javax.swing.JFrame {
     DefaultListModel modeloLista;
@@ -35,7 +36,7 @@ public class llistaServeis extends javax.swing.JFrame {
     List<Servei> listaServeis = null;
     
     /**
-     * Creates new form NewJFrame
+     * Constructor s
      */
     public llistaServeis() {
         DescargaTreballador todo = new DescargaTreballador();
@@ -49,6 +50,10 @@ public class llistaServeis extends javax.swing.JFrame {
         jlista.setCellRenderer(new RenderServicios());
         jlista.setSelectionBackground(Color.ORANGE);
         jlista.addListSelectionListener(new ListSelectionListener() {
+            /**
+             * Mètode per controlar els events de la selecció de servei de la llista
+             * @param arg0 
+             */
 		@Override
 		public void valueChanged(ListSelectionEvent arg0) {
                     JList list =(JList)arg0.getSource();
@@ -57,14 +62,19 @@ public class llistaServeis extends javax.swing.JFrame {
                     }
                     int seleccionat = list.getSelectedIndex();
                     System.out.println(seleccionat);
-                    if (reservesServei(idServei[seleccionat])){
+                    if (reservesServei(idServei[seleccionat])){  // Si el servei seleccionat te reserves, accedim a les reserves
                         llistaReserves llistaReserves = new llistaReserves(idServei[seleccionat]);
                         llistaReserves.setVisible(true);
                         setLocationRelativeTo(null);
+                        // Si el servei seleccionat no té reserves mostrem missatge.
                     } else JOptionPane.showMessageDialog(null,"El servei seleccionat no te reserves!");
 		}	
 	});
         choiceTrabajador.addItemListener(new java.awt.event.ItemListener(){
+            /**
+             * Mètpde per controlar els events de la selecció de treballadors
+             * @param ie 
+             */
             @Override
             public void itemStateChanged(ItemEvent ie) {     
                 String nomTreballador = (String) ie.getItem();
@@ -88,11 +98,14 @@ public class llistaServeis extends javax.swing.JFrame {
         else {
             choiceTrabajador.setVisible(false);
             labelChoice.setVisible(false);
-          //  labelChoice.setText("");
             llistaTreballador(VentanaLogin.USER_ID);
             label_Principal.setText("Consulta serveis usuari: "+nomTreballador);
         }
     }
+    /**
+     * Mètode per obtenir el nom del treballador a partir de USER_ID logejat
+     * @return nom del treballador
+     */
     public String nomTreballador (){
         Iterator<Treballador> it = treballadors.iterator();
         while (it.hasNext()) {
@@ -103,7 +116,12 @@ public class llistaServeis extends javax.swing.JFrame {
         }
         return null;
     }
-
+    
+    /**
+     * Mètode per obtenir el id treballador a partir de el nom sencer del treballador
+     * @param nom del treballador
+     * @return id del treballador
+     */
     public  Integer obtenirTreballador(String nom) {
        // ArrayList<Treballador> treballadors = Treballador.getTreballadors();
         Integer idTreballador = 0;
@@ -117,11 +135,20 @@ public class llistaServeis extends javax.swing.JFrame {
         }
         return idTreballador;
     }
+    
+    /**
+     * Mètode per retornar true o false depenet si el servei te reserves
+     * @param servei a comprobar
+     * @return true o false
+     */
     public Boolean reservesServei (int servei){
         List<Reserva> lista = DescargaReserva.getReservesServei(servei);
         if (lista.isEmpty()) return false;
         else return true;
     }
+    /**
+     * Mètode per llistar tots els serveis, de tots els treballadors
+     */
     public void llistaTots(){
         int contador=0;
         Iterator it = listaServeis.iterator();
@@ -135,6 +162,10 @@ public class llistaServeis extends javax.swing.JFrame {
             contador++;
         }
     }
+    /**
+     *  Mètode per mostrar els serveis del treballador seleccionat
+     * @param treballadorSeleccionat id del treballador
+     */
     public void llistaTreballador(int treballadorSeleccionat){
         int contador = 0;
         ArrayList<Servei>listaServeis = DescargaServei.getServeisTreballador(treballadorSeleccionat);
@@ -150,6 +181,9 @@ public class llistaServeis extends javax.swing.JFrame {
             contador++;
         } 
     }
+    /**
+     * Mètode per emplenar el choice de traballadors
+     */
     public void emplenarChoice (){
         choiceTrabajador.add("Tots");
         Iterator it = treballadors.iterator();

@@ -227,14 +227,19 @@ public class VentanaLogin extends javax.swing.JFrame {
   
     /**
      * @author Carlos Alberto Castro Cañabate
-     */   
+     * 
+     * Mètode per controlar l'accès al programa
+     * @throws SQLException
+     * @throws ClassNotFoundException 
+     */  
     public void accesPrograma() throws SQLException, ClassNotFoundException{
         Integer userID=null;
         GestionarUsuariBd gestio = new GestionarUsuariBd();
+        // Fem petició de login al servidor,
         PostResponse response = gestio.loginTreballador(textUsuario.getText(),textPass.getText());
-        if (response.getRequestCode()==0){
+        if (response.getRequestCode()==0){ // si no es possible, mostrem el missatge d'error
             JOptionPane.showMessageDialog(null,response.getMessage());
-        } else {
+        } else {  // Si es possible fer login, accedim al menu principal amb els privilegis de l'usuari logejat.
             NOM=this.textUsuario.getText();
             String missatge = response.getMessage();
             System.out.println(missatge);

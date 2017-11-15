@@ -14,15 +14,17 @@ import javax.swing.DefaultListModel;
 import java.util.Iterator;
 
 /**
- *
  * @author Carlos Alberto Castro Cañabate
+ * 
+ * Clase per mostrar les dades de les reserves d'un servei
  */
 public class llistaReserves extends javax.swing.JFrame {
     DefaultListModel modeloLista;
     static Integer servei;
 
     /**
-     * Creates new form llistaReserves
+     * Constructor 
+     * @param servei id sevei de les reserves que mostrarem
      */
     public llistaReserves(Integer servei) {
         
@@ -43,6 +45,11 @@ public class llistaReserves extends javax.swing.JFrame {
             modeloLista.addElement(reserva.getLabel());  
         } 
     }
+    
+    /**
+     * Mètode  per obtenir el nom d'un servei a partir del id servei 
+     * @return nom servei
+     */
     public String obtenirNomServei(){
         ArrayList<Servei> llistaServeis = Servei.getLlistaServeis();
         Iterator<Servei> it = llistaServeis.iterator();
@@ -54,10 +61,18 @@ public class llistaReserves extends javax.swing.JFrame {
         }
         return null;
     }
+    /**
+     * Mètode per obtenir el id del servei de la reserva
+     * @return 
+     */
     public static Integer getServei() {
         return servei;
     }
     
+    /**
+     * Mètode per emmagatzemar el id_servei de la reserva
+     * @param servei 
+     */
     public static void setServei(Integer servei) {
         llistaReserves.servei = servei;
     }

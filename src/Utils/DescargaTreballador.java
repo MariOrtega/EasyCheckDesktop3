@@ -7,7 +7,7 @@ package Utils;
 
 /**
  *
- * @author Carlos
+ * @author Carlos Alberto Castro Cañabate
  */
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -22,43 +22,33 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Carlos
- */
+
 public class DescargaTreballador {
 
 //    private static final String BASE_URL = "localhost";
     private static final String BASE_URL = "easycheck.hopto.org";
     private static final int PORT = 8080;
     public static ArrayList<Treballador> treballadors;
-
+    /**
+     * Mètode principal
+     * @param args 
+     */
     public static void main(String[] args) {
         DescargaTreballador test = new DescargaTreballador();
     }
-
+    /**
+     * Constructor
+     */
     public DescargaTreballador() {
         treballadors = (ArrayList<Treballador>) obtenirTreballadorsDelServer();
     }
-
-    public URL buildUrl(String host, int port, String path, String query) {
-        try {
-            return new URI("http", null, host, port, path, query, null).toURL();
-        } catch (URISyntaxException ex) {
-            Logger.getLogger(DescargaTreballador.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(DescargaTreballador.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    public List<Servei> obtenirServeisDelServer() {
-        return null;
-    }
-
+    /**
+     * Mètode per obtenir els treballadors del server.
+     * @return  llista de traballadors.
+     */
     public List<Treballador> obtenirTreballadorsDelServer() {
         String json = "";
-        URL url = buildUrl(BASE_URL, PORT, "/easycheckapi/treballador", null);
+        URL url = NetUtils.buildUrl(BASE_URL, PORT, "/easycheckapi/treballador", null);
         json = NetUtils.doGetRequest(url);
         Gson gson = new Gson();
         java.lang.reflect.Type tipusLlistaDeTreballadors = new TypeToken<List<Treballador>>() {

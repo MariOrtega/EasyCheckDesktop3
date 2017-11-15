@@ -26,11 +26,22 @@ public class Servei implements Serializable{
     private String hora_final;
     private List<Reserva> llistaReserves = new ArrayList();
     static ArrayList<Servei> llistaServeis = new ArrayList();
-    
+    /**
+     * Constructor de servei buit.
+     */
     public Servei(){
         
     }
-   
+    /**
+     * Constructor de servei
+     * @param id
+     * @param descripcio
+     * @param idTreb
+     * @param data_servei
+     * @param hora_inici
+     * @param hora_final
+     * @param llista 
+     */
     public Servei (int id, String descripcio, int idTreb, String data_servei, String hora_inici, String hora_final, List<Reserva> llista){
         this._id = id;
         this.descripcio = descripcio;
@@ -140,13 +151,24 @@ public class Servei implements Serializable{
     public void setId_treballador(int id_treballador) {
         this.id_treballador = id_treballador;
     }
+    /**
+     * Mètode per obtenir un llistat de Serveis
+     * @return llistat de serveis
+     */
     public static ArrayList<Servei> getLlistaServeis() {
         return llistaServeis;
     }
-
+    /**
+     * Mètode per afegir un servei al llistat
+     * @param servei a afegir
+     */
     public static void setLlistaServeis(Servei servei) {
         llistaServeis.add(servei);
     }
+    /**
+     * Mètode per retornar un label amb els camps a mostrar
+     * @return JLabel
+     */
     public JLabel getLabel(){
         JLabel label = new JLabel("<html><FONT FACE=\"impact\" SIZE=6 COLOR=\"red\">"+descripcio+"</FONT> <br> "
                 + "<FONT FACE=\"courier\" SIZE=4><b>Data:</b> "+data_servei+" "+"<br> "
@@ -154,7 +176,11 @@ public class Servei implements Serializable{
         return label;
     }
     
-   
+   /**
+    * Mètode per comprovar si el treballador es admin
+    * @param treballador a verificar
+    * @return "Administrador + nom" o "Treballador + nom"
+    */
     public String isAdmin (int treballador){
         ArrayList<Treballador> treballadors = Treballador.getTreballadors();
         Iterator<Treballador> it = treballadors.iterator();
@@ -168,6 +194,10 @@ public class Servei implements Serializable{
         }
         return null;
     }
+    /**
+     * Mètode per retornar un String amb els camps a mostrar
+     * @return String
+     */
     public String toString(){
         return "<html><FONT FACE=\"impact\" SIZE=6 COLOR=\"red\">"+descripcio+"</FONT> <br> "
                 + "<FONT FACE=\"courier\" SIZE=4><b>Data:</b> "+data_servei+" "+"<br> "

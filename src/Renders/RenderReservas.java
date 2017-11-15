@@ -14,11 +14,20 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 /**
  *
- * @author Carlos
+ * @author Carlos Alberto Castro Cañabate
+ * Classe creada per formatar la sortida a la interficie de llistaReserves
  */
 public class RenderReservas extends JLabel implements ListCellRenderer {
     static ImageIcon logoCheck = new ImageIcon("check.png");
     static ImageIcon logoNoCheck = new ImageIcon("noCheck.png");
+    /**
+     * @param jlist 
+     * @param e 
+     * @param i
+     * @param isSelected
+     * @param cellHasFocus
+     * @return 
+     */
     @Override
     public Component getListCellRendererComponent(JList jlist, Object e, int i,
             boolean isSelected, boolean cellHasFocus) {

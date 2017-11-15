@@ -42,10 +42,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 if (t.getEsAdmin() == 1) {
                     icono = new ImageIcon(getClass().getResource("/Images/admin.png"));
                     nom.setIcon(icono);
-                    
                 } else {
                     icono = new ImageIcon(getClass().getResource("/Images/treb.png"));
-                    
                     nom.setIcon(icono);
                 }
             }
@@ -220,6 +218,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     /**
      * @author Carlos Alberto Castro Cañabate
+     * Mètode per accedir al llistat de serveis
+     * @param evt 
      */
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         

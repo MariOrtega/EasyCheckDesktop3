@@ -20,6 +20,34 @@ public class GestionarUsuariBd {
     private Gson gson = new Gson();
     
     
+    /**
+     * @author Carlos Alberto Castro Cañabate
+     * 
+     * Mètode per inserir un servei a la base de dades fent una crida post al
+     * server. S'enviaran les dades al server i aquest l'inserirà al server. Si
+     * hi ha cap problema el server s'encarrega de retornar un PostResponse amb
+     * un codi( 0 o 1) i missatge corresponent.
+     * @param login  usuari
+     * @param password usuari
+     * @return PostResponse amb un codi( 0 o 1) i missatge corresponent.
+     */
+    public PostResponse loginTreballador(String login, String password) {
+        String query = buildQueryLogin(login, password);
+        URL url = NetUtils.buildUrl(BASE_URL, PORT, "/easycheckapi/login", null);
+        String json = NetUtils.doPostRequest(url, query);
+        PostResponse response = gson.fromJson(json, PostResponse.class);
+        return response;
+    }
+
+    /**
+     * @author Carlos Alberto Castro Cañabate
+     * @param user
+     * @param password
+     * @return
+     */
+    public String buildQueryLogin(String user, String password) {
+        return "user=" + user + "&pass=" + password;
+    }
 
     /**
      * @author Maria Remedios Ortega
@@ -95,30 +123,6 @@ public class GestionarUsuariBd {
 
     }
 
-    /**
-     * @author Carlos Alberto Castro Cañabate
-     * @param login
-     * @param password
-     * @return
-     */
-    public PostResponse loginTreballador(String login, String password) {
-        String query = buildQueryLogin(login, password);
-        URL url = NetUtils.buildUrl(BASE_URL, PORT, "/easycheckapi/login", null);
-        String json = NetUtils.doPostRequest(url, query);
-        PostResponse response = gson.fromJson(json, PostResponse.class);
-        return response;
-
-    }
-
-    /**
-     * @author Carlos Alberto Castro Cañabate
-     * @param login
-     * @param password
-     * @return
-     */
-    public String buildQueryLogin(String user, String password) {
-        return "user=" + user + "&pass=" + password;
-    }
 
     /**
      * @author Maria Remedios Ortega
