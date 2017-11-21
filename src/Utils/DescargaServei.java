@@ -18,8 +18,8 @@ import java.util.List;
 
 public class DescargaServei {
 
-//    private static final String BASE_URL = "localhost";
-    private static final String BASE_URL = "easycheck.hopto.org";
+    private static final String BASE_URL = "localhost";
+//    private static final String BASE_URL = "easycheck.hopto.org";
     private static final int PORT = 8080;
     public static ArrayList<Servei> serveis;
     private static Gson gson = new Gson();

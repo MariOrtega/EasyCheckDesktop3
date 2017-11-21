@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 import Utils.IntroduccioObjectes;
 import clases.Treballador;
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class VentanaLogin extends javax.swing.JFrame {
      */
     public VentanaLogin() {
         initComponents();
-        
+        textPass.setText("");
         gestio=new GestionarUsuariBd();
  
         NOM=this.textUsuario.getText();
@@ -63,10 +64,10 @@ public class VentanaLogin extends javax.swing.JFrame {
         btnAceptar = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         textUsuario = new java.awt.TextField();
-        textPass = new java.awt.TextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        textPass = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(102, 255, 255));
@@ -99,6 +100,8 @@ public class VentanaLogin extends javax.swing.JFrame {
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Clave.png"))); // NOI18N
 
+        textPass.setText("jPasswordField1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -109,10 +112,10 @@ public class VentanaLogin extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(textUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textPass, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 173, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(textPass, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
+                    .addComponent(textUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 153, Short.MAX_VALUE)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(48, 48, 48))
             .addGroup(layout.createSequentialGroup()
@@ -131,11 +134,11 @@ public class VentanaLogin extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel1)
                             .addComponent(textUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(41, 41, 41)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGap(42, 42, 42)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(textPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(63, 63, 63))
+                        .addGap(60, 60, 60))
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -199,13 +202,7 @@ public class VentanaLogin extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(VentanaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -221,7 +218,7 @@ public class VentanaLogin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private java.awt.TextField textPass;
+    private javax.swing.JPasswordField textPass;
     private java.awt.TextField textUsuario;
     // End of variables declaration//GEN-END:variables
   
@@ -236,22 +233,30 @@ public class VentanaLogin extends javax.swing.JFrame {
         Integer userID=null;
         GestionarUsuariBd gestio = new GestionarUsuariBd();
         // Fem petició de login al servidor,
-        PostResponse response = gestio.loginTreballador(textUsuario.getText(),textPass.getText());
-        if (response.getRequestCode()==0){ // si no es possible, mostrem el missatge d'error
-            JOptionPane.showMessageDialog(null,response.getMessage());
-        } else {  // Si es possible fer login, accedim al menu principal amb els privilegis de l'usuari logejat.
-            NOM=this.textUsuario.getText();
-            String missatge = response.getMessage();
-            System.out.println(missatge);
-            String[] esAdmin = missatge.split("Admin:");
-            System.out.println(esAdmin[1]);
-            TIPUS_USUARI= Integer.parseInt(esAdmin[1]);
-            String id_treballador = esAdmin[0].substring(0,esAdmin[0].length());
-            USER_ID= Integer.parseInt(id_treballador);
-            MenuPrincipal ventana= new MenuPrincipal(USER_ID);
-            ventana.setVisible(true);
-            this.setVisible(false);    
-            
+        if (textUsuario.getText().length()==0 && textPass.getPassword().length==0){
+            JOptionPane.showMessageDialog(null,"No has introduït cap camp");
+        } else if (textUsuario.getText().length()==0) {
+            JOptionPane.showMessageDialog(null,"Introdueix Usuari!");
+        } else if (textPass.getText().length()==0) {
+            JOptionPane.showMessageDialog(null,"Introdueix Password!");
+        } else {
+            PostResponse response = gestio.loginTreballador(textUsuario.getText(),textPass.getText());
+            if (response.getRequestCode()==0){ // si no es possible, mostrem el missatge d'error
+                JOptionPane.showMessageDialog(null,response.getMessage());
+            } else {  // Si es possible fer login, accedim al menu principal amb els privilegis de l'usuari logejat.
+                NOM=this.textUsuario.getText();
+                String missatge = response.getMessage();
+                System.out.println(missatge);
+                String[] esAdmin = missatge.split("Admin:");
+                System.out.println(esAdmin[1]);
+                TIPUS_USUARI= Integer.parseInt(esAdmin[1]);
+                String id_treballador = esAdmin[0].substring(0,esAdmin[0].length());
+                USER_ID= Integer.parseInt(id_treballador);
+                MenuPrincipal ventana= new MenuPrincipal(USER_ID);
+                ventana.setVisible(true);
+                this.setVisible(false);    
+
+            }
         }
     }
 }

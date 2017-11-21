@@ -25,8 +25,8 @@ import java.util.logging.Logger;
 
 public class DescargaTreballador {
 
-//    private static final String BASE_URL = "localhost";
-    private static final String BASE_URL = "easycheck.hopto.org";
+    private static final String BASE_URL = "localhost";
+//    private static final String BASE_URL = "easycheck.hopto.org";
     private static final int PORT = 8080;
     public static ArrayList<Treballador> treballadors;
     /**
